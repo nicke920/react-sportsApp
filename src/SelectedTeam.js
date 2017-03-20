@@ -19,7 +19,7 @@ var config = {
 firebase.initializeApp(config);
 
 export default class SelectedTeam extends React.Component {
-constructor() {
+	constructor() {
 		super();
 		this.state = {
 			playersArray: [],
@@ -72,10 +72,10 @@ constructor() {
 		})
 
 		//FIREBASE APPLICATION
-		const dbRef = firebase.database().ref();
 
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
+			const dbRef = firebase.database().ref(`users/${user.uid}/players`);
 				dbRef.on('value', (fireData) => {
 					const players = fireData.val();
 					const parsedPlayers = [];
@@ -108,7 +108,8 @@ constructor() {
 	addPlayer(val) {
 		if(firebase.auth().currentUser !== null) {
 			console.log('fire', val);
-			const dbRef = firebase.database().ref();
+			const userID = firebase.auth().currentUser.uid;
+			const dbRef = firebase.database().ref(`users/${userID}/players`);
 			dbRef.push(JSON.stringify(val))
 		} else {
 			alert('soryy bruvvv');
@@ -116,7 +117,8 @@ constructor() {
 	}
 	removePlayer(val, i) {
 		console.log('remove',val);
-		const dbRef = firebase.database().ref(val.key);
+		const userID = firebase.auth().currentUser.uid;
+		const dbRef = firebase.database().ref(`users/${userID}/players/${val.key}`);
 		dbRef.remove();
 	}
 render() {
@@ -131,7 +133,7 @@ render() {
 			</section>
 			<section className="rosterContainer">
 				<table>
-				<caption>{() => this.state.selectedTeam[1].team.City}</caption>
+					<caption>{() => this.state.selectedTeam[1].team.City}</caption>
 					<thead>
 						<tr>
 							<th scope="col">Player Name</th>

@@ -35815,10 +35815,10 @@ var SelectedTeam = function (_React$Component) {
 			});
 
 			//FIREBASE APPLICATION
-			var dbRef = firebase.database().ref();
 
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
+					var dbRef = firebase.database().ref('users/' + user.uid + '/players');
 					dbRef.on('value', function (fireData) {
 						var players = fireData.val();
 						var parsedPlayers = [];
@@ -35854,7 +35854,8 @@ var SelectedTeam = function (_React$Component) {
 		value: function addPlayer(val) {
 			if (firebase.auth().currentUser !== null) {
 				console.log('fire', val);
-				var dbRef = firebase.database().ref();
+				var userID = firebase.auth().currentUser.uid;
+				var dbRef = firebase.database().ref('users/' + userID + '/players');
 				dbRef.push(JSON.stringify(val));
 			} else {
 				alert('soryy bruvvv');
@@ -35864,7 +35865,8 @@ var SelectedTeam = function (_React$Component) {
 		key: 'removePlayer',
 		value: function removePlayer(val, i) {
 			console.log('remove', val);
-			var dbRef = firebase.database().ref(val.key);
+			var userID = firebase.auth().currentUser.uid;
+			var dbRef = firebase.database().ref('users/' + userID + '/players/' + val.key);
 			dbRef.remove();
 		}
 	}, {
@@ -36166,13 +36168,13 @@ var SignUp = function (_React$Component) {
 					console.log(userData);
 				}).catch(function (error) {
 					alert(error);
-					console.log('erorrrrr', error.message);
+					console.log('error message', error.message);
 				});
 
-				console.log('signupedniggaaa');
+				console.log('signuped');
 				console.log('seconddd', this.state.email, this.state.password, this.state.confirm);
 			} else {
-				alert('sorry your password and confirm password didnt match');
+				alert('sorry your password and confirm password must match');
 			}
 		}
 	}, {

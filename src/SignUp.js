@@ -43,14 +43,14 @@ export default class SignUp extends React.Component {
 				})
 				.catch(function(error) {
 					alert(error)
-					console.log('erorrrrr', error.message);
+					console.log('error message', error.message);
 				})
 				
-				console.log('signupedniggaaa')
+				console.log('signuped')
 				console.log('seconddd', this.state.email, this.state.password, this.state.confirm)
 		}
 		else {
-			alert('sorry your password and confirm password didnt match');
+			alert('sorry your password and confirm password must match');
 		}
 
 	}
