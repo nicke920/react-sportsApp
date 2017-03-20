@@ -57,9 +57,15 @@ constructor() {
 		.then((data) => {
 			const teams = data.overallteamstandings.teamstandingsentry;
 			const teamIDArray = teams.map((val, i) => {
-				return val.team.ID
+				return (
+						{
+						name: val.team.City,
+						id: val.team.ID
+					}
+				) 
 			})
 
+			console.log('testyy', teamIDArray)
 			this.setState({
 				teamsArray: teamIDArray
 			})
@@ -67,45 +73,51 @@ constructor() {
 
 		//FIREBASE APPLICATION
 		const dbRef = firebase.database().ref();
-		dbRef.on('value', (fireData) => {
-			const players = fireData.val();
-			const parsedPlayers = [];
-			for(let playerKey in players) {
-				const parsedPlayer = JSON.parse(players[playerKey]);
-				parsedPlayer.key = playerKey
-				parsedPlayers.push(parsedPlayer);
-			}
 
-			this.setState({
-				userTeam: parsedPlayers
-			});
-		});
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				dbRef.on('value', (fireData) => {
+					const players = fireData.val();
+					const parsedPlayers = [];
+					for(let playerKey in players) {
+						const parsedPlayer = JSON.parse(players[playerKey]);
+						parsedPlayer.key = playerKey
+						parsedPlayers.push(parsedPlayer);
+					}
+
+					this.setState({
+						userTeam: parsedPlayers
+					});
+				});
+			}
+		})
 
 	}
-	selectTeam(id) {
-		console.log('hey', id)
+	selectTeam(each) {
+		console.log('hey', each)
 		const selectedTeamPlayers = this.state.playersArray.filter((value, i) => {
-			if (value.team.ID == id) {
+			if (value.team.ID == each.id) {
 				return value
 			}
 		});
-		console.log(selectedTeamPlayers);
+		console.log('coffee', selectedTeamPlayers);
 		this.setState({
 			selectedTeam: selectedTeamPlayers
 		})
 	}
 	addPlayer(val) {
-		console.log('fire', val);
-		const dbRef = firebase.database().ref();
-		dbRef.push(JSON.stringify(val))
+		if(firebase.auth().currentUser !== null) {
+			console.log('fire', val);
+			const dbRef = firebase.database().ref();
+			dbRef.push(JSON.stringify(val))
+		} else {
+			alert('soryy bruvvv');
+		}
 	}
 	removePlayer(val, i) {
 		console.log('remove',val);
 		const dbRef = firebase.database().ref(val.key);
 		dbRef.remove();
-	}
-	moreInfo() {
-		console.log('778 clicked')
 	}
 render() {
 	return (
@@ -113,12 +125,13 @@ render() {
 			<section className="teamContainer">
 				{this.state.teamsArray.map((each, i) => {
 					return (
-						<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each}.png`} />
+						<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each.id}.png`} />
 					)
 				})}
 			</section>
 			<section className="rosterContainer">
 				<table>
+				<caption>{() => this.state.selectedTeam[1].team.City}</caption>
 					<thead>
 						<tr>
 							<th scope="col">Player Name</th>
@@ -132,17 +145,19 @@ render() {
 					</thead>
 					<tbody>
 						{this.state.selectedTeam.map((player, i) => {
-							return (
-								<tr onClick={() => this.addPlayer(player)}>
-									<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
-									<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
-									<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
-									<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
-									<td>{`${this.state.selectedTeam[i].stats.AstPerGame['#text']}`}</td>
-									<td>{`${this.state.selectedTeam[i].stats.FgPct['#text']}`}</td>
-									<td>{`${this.state.selectedTeam[i].stats.Fg3PtPct['#text']}`}</td>
-								</tr>
-							)
+							if(this.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0'){
+								return (
+									<tr onClick={() => this.addPlayer(player)}>
+										<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
+										<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
+										<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
+										<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
+										<td>{`${this.state.selectedTeam[i].stats.AstPerGame['#text']}`}</td>
+										<td>{`${this.state.selectedTeam[i].stats.FgPct['#text']}`}</td>
+										<td>{`${this.state.selectedTeam[i].stats.Fg3PtPct['#text']}`}</td>
+									</tr>
+								)
+							}
 						})}
 					</tbody>
 				</table>

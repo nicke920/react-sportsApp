@@ -35554,7 +35554,8 @@ module.exports = warning;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.default = Login;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -35562,13 +35563,146 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function Login(props) {
-	return _react2.default.createElement(
-		'div',
-		null,
-		'hi'
-	);
-}
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Login = function (_React$Component) {
+	_inherits(Login, _React$Component);
+
+	function Login() {
+		_classCallCheck(this, Login);
+
+		var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this));
+
+		_this.state = {
+			name: '',
+			email: '',
+			password: '',
+			loginState: ''
+		};
+		_this.handleChange = _this.handleChange.bind(_this);
+		_this.login = _this.login.bind(_this);
+		_this.signOut = _this.signOut.bind(_this);
+		return _this;
+	}
+
+	_createClass(Login, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			if (firebase.auth().currentUser === null) {
+				console.log('noo');
+				this.setState({
+					loginState: false
+				});
+			} else if (firebase.auth().currentUser !== null) {
+				console.log('yess');
+				this.setState({
+					loginState: true
+				});
+			}
+		}
+	}, {
+		key: 'handleChange',
+		value: function handleChange(e) {
+			this.setState(_defineProperty({}, e.target.name, e.target.value));
+			console.log('names', this.state.name);
+		}
+	}, {
+		key: 'signOut',
+		value: function signOut(e) {
+			e.preventDefault();
+			firebase.auth().signOut();
+			console.log('signed out user');
+			this.setState({
+				loginState: false
+			});
+		}
+	}, {
+		key: 'login',
+		value: function login(e) {
+			e.preventDefault();
+			firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (userData) {
+				console.log(userData);
+			});
+			this.setState({
+				loginState: true
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var loginForm = '';
+			if (this.state.loginState == false) {
+				loginForm = _react2.default.createElement(
+					'div',
+					{ className: 'registerRight' },
+					_react2.default.createElement(
+						'form',
+						{ onSubmit: this.login },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Login'
+						),
+						_react2.default.createElement(
+							'label',
+							{ htmlFor: 'name' },
+							'Name'
+						),
+						_react2.default.createElement('input', { type: 'text', name: 'name', onChange: this.handleChange, placeholder: 'Your name goes here' }),
+						_react2.default.createElement(
+							'label',
+							{ htmlFor: 'email' },
+							'Email'
+						),
+						_react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.handleChange, placeholder: 'Your email goes here' }),
+						_react2.default.createElement(
+							'label',
+							{ htmlFor: 'password' },
+							'Password'
+						),
+						_react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange }),
+						_react2.default.createElement(
+							'button',
+							{ className: 'logIn' },
+							'Log In'
+						)
+					)
+				);
+			} else if (this.state.loginState == true) {
+				loginForm = _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'h2',
+						null,
+						'You\'re already logged in! Go and enjoy the app now!!'
+					),
+					_react2.default.createElement(
+						'button',
+						{ onClick: this.signOut },
+						'Sign Out'
+					)
+				);
+			}
+			return _react2.default.createElement(
+				'div',
+				{ className: 'registerArea' },
+				_react2.default.createElement('div', { className: 'register loginImage' }),
+				loginForm
+			);
+		}
+	}]);
+
+	return Login;
+}(_react2.default.Component);
+
+exports.default = Login;
 
 },{"react":231}],235:[function(require,module,exports){
 'use strict';
@@ -35668,9 +35802,13 @@ var SelectedTeam = function (_React$Component) {
 			}).then(function (data) {
 				var teams = data.overallteamstandings.teamstandingsentry;
 				var teamIDArray = teams.map(function (val, i) {
-					return val.team.ID;
+					return {
+						name: val.team.City,
+						id: val.team.ID
+					};
 				});
 
+				console.log('testyy', teamIDArray);
 				_this2.setState({
 					teamsArray: teamIDArray
 				});
@@ -35678,30 +35816,35 @@ var SelectedTeam = function (_React$Component) {
 
 			//FIREBASE APPLICATION
 			var dbRef = firebase.database().ref();
-			dbRef.on('value', function (fireData) {
-				var players = fireData.val();
-				var parsedPlayers = [];
-				for (var playerKey in players) {
-					var parsedPlayer = JSON.parse(players[playerKey]);
-					parsedPlayer.key = playerKey;
-					parsedPlayers.push(parsedPlayer);
-				}
 
-				_this2.setState({
-					userTeam: parsedPlayers
-				});
+			firebase.auth().onAuthStateChanged(function (user) {
+				if (user) {
+					dbRef.on('value', function (fireData) {
+						var players = fireData.val();
+						var parsedPlayers = [];
+						for (var playerKey in players) {
+							var parsedPlayer = JSON.parse(players[playerKey]);
+							parsedPlayer.key = playerKey;
+							parsedPlayers.push(parsedPlayer);
+						}
+
+						_this2.setState({
+							userTeam: parsedPlayers
+						});
+					});
+				}
 			});
 		}
 	}, {
 		key: 'selectTeam',
-		value: function selectTeam(id) {
-			console.log('hey', id);
+		value: function selectTeam(each) {
+			console.log('hey', each);
 			var selectedTeamPlayers = this.state.playersArray.filter(function (value, i) {
-				if (value.team.ID == id) {
+				if (value.team.ID == each.id) {
 					return value;
 				}
 			});
-			console.log(selectedTeamPlayers);
+			console.log('coffee', selectedTeamPlayers);
 			this.setState({
 				selectedTeam: selectedTeamPlayers
 			});
@@ -35709,9 +35852,13 @@ var SelectedTeam = function (_React$Component) {
 	}, {
 		key: 'addPlayer',
 		value: function addPlayer(val) {
-			console.log('fire', val);
-			var dbRef = firebase.database().ref();
-			dbRef.push(JSON.stringify(val));
+			if (firebase.auth().currentUser !== null) {
+				console.log('fire', val);
+				var dbRef = firebase.database().ref();
+				dbRef.push(JSON.stringify(val));
+			} else {
+				alert('soryy bruvvv');
+			}
 		}
 	}, {
 		key: 'removePlayer',
@@ -35719,11 +35866,6 @@ var SelectedTeam = function (_React$Component) {
 			console.log('remove', val);
 			var dbRef = firebase.database().ref(val.key);
 			dbRef.remove();
-		}
-	}, {
-		key: 'moreInfo',
-		value: function moreInfo() {
-			console.log('778 clicked');
 		}
 	}, {
 		key: 'render',
@@ -35739,7 +35881,7 @@ var SelectedTeam = function (_React$Component) {
 					this.state.teamsArray.map(function (each, i) {
 						return _react2.default.createElement('img', { key: 'team-' + i, onClick: function onClick() {
 								return _this3.selectTeam(each);
-							}, src: '../assets/img/' + each + '.png' });
+							}, src: '../assets/img/' + each.id + '.png' });
 					})
 				),
 				_react2.default.createElement(
@@ -35748,6 +35890,13 @@ var SelectedTeam = function (_React$Component) {
 					_react2.default.createElement(
 						'table',
 						null,
+						_react2.default.createElement(
+							'caption',
+							null,
+							function () {
+								return _this3.state.selectedTeam[1].team.City;
+							}
+						),
 						_react2.default.createElement(
 							'thead',
 							null,
@@ -35795,47 +35944,49 @@ var SelectedTeam = function (_React$Component) {
 							'tbody',
 							null,
 							this.state.selectedTeam.map(function (player, i) {
-								return _react2.default.createElement(
-									'tr',
-									{ onClick: function onClick() {
-											return _this3.addPlayer(player);
-										} },
-									_react2.default.createElement(
-										'th',
-										{ scope: 'row' },
-										_this3.state.selectedTeam[i].player.FirstName + ' ' + _this3.state.selectedTeam[i].player.LastName
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'' + _this3.state.selectedTeam[i].player.Position
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'' + _this3.state.selectedTeam[i].stats.PtsPerGame['#text']
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'' + _this3.state.selectedTeam[i].stats.RebPerGame['#text']
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'' + _this3.state.selectedTeam[i].stats.AstPerGame['#text']
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'' + _this3.state.selectedTeam[i].stats.FgPct['#text']
-									),
-									_react2.default.createElement(
-										'td',
-										null,
-										'' + _this3.state.selectedTeam[i].stats.Fg3PtPct['#text']
-									)
-								);
+								if (_this3.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0') {
+									return _react2.default.createElement(
+										'tr',
+										{ onClick: function onClick() {
+												return _this3.addPlayer(player);
+											} },
+										_react2.default.createElement(
+											'th',
+											{ scope: 'row' },
+											_this3.state.selectedTeam[i].player.FirstName + ' ' + _this3.state.selectedTeam[i].player.LastName
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'' + _this3.state.selectedTeam[i].player.Position
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'' + _this3.state.selectedTeam[i].stats.PtsPerGame['#text']
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'' + _this3.state.selectedTeam[i].stats.RebPerGame['#text']
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'' + _this3.state.selectedTeam[i].stats.AstPerGame['#text']
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'' + _this3.state.selectedTeam[i].stats.FgPct['#text']
+										),
+										_react2.default.createElement(
+											'td',
+											null,
+											'' + _this3.state.selectedTeam[i].stats.Fg3PtPct['#text']
+										)
+									);
+								}
 							})
 						)
 					),
@@ -35943,7 +36094,150 @@ var SelectedTeam = function (_React$Component) {
 
 exports.default = SelectedTeam;
 
-},{"./Login.js":234,"./UserTeam.js":236,"jquery":43,"react":231,"react-dom":47,"react-router":200}],236:[function(require,module,exports){
+},{"./Login.js":234,"./UserTeam.js":237,"jquery":43,"react":231,"react-dom":47,"react-router":200}],236:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SignUp = function (_React$Component) {
+	_inherits(SignUp, _React$Component);
+
+	function SignUp() {
+		_classCallCheck(this, SignUp);
+
+		var _this = _possibleConstructorReturn(this, (SignUp.__proto__ || Object.getPrototypeOf(SignUp)).call(this));
+
+		_this.state = {
+			email: '',
+			password: '',
+			confirm: '',
+			signedUpState: ''
+		};
+		_this.handleChange = _this.handleChange.bind(_this);
+		_this.signup = _this.signup.bind(_this);
+		return _this;
+	}
+
+	_createClass(SignUp, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			if (firebase.auth().currentUser === null) {
+				console.log('noo');
+				this.setState({
+					signedUpState: false
+				});
+			} else if (firebase.auth().currentUser !== null) {
+				console.log('yess');
+				this.setState({
+					signedUpState: true
+				});
+			}
+		}
+	}, {
+		key: 'handleChange',
+		value: function handleChange(e) {
+			this.setState(_defineProperty({}, e.target.name, e.target.value));
+		}
+	}, {
+		key: 'signup',
+		value: function signup(e) {
+			e.preventDefault();
+
+			if (this.state.password === this.state.confirm) {
+				firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function (userData) {
+					console.log(userData);
+				}).catch(function (error) {
+					alert(error);
+					console.log('erorrrrr', error.message);
+				});
+
+				console.log('signupedniggaaa');
+				console.log('seconddd', this.state.email, this.state.password, this.state.confirm);
+			} else {
+				alert('sorry your password and confirm password didnt match');
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var signUpForm = '';
+			if (this.state.signedUpState === false) {
+				signUpForm = _react2.default.createElement(
+					'form',
+					{ onSubmit: this.signup },
+					_react2.default.createElement(
+						'h3',
+						null,
+						'Sign Up Today'
+					),
+					_react2.default.createElement(
+						'label',
+						{ htmlFor: 'email' },
+						'Email'
+					),
+					_react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.handleChange, placeholder: 'Your email goes here' }),
+					_react2.default.createElement(
+						'label',
+						{ htmlFor: 'password' },
+						'Password'
+					),
+					_react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange }),
+					_react2.default.createElement(
+						'label',
+						{ htmlFor: 'confirm' },
+						'Confirm Password'
+					),
+					_react2.default.createElement('input', { type: 'password', name: 'confirm', onChange: this.handleChange }),
+					_react2.default.createElement(
+						'button',
+						null,
+						'Sign In'
+					)
+				);
+			} else if (this.state.signedUpState === true) {
+				signUpForm = _react2.default.createElement(
+					'h2',
+					null,
+					'Thank\'s for signing up!'
+				);
+			}
+			return _react2.default.createElement(
+				'div',
+				{ className: 'registerArea' },
+				_react2.default.createElement('div', { className: 'register signUpImage' }),
+				_react2.default.createElement(
+					'div',
+					{ className: 'registerRight' },
+					signUpForm
+				)
+			);
+		}
+	}]);
+
+	return SignUp;
+}(_react2.default.Component);
+
+exports.default = SignUp;
+
+},{"react":231}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36054,7 +36348,7 @@ function UserTeam(props) {
 	);
 }
 
-},{"react":231}],237:[function(require,module,exports){
+},{"react":231}],238:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -36075,6 +36369,10 @@ var _Login = require('./Login.js');
 
 var _Login2 = _interopRequireDefault(_Login);
 
+var _SignUp = require('./SignUp.js');
+
+var _SignUp2 = _interopRequireDefault(_SignUp);
+
 var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -36085,8 +36383,54 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var App = function (_React$Component) {
-	_inherits(App, _React$Component);
+var HomePage = function (_React$Component) {
+	_inherits(HomePage, _React$Component);
+
+	function HomePage() {
+		_classCallCheck(this, HomePage);
+
+		return _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).apply(this, arguments));
+	}
+
+	_createClass(HomePage, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'homePage' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'homePageText' },
+					_react2.default.createElement(
+						'h1',
+						null,
+						'Keep track of your players all season long'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'Don\'t have a fantasy team but would like to keep track of your favourite players through the season? Don\'t we have the perfect app for you.'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'With Nick\'s Sports App, you can create you custom team with you favourite players and watch how their season progresses. Sign up today!'
+					),
+					_react2.default.createElement(
+						_reactRouter.Link,
+						{ to: '/signup', className: 'signUpToday' },
+						'Sign Up Today'
+					)
+				)
+			);
+		}
+	}]);
+
+	return HomePage;
+}(_react2.default.Component);
+
+var App = function (_React$Component2) {
+	_inherits(App, _React$Component2);
 
 	function App() {
 		_classCallCheck(this, App);
@@ -36101,34 +36445,56 @@ var App = function (_React$Component) {
 				'div',
 				null,
 				_react2.default.createElement(
-					'section',
-					{ className: 'mainPortal' },
+					'nav',
+					null,
 					_react2.default.createElement(
-						'aside',
+						'h2',
 						null,
 						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/login' },
-								'Home'
-							)
-						),
-						_react2.default.createElement(
-							'li',
-							null,
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/teams' },
-								'Teams'
-							)
+							_reactRouter.Link,
+							{ to: '/' },
+							'Nick\'s Sports App'
 						)
 					),
 					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/teams' },
+							'Teams'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'accountsContainer' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'accounts' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/login' },
+								'My Account'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'accounts' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/signup' },
+								'Sign Up'
+							)
+						)
+					)
+				),
+				_react2.default.createElement(
+					'section',
+					{ className: 'mainPortal' },
+					_react2.default.createElement(
 						'article',
 						null,
-						this.props.children
+						this.props.children || _react2.default.createElement(HomePage, null)
 					)
 				)
 			);
@@ -36145,9 +36511,10 @@ _reactDom2.default.render(_react2.default.createElement(
 		_reactRouter.Route,
 		{ path: '/', component: App },
 		_react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
+		_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _SignUp2.default }),
 		_react2.default.createElement(_reactRouter.Route, { path: '/teams', component: _SelectedTeam2.default })
 	)
 ), document.getElementById('app'));
 // <p key={i}>{this.props.player.player.FirstName}</p>
 
-},{"./Login.js":234,"./SelectedTeam.js":235,"react":231,"react-dom":47,"react-router":200}]},{},[237]);
+},{"./Login.js":234,"./SelectedTeam.js":235,"./SignUp.js":236,"react":231,"react-dom":47,"react-router":200}]},{},[238]);
