@@ -7,7 +7,7 @@ import { Router, Route, browserHistory, Link } from 'react-router';
 
 const apiUrl = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json";
 
-const apiUrlTeam = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/overall_team_standings.json?teamstats=W,L,PTS,PTSA";
+const apiUrlTeam = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/overall_team_standings.json";
 
 var config = {
 	apiKey: "AIzaSyBe3L4fbcwO-e4-E4frM4GnvsOIZicvPa8",
@@ -18,6 +18,25 @@ var config = {
 };
 firebase.initializeApp(config);
 
+
+class PreLogin extends React.Component {
+	render() {
+		return (
+			<div className="preLogin">
+				<div className="redclass">
+					<h2>Hey!</h2>
+					<p>You currently have no players on your team!</p>
+					<p>If you have logged in, you can add players to your team by clicking on them up above</p>
+					<p>If you don't have an account, you're unable to add players to your team. What are you waiting for! Sign up today!</p>
+				</div>
+			</div>
+		)
+	}
+}
+
+
+
+
 export default class SelectedTeam extends React.Component {
 	constructor() {
 		super();
@@ -25,7 +44,8 @@ export default class SelectedTeam extends React.Component {
 			playersArray: [],
 			teamsArray:[],
 			selectedTeam: [],
-			userTeam: []
+			userTeam: [], 
+			selectedTeamID: '101'
 		}
 	this.selectTeam = this.selectTeam.bind(this);
 	this.addPlayer = this.addPlayer.bind(this);
@@ -42,9 +62,16 @@ export default class SelectedTeam extends React.Component {
 		})
 		.then((result) => {
 			const players = result.cumulativeplayerstats.playerstatsentry;
+			const selectedTeamPlayers = players.filter((value, i) => {
+				if (value.team.ID == this.state.selectedTeamID) {
+					return value
+				}
+			});
 			this.setState({
-				playersArray: players
+				playersArray: players,
+				selectedTeam: selectedTeamPlayers
 			})
+			console.log(this.state.playersArray)
 		})
 		ajax({
 			url: apiUrlTeam,
@@ -56,11 +83,15 @@ export default class SelectedTeam extends React.Component {
 		})
 		.then((data) => {
 			const teams = data.overallteamstandings.teamstandingsentry;
+			console.log(teams)
 			const teamIDArray = teams.map((val, i) => {
 				return (
 						{
+						rank: val.rank,
 						name: val.team.City,
-						id: val.team.ID
+						nickname: val.team.Name,
+						id: val.team.ID,
+						stats: val.stats
 					}
 				) 
 			})
@@ -96,13 +127,14 @@ export default class SelectedTeam extends React.Component {
 	selectTeam(each) {
 		console.log('hey', each)
 		const selectedTeamPlayers = this.state.playersArray.filter((value, i) => {
-			if (value.team.ID == each.id) {
+			if (value.team.ID == each.target.value) {
 				return value
 			}
 		});
 		console.log('coffee', selectedTeamPlayers);
 		this.setState({
-			selectedTeam: selectedTeamPlayers
+			selectedTeam: selectedTeamPlayers,
+			selectedTeamID: each.target.value
 		})
 	}
 	addPlayer(val) {
@@ -121,77 +153,148 @@ export default class SelectedTeam extends React.Component {
 		const dbRef = firebase.database().ref(`users/${userID}/players/${val.key}`);
 		dbRef.remove();
 	}
+
 render() {
-	return (
-		<div>
-			<section className="teamContainer">
-				{this.state.teamsArray.map((each, i) => {
-					return (
-						<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each.id}.png`} />
-					)
-				})}
-			</section>
+	let teamInfo = '';
+
+	const teamStats = this.state.teamsArray.filter((team) => {
+		if (this.state.selectedTeamID == team.id) {
+			return team
+		}
+	})
+	console.log(teamStats)
+	if (teamStats[0] !== undefined) {
+		teamInfo = (
+			<div className="teamDetails">
+				<div className="detailsStack">
+					<div className='imageContainer'>
+						<img src={`../assets/img/${this.state.selectedTeamID}.png`} alt=""/>
+						<h2>{`${teamStats[0].name} ${teamStats[0].nickname}`}</h2>
+						<h3>{`${teamStats[0].stats.Wins['#text']} - ${teamStats[0].stats.Losses['#text']}`}</h3>
+					</div>	
+					<div className="teamInfo">
+						<div>
+							<p>{`NBA Rank: ${teamStats[0].rank}`}</p>
+							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}ppg`}</p>
+							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}ppg`}</p>
+							<p>{`+ / -: ${teamStats[0].stats.PlusMinusPerGame}`}</p>
+						</div>
+						<div>
+							<p>{`FGA - FGM: ${teamStats[0].stats.FgMadePerGame['#text']} - ${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
+							<p>{`FG%: ${teamStats[0].stats.FgPct['#text']}%`}</p>
+							<p>{`3FGA - 3FGM: ${teamStats[0].stats.Fg3PtMadePerGame['#text']} - ${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
+							<p>{`FG%: ${teamStats[0].stats.Fg3PtPct['#text']}%`}</p>
+						</div>
+					</div>
+				</div>
+				<div className='teamTable'>
+					<table>
+						<caption>{() => this.state.selectedTeam[1].team.City}</caption>
+						<thead>
+							<tr>
+								<th scope="col">Player Name</th>
+								<th scope="col">Position</th>
+								<th scope="col">PPG</th>
+								<th scope="col">RPG</th>
+								<th scope="col">APG</th>
+							</tr>
+						</thead>
+						<tbody>
+							{this.state.selectedTeam.map((player, i) => {
+								if(this.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0'){
+									return (
+										<tr onClick={() => this.addPlayer(player)}>
+											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
+											<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
+											<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
+											<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
+											<td>{`${this.state.selectedTeam[i].stats.AstPerGame['#text']}`}</td>
+										</tr>
+									)
+								}
+							})}
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			)
+	}
+
+	let viewToShow = '';
+	if (this.state.userTeam.length > 0) {
+		viewToShow = (
 			<section className="rosterContainer">
-				<table>
-					<caption>{() => this.state.selectedTeam[1].team.City}</caption>
+				<div className="ctaBanner">
+					<h2>Your Team</h2>
+				</div>
+				<h4>Watch List</h4>
+				<table className="myTeam">
 					<thead>
 						<tr>
 							<th scope="col">Player Name</th>
-							<th scope="col">Position</th>
-							<th scope="col">PPG</th>
+							<th scope="col">GP</th>
+							<th scope="col">MPG</th>
+							<th scope="col">FGM - FMA</th>
+							<th scope="col">FG%</th>
+							<th scope="col">FTM - FTA</th>
+							<th scope="col">FT%</th>
+							<th scope="col">3Pt%</th>
 							<th scope="col">RPG</th>
 							<th scope="col">APG</th>
-							<th scope="col">FG%</th>
-							<th scope="col">3Pt%</th>
+							<th scope="col">BPG</th>
+							<th scope="col">SPG</th>
+							<th scope="col">PPG</th>
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.selectedTeam.map((player, i) => {
-							if(this.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0'){
-								return (
-									<tr onClick={() => this.addPlayer(player)}>
-										<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
-										<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
-										<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
-										<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
-										<td>{`${this.state.selectedTeam[i].stats.AstPerGame['#text']}`}</td>
-										<td>{`${this.state.selectedTeam[i].stats.FgPct['#text']}`}</td>
-										<td>{`${this.state.selectedTeam[i].stats.Fg3PtPct['#text']}`}</td>
-									</tr>
-								)
-							}
-						})}
-					</tbody>
-				</table>
-				<table>
-					<thead>
-						<tr>
-							<th scope="col">Player Name</th>
-							<th scope="col">Position</th>
-							<th scope="col">PPG</th>
-							<th scope="col">RPG</th>
-							<th scope="col">APG</th>
-							<th scope="col">FG%</th>
-							<th scope="col">3Pt%</th>
-						</tr>
-					</thead>
-					<tbody>
+
 						{this.state.userTeam.map((player, i) => {
 							return (
 								<tr onClick={() => this.removePlayer(player, i)}>
-									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}`}</th>
-									<td>{`${this.state.userTeam[i].player.Position}`}</td>
-									<td>{`${this.state.userTeam[i].stats.PtsPerGame['#text']}`}</td>
+									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`}</th>
+									<td>{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
+									<td>{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
+									<td>{`${this.state.userTeam[i].stats.FgMadePerGame['#text']} - ${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.FgPct['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.FtMadePerGame['#text']} - ${this.state.userTeam[i].stats.FtAttPerGame['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.FtPct['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
 									<td>{`${this.state.userTeam[i].stats.RebPerGame['#text']}`}</td>
 									<td>{`${this.state.userTeam[i].stats.AstPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FgPct['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.BlkPerGame['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.StlPerGame['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.PtsPerGame['#text']}`}</td>
 								</tr>
 							)
 						})}
 					</tbody>
 				</table>
 			</section>
+			)
+	} else {
+		viewToShow = (
+			<PreLogin />
+			)
+	}
+
+	return (
+		<div>
+			<section className="teamContainer">
+				<div className="wrapper">
+				<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>
+					{this.state.teamsArray.map((each,i) => {
+						return (
+							<option value={each.id}>{each.name}</option>
+						)
+					})}
+				</select>
+
+					{teamInfo}
+				</div>
+			</section>
+
+			{viewToShow}
 		</div>
 	)
 
@@ -199,3 +302,9 @@ render() {
 
 
 }
+
+	// {this.state.teamsArray.map((each, i) => {
+	// 				return (
+	// 					<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each.id}.png`} />
+	// 				)
+	// 			})}

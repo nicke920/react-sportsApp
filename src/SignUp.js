@@ -61,7 +61,7 @@ export default class SignUp extends React.Component {
 		if (this.state.signedUpState === false) {
 			signUpForm = (
 				<form onSubmit={this.signup}>
-					<h3>Sign Up Today</h3>
+					<h2>Sign Up Today</h2>
 					<label htmlFor="email">Email</label>
 					<input type="email" name="email" onChange={this.handleChange} placeholder="Your email goes here"/>
 					<label htmlFor="password">Password</label>
@@ -80,10 +80,7 @@ export default class SignUp extends React.Component {
 		return (
 
 				<div className="registerArea">
-					<div className="register signUpImage">
-						
-						
-					</div>
+					<div className="register signUpImage"></div>
 					<div className="registerRight">
 						{signUpForm}
 					</div>

@@ -35645,7 +35645,7 @@ var Login = function (_React$Component) {
 						'form',
 						{ onSubmit: this.login },
 						_react2.default.createElement(
-							'h3',
+							'h2',
 							null,
 							'Login'
 						),
@@ -35743,7 +35743,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var apiUrl = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json";
 
-var apiUrlTeam = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/overall_team_standings.json?teamstats=W,L,PTS,PTSA";
+var apiUrlTeam = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/overall_team_standings.json";
 
 var config = {
 	apiKey: "AIzaSyBe3L4fbcwO-e4-E4frM4GnvsOIZicvPa8",
@@ -35754,30 +35754,77 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var SelectedTeam = function (_React$Component) {
-	_inherits(SelectedTeam, _React$Component);
+var PreLogin = function (_React$Component) {
+	_inherits(PreLogin, _React$Component);
+
+	function PreLogin() {
+		_classCallCheck(this, PreLogin);
+
+		return _possibleConstructorReturn(this, (PreLogin.__proto__ || Object.getPrototypeOf(PreLogin)).apply(this, arguments));
+	}
+
+	_createClass(PreLogin, [{
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ className: 'preLogin' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'redclass' },
+					_react2.default.createElement(
+						'h2',
+						null,
+						'Hey!'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'You currently have no players on your team!'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'If you have logged in, you can add players to your team by clicking on them up above'
+					),
+					_react2.default.createElement(
+						'p',
+						null,
+						'If you don\'t have an account, you\'re unable to add players to your team. What are you waiting for! Sign up today!'
+					)
+				)
+			);
+		}
+	}]);
+
+	return PreLogin;
+}(_react2.default.Component);
+
+var SelectedTeam = function (_React$Component2) {
+	_inherits(SelectedTeam, _React$Component2);
 
 	function SelectedTeam() {
 		_classCallCheck(this, SelectedTeam);
 
-		var _this = _possibleConstructorReturn(this, (SelectedTeam.__proto__ || Object.getPrototypeOf(SelectedTeam)).call(this));
+		var _this2 = _possibleConstructorReturn(this, (SelectedTeam.__proto__ || Object.getPrototypeOf(SelectedTeam)).call(this));
 
-		_this.state = {
+		_this2.state = {
 			playersArray: [],
 			teamsArray: [],
 			selectedTeam: [],
-			userTeam: []
+			userTeam: [],
+			selectedTeamID: '101'
 		};
-		_this.selectTeam = _this.selectTeam.bind(_this);
-		_this.addPlayer = _this.addPlayer.bind(_this);
-		_this.removePlayer = _this.removePlayer.bind(_this);
-		return _this;
+		_this2.selectTeam = _this2.selectTeam.bind(_this2);
+		_this2.addPlayer = _this2.addPlayer.bind(_this2);
+		_this2.removePlayer = _this2.removePlayer.bind(_this2);
+		return _this2;
 	}
 
 	_createClass(SelectedTeam, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			var _this2 = this;
+			var _this3 = this;
 
 			(0, _jquery.ajax)({
 				url: apiUrl,
@@ -35788,9 +35835,16 @@ var SelectedTeam = function (_React$Component) {
 				}
 			}).then(function (result) {
 				var players = result.cumulativeplayerstats.playerstatsentry;
-				_this2.setState({
-					playersArray: players
+				var selectedTeamPlayers = players.filter(function (value, i) {
+					if (value.team.ID == _this3.state.selectedTeamID) {
+						return value;
+					}
 				});
+				_this3.setState({
+					playersArray: players,
+					selectedTeam: selectedTeamPlayers
+				});
+				console.log(_this3.state.playersArray);
 			});
 			(0, _jquery.ajax)({
 				url: apiUrlTeam,
@@ -35801,15 +35855,19 @@ var SelectedTeam = function (_React$Component) {
 				}
 			}).then(function (data) {
 				var teams = data.overallteamstandings.teamstandingsentry;
+				console.log(teams);
 				var teamIDArray = teams.map(function (val, i) {
 					return {
+						rank: val.rank,
 						name: val.team.City,
-						id: val.team.ID
+						nickname: val.team.Name,
+						id: val.team.ID,
+						stats: val.stats
 					};
 				});
 
 				console.log('testyy', teamIDArray);
-				_this2.setState({
+				_this3.setState({
 					teamsArray: teamIDArray
 				});
 			});
@@ -35828,7 +35886,7 @@ var SelectedTeam = function (_React$Component) {
 							parsedPlayers.push(parsedPlayer);
 						}
 
-						_this2.setState({
+						_this3.setState({
 							userTeam: parsedPlayers
 						});
 					});
@@ -35840,13 +35898,14 @@ var SelectedTeam = function (_React$Component) {
 		value: function selectTeam(each) {
 			console.log('hey', each);
 			var selectedTeamPlayers = this.state.playersArray.filter(function (value, i) {
-				if (value.team.ID == each.id) {
+				if (value.team.ID == each.target.value) {
 					return value;
 				}
 			});
 			console.log('coffee', selectedTeamPlayers);
 			this.setState({
-				selectedTeam: selectedTeamPlayers
+				selectedTeam: selectedTeamPlayers,
+				selectedTeamID: each.target.value
 			});
 		}
 	}, {
@@ -35872,129 +35931,203 @@ var SelectedTeam = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this3 = this;
+			var _this4 = this;
 
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement(
-					'section',
-					{ className: 'teamContainer' },
-					this.state.teamsArray.map(function (each, i) {
-						return _react2.default.createElement('img', { key: 'team-' + i, onClick: function onClick() {
-								return _this3.selectTeam(each);
-							}, src: '../assets/img/' + each.id + '.png' });
-					})
-				),
-				_react2.default.createElement(
-					'section',
-					{ className: 'rosterContainer' },
+			var teamInfo = '';
+
+			var teamStats = this.state.teamsArray.filter(function (team) {
+				if (_this4.state.selectedTeamID == team.id) {
+					return team;
+				}
+			});
+			console.log(teamStats);
+			if (teamStats[0] !== undefined) {
+				teamInfo = _react2.default.createElement(
+					'div',
+					{ className: 'teamDetails' },
 					_react2.default.createElement(
-						'table',
-						null,
+						'div',
+						{ className: 'detailsStack' },
 						_react2.default.createElement(
-							'caption',
-							null,
-							function () {
-								return _this3.state.selectedTeam[1].team.City;
-							}
-						),
-						_react2.default.createElement(
-							'thead',
-							null,
+							'div',
+							{ className: 'imageContainer' },
+							_react2.default.createElement('img', { src: '../assets/img/' + this.state.selectedTeamID + '.png', alt: '' }),
 							_react2.default.createElement(
-								'tr',
+								'h2',
 								null,
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'Player Name'
-								),
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'Position'
-								),
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'PPG'
-								),
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'RPG'
-								),
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'APG'
-								),
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'FG%'
-								),
-								_react2.default.createElement(
-									'th',
-									{ scope: 'col' },
-									'3Pt%'
-								)
+								teamStats[0].name + ' ' + teamStats[0].nickname
+							),
+							_react2.default.createElement(
+								'h3',
+								null,
+								teamStats[0].stats.Wins['#text'] + ' - ' + teamStats[0].stats.Losses['#text']
 							)
 						),
 						_react2.default.createElement(
-							'tbody',
-							null,
-							this.state.selectedTeam.map(function (player, i) {
-								if (_this3.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0') {
-									return _react2.default.createElement(
-										'tr',
-										{ onClick: function onClick() {
-												return _this3.addPlayer(player);
-											} },
-										_react2.default.createElement(
-											'th',
-											{ scope: 'row' },
-											_this3.state.selectedTeam[i].player.FirstName + ' ' + _this3.state.selectedTeam[i].player.LastName
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											'' + _this3.state.selectedTeam[i].player.Position
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											'' + _this3.state.selectedTeam[i].stats.PtsPerGame['#text']
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											'' + _this3.state.selectedTeam[i].stats.RebPerGame['#text']
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											'' + _this3.state.selectedTeam[i].stats.AstPerGame['#text']
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											'' + _this3.state.selectedTeam[i].stats.FgPct['#text']
-										),
-										_react2.default.createElement(
-											'td',
-											null,
-											'' + _this3.state.selectedTeam[i].stats.Fg3PtPct['#text']
-										)
-									);
-								}
-							})
+							'div',
+							{ className: 'teamInfo' },
+							_react2.default.createElement(
+								'div',
+								null,
+								_react2.default.createElement(
+									'p',
+									null,
+									'NBA Rank: ' + teamStats[0].rank
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'PPG: ' + teamStats[0].stats.PtsPerGame['#text'] + 'ppg'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'PPGA: ' + teamStats[0].stats.PtsAgainstPerGame['#text'] + 'ppg'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'+ / -: ' + teamStats[0].stats.PlusMinusPerGame
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								null,
+								_react2.default.createElement(
+									'p',
+									null,
+									'FGA - FGM: ' + teamStats[0].stats.FgMadePerGame['#text'] + ' - ' + teamStats[0].stats.FgAttPerGame['#text']
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'FG%: ' + teamStats[0].stats.FgPct['#text'] + '%'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'3FGA - 3FGM: ' + teamStats[0].stats.Fg3PtMadePerGame['#text'] + ' - ' + teamStats[0].stats.Fg3PtAttPerGame['#text']
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'FG%: ' + teamStats[0].stats.Fg3PtPct['#text'] + '%'
+								)
+							)
 						)
 					),
 					_react2.default.createElement(
-						'table',
+						'div',
+						{ className: 'teamTable' },
+						_react2.default.createElement(
+							'table',
+							null,
+							_react2.default.createElement(
+								'caption',
+								null,
+								function () {
+									return _this4.state.selectedTeam[1].team.City;
+								}
+							),
+							_react2.default.createElement(
+								'thead',
+								null,
+								_react2.default.createElement(
+									'tr',
+									null,
+									_react2.default.createElement(
+										'th',
+										{ scope: 'col' },
+										'Player Name'
+									),
+									_react2.default.createElement(
+										'th',
+										{ scope: 'col' },
+										'Position'
+									),
+									_react2.default.createElement(
+										'th',
+										{ scope: 'col' },
+										'PPG'
+									),
+									_react2.default.createElement(
+										'th',
+										{ scope: 'col' },
+										'RPG'
+									),
+									_react2.default.createElement(
+										'th',
+										{ scope: 'col' },
+										'APG'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'tbody',
+								null,
+								this.state.selectedTeam.map(function (player, i) {
+									if (_this4.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0') {
+										return _react2.default.createElement(
+											'tr',
+											{ onClick: function onClick() {
+													return _this4.addPlayer(player);
+												} },
+											_react2.default.createElement(
+												'th',
+												{ scope: 'row' },
+												_this4.state.selectedTeam[i].player.FirstName + ' ' + _this4.state.selectedTeam[i].player.LastName
+											),
+											_react2.default.createElement(
+												'td',
+												null,
+												'' + _this4.state.selectedTeam[i].player.Position
+											),
+											_react2.default.createElement(
+												'td',
+												null,
+												'' + _this4.state.selectedTeam[i].stats.PtsPerGame['#text']
+											),
+											_react2.default.createElement(
+												'td',
+												null,
+												'' + _this4.state.selectedTeam[i].stats.RebPerGame['#text']
+											),
+											_react2.default.createElement(
+												'td',
+												null,
+												'' + _this4.state.selectedTeam[i].stats.AstPerGame['#text']
+											)
+										);
+									}
+								})
+							)
+						)
+					)
+				);
+			}
+
+			var viewToShow = '';
+			if (this.state.userTeam.length > 0) {
+				viewToShow = _react2.default.createElement(
+					'section',
+					{ className: 'rosterContainer' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'ctaBanner' },
+						_react2.default.createElement(
+							'h2',
+							null,
+							'Your Team'
+						)
+					),
+					_react2.default.createElement(
+						'h4',
 						null,
+						'Watch List'
+					),
+					_react2.default.createElement(
+						'table',
+						{ className: 'myTeam' },
 						_react2.default.createElement(
 							'thead',
 							null,
@@ -36009,12 +36142,37 @@ var SelectedTeam = function (_React$Component) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'Position'
+									'GP'
 								),
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'PPG'
+									'MPG'
+								),
+								_react2.default.createElement(
+									'th',
+									{ scope: 'col' },
+									'FGM - FMA'
+								),
+								_react2.default.createElement(
+									'th',
+									{ scope: 'col' },
+									'FG%'
+								),
+								_react2.default.createElement(
+									'th',
+									{ scope: 'col' },
+									'FTM - FTA'
+								),
+								_react2.default.createElement(
+									'th',
+									{ scope: 'col' },
+									'FT%'
+								),
+								_react2.default.createElement(
+									'th',
+									{ scope: 'col' },
+									'3Pt%'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36029,12 +36187,17 @@ var SelectedTeam = function (_React$Component) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'FG%'
+									'BPG'
 								),
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'3Pt%'
+									'SPG'
+								),
+								_react2.default.createElement(
+									'th',
+									{ scope: 'col' },
+									'PPG'
 								)
 							)
 						),
@@ -36045,54 +36208,119 @@ var SelectedTeam = function (_React$Component) {
 								return _react2.default.createElement(
 									'tr',
 									{ onClick: function onClick() {
-											return _this3.removePlayer(player, i);
+											return _this4.removePlayer(player, i);
 										} },
 									_react2.default.createElement(
 										'th',
 										{ scope: 'row' },
-										_this3.state.userTeam[i].player.FirstName + ' ' + _this3.state.userTeam[i].player.LastName
+										_this4.state.userTeam[i].player.FirstName + ' ' + _this4.state.userTeam[i].player.LastName + ', (' + _this4.state.userTeam[i].player.Position + ')'
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this3.state.userTeam[i].player.Position
+										'' + _this4.state.userTeam[i].stats.GamesPlayed['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this3.state.userTeam[i].stats.PtsPerGame['#text']
+										'' + (_this4.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this3.state.userTeam[i].stats.RebPerGame['#text']
+										_this4.state.userTeam[i].stats.FgMadePerGame['#text'] + ' - ' + _this4.state.userTeam[i].stats.FgAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this3.state.userTeam[i].stats.AstPerGame['#text']
+										'' + _this4.state.userTeam[i].stats.FgPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this3.state.userTeam[i].stats.FgPct['#text']
+										_this4.state.userTeam[i].stats.FtMadePerGame['#text'] + ' - ' + _this4.state.userTeam[i].stats.FtAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this3.state.userTeam[i].stats.Fg3PtPct['#text']
+										'' + _this4.state.userTeam[i].stats.FtPct['#text']
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										'' + _this4.state.userTeam[i].stats.Fg3PtPct['#text']
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										'' + _this4.state.userTeam[i].stats.RebPerGame['#text']
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										'' + _this4.state.userTeam[i].stats.AstPerGame['#text']
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										'' + _this4.state.userTeam[i].stats.BlkPerGame['#text']
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										'' + _this4.state.userTeam[i].stats.StlPerGame['#text']
+									),
+									_react2.default.createElement(
+										'td',
+										null,
+										'' + _this4.state.userTeam[i].stats.PtsPerGame['#text']
 									)
 								);
 							})
 						)
 					)
-				)
+				);
+			} else {
+				viewToShow = _react2.default.createElement(PreLogin, null);
+			}
+
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'section',
+					{ className: 'teamContainer' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'wrapper' },
+						_react2.default.createElement(
+							'select',
+							{ value: this.state.value, id: 'teamSelector', onChange: this.selectTeam },
+							this.state.teamsArray.map(function (each, i) {
+								return _react2.default.createElement(
+									'option',
+									{ value: each.id },
+									each.name
+								);
+							})
+						),
+						teamInfo
+					)
+				),
+				viewToShow
 			);
 		}
 	}]);
 
 	return SelectedTeam;
 }(_react2.default.Component);
+
+// {this.state.teamsArray.map((each, i) => {
+// 				return (
+// 					<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each.id}.png`} />
+// 				)
+// 			})}
+
 
 exports.default = SelectedTeam;
 
@@ -36186,7 +36414,7 @@ var SignUp = function (_React$Component) {
 					'form',
 					{ onSubmit: this.signup },
 					_react2.default.createElement(
-						'h3',
+						'h2',
 						null,
 						'Sign Up Today'
 					),
@@ -36399,29 +36627,113 @@ var HomePage = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
-				{ className: 'homePage' },
+				null,
 				_react2.default.createElement(
 					'div',
-					{ className: 'homePageText' },
+					{ className: 'homePage wrapper' },
 					_react2.default.createElement(
-						'h1',
-						null,
-						'Keep track of your players all season long'
+						'div',
+						{ className: 'homePageText' },
+						_react2.default.createElement(
+							'div',
+							null,
+							_react2.default.createElement(
+								'h1',
+								null,
+								'Keep track of your players all season long'
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								'Don\'t have a fantasy team but would like to keep track of your favourite players through the season? Don\'t we have the perfect app for you.'
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								'With Nick\'s Sports App, you can create you custom team with you favourite players and watch how their season progresses. Sign up today!'
+							),
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/signup', className: 'signUpToday' },
+								'Sign Up Today'
+							)
+						)
 					),
+					_react2.default.createElement('div', { className: 'homePageImage' })
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'ctaBanner' },
 					_react2.default.createElement(
-						'p',
-						null,
-						'Don\'t have a fantasy team but would like to keep track of your favourite players through the season? Don\'t we have the perfect app for you.'
-					),
+						'div',
+						{ className: 'wrapper' },
+						'Sign Up for free and get started by creating your team in 2 minutes!',
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/signup' },
+							'Sign Up Today'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'section',
+					{ className: 'information' },
 					_react2.default.createElement(
-						'p',
-						null,
-						'With Nick\'s Sports App, you can create you custom team with you favourite players and watch how their season progresses. Sign up today!'
-					),
-					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/signup', className: 'signUpToday' },
-						'Sign Up Today'
+						'div',
+						{ className: 'wrapper' },
+						_react2.default.createElement('div', null),
+						_react2.default.createElement(
+							'article',
+							null,
+							_react2.default.createElement(
+								'div',
+								null,
+								_react2.default.createElement(
+									'h2',
+									null,
+									'Watch the games. Track their stats'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Everything you need all on one page'
+								),
+								_react2.default.createElement(
+									'ul',
+									null,
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'span',
+											null,
+											'1.'
+										),
+										' Sign Up for a free account'
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'span',
+											null,
+											'2.'
+										),
+										' Add your favourite players to your team'
+									),
+									_react2.default.createElement(
+										'li',
+										null,
+										_react2.default.createElement(
+											'span',
+											null,
+											'3.'
+										),
+										' Watch and track their stats all season!'
+									)
+								)
+							)
+						)
 					)
 				)
 			);
@@ -36450,42 +36762,55 @@ var App = function (_React$Component2) {
 					'nav',
 					null,
 					_react2.default.createElement(
-						'h2',
-						null,
+						'div',
+						{ className: 'socialMedia' },
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/' },
-							'Nick\'s Sports App'
+							'p',
+							null,
+							'Social Media Goes Here'
 						)
 					),
 					_react2.default.createElement(
 						'div',
-						null,
+						{ className: 'wrapper' },
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/teams' },
-							'Teams'
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'accountsContainer' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'accounts' },
+							'h2',
+							null,
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: '/login' },
-								'My Account'
+								{ to: '/' },
+								'Nick\'s Sports App'
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'accounts' },
+							null,
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: '/signup' },
-								'Sign Up'
+								{ to: '/teams' },
+								'Teams'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'accountsContainer' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'accounts' },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/login' },
+									'My Account'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'accounts' },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/signup' },
+									'Sign Up'
+								)
 							)
 						)
 					)
@@ -36498,6 +36823,11 @@ var App = function (_React$Component2) {
 						null,
 						this.props.children || _react2.default.createElement(HomePage, null)
 					)
+				),
+				_react2.default.createElement(
+					'footer',
+					null,
+					'2017 | Nicholas Evans'
 				)
 			);
 		}

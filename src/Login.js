@@ -60,7 +60,7 @@ export default class Login extends React.Component {
 			loginForm = (
 				<div className="registerRight">
 					<form onSubmit={this.login}>
-						<h3>Login</h3>
+						<h2>Login</h2>
 						<label htmlFor="name">Name</label>
 						<input type="text" name="name" onChange={this.handleChange} placeholder="Your name goes here"/>
 						<label htmlFor="email">Email</label>

@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const babel = require('babelify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
+const sass = require('gulp-sass');
+const concat = require('gulp-concat');
 const buffer = require('vinyl-buffer');
 const browserSync = require('browser-sync');
 const reload = browserSync.reload;
@@ -34,8 +36,18 @@ gulp.task('bs', () => {
     });
 });
 
+gulp.task("styles", () => {
+   return gulp.src("./src/styles/**/*.scss")
+   .pipe(sass().on("error",sass.logError))
+   .pipe(concat("style.css"))
+   .pipe(plumber())
+   .pipe(gulp.dest("./public/styles"))
+   .pipe(reload({stream: true}));
+});
+
 
 gulp.task('default', ['js','bs'], () => {
     gulp.watch('src/**/*.js',['js']);
     gulp.watch('./public/style.css',reload);
+    gulp.watch('./src/styles/*.scss', ['styles']);
 });
