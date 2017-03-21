@@ -35639,39 +35639,29 @@ var Login = function (_React$Component) {
 			var loginForm = '';
 			if (this.state.loginState == false) {
 				loginForm = _react2.default.createElement(
-					'div',
-					{ className: 'registerRight' },
+					'form',
+					{ onSubmit: this.login },
 					_react2.default.createElement(
-						'form',
-						{ onSubmit: this.login },
-						_react2.default.createElement(
-							'h2',
-							null,
-							'Login'
-						),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'name' },
-							'Name'
-						),
-						_react2.default.createElement('input', { type: 'text', name: 'name', onChange: this.handleChange, placeholder: 'Your name goes here' }),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'email' },
-							'Email'
-						),
-						_react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.handleChange, placeholder: 'Your email goes here' }),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'password' },
-							'Password'
-						),
-						_react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange }),
-						_react2.default.createElement(
-							'button',
-							{ className: 'logIn' },
-							'Log In'
-						)
+						'h2',
+						null,
+						'Login'
+					),
+					_react2.default.createElement(
+						'label',
+						{ htmlFor: 'email' },
+						'Email'
+					),
+					_react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.handleChange, placeholder: 'Your email goes here' }),
+					_react2.default.createElement(
+						'label',
+						{ htmlFor: 'password' },
+						'Password'
+					),
+					_react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange }),
+					_react2.default.createElement(
+						'button',
+						{ className: 'logIn' },
+						'Sign in to your account'
 					)
 				);
 			} else if (this.state.loginState == true) {
@@ -35693,7 +35683,6 @@ var Login = function (_React$Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'registerArea' },
-				_react2.default.createElement('div', { className: 'register loginImage' }),
 				loginForm
 			);
 		}

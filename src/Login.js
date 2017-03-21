@@ -58,18 +58,14 @@ export default class Login extends React.Component {
 		let loginForm = '';
 		if (this.state.loginState == false) {
 			loginForm = (
-				<div className="registerRight">
 					<form onSubmit={this.login}>
 						<h2>Login</h2>
-						<label htmlFor="name">Name</label>
-						<input type="text" name="name" onChange={this.handleChange} placeholder="Your name goes here"/>
 						<label htmlFor="email">Email</label>
 						<input type="email" name="email" onChange={this.handleChange} placeholder="Your email goes here"/>
 						<label htmlFor="password">Password</label>
 						<input type="password" name="password" onChange={this.handleChange}/>
-						<button className="logIn">Log In</button>
+						<button className="logIn">Sign in to your account</button>
 					</form>
-				</div>
 			)
 		} 
 		else if (this.state.loginState == true) {
@@ -83,10 +79,7 @@ export default class Login extends React.Component {
 		return (
 
 				<div className="registerArea">
-					<div className="register loginImage">
-						
-						
-					</div>
+
 					{loginForm}
 
 					
