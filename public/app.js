@@ -35994,7 +35994,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'+ / -: ' + teamStats[0].stats.PlusMinusPerGame['#text']
+									'+/-: ' + teamStats[0].stats.PlusMinusPerGame['#text']
 								)
 							),
 							_react2.default.createElement(
@@ -36003,7 +36003,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'FGA - FGM: ' + teamStats[0].stats.FgMadePerGame['#text'] + ' - ' + teamStats[0].stats.FgAttPerGame['#text']
+									'FGM-FGA: ' + teamStats[0].stats.FgMadePerGame['#text'] + '-' + teamStats[0].stats.FgAttPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
@@ -36013,7 +36013,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'3FGA - 3FGM: ' + teamStats[0].stats.Fg3PtMadePerGame['#text'] + ' - ' + teamStats[0].stats.Fg3PtAttPerGame['#text']
+									'3PM-3PA: ' + teamStats[0].stats.Fg3PtMadePerGame['#text'] + '-' + teamStats[0].stats.Fg3PtAttPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
@@ -36163,7 +36163,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'FGM - FMA'
+									'FGM-FGA'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36173,7 +36173,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'FTM - FTA'
+									'FTM-FTA'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36239,7 +36239,7 @@ var SelectedTeam = function (_React$Component2) {
 									_react2.default.createElement(
 										'td',
 										null,
-										_this4.state.userTeam[i].stats.FgMadePerGame['#text'] + ' - ' + _this4.state.userTeam[i].stats.FgAttPerGame['#text']
+										_this4.state.userTeam[i].stats.FgMadePerGame['#text'] + '-' + _this4.state.userTeam[i].stats.FgAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
@@ -36249,7 +36249,7 @@ var SelectedTeam = function (_React$Component2) {
 									_react2.default.createElement(
 										'td',
 										null,
-										_this4.state.userTeam[i].stats.FtMadePerGame['#text'] + ' - ' + _this4.state.userTeam[i].stats.FtAttPerGame['#text']
+										_this4.state.userTeam[i].stats.FtMadePerGame['#text'] + '-' + _this4.state.userTeam[i].stats.FtAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',

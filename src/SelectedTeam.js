@@ -191,12 +191,12 @@ render() {
 							<p>{`NBA Rank: ${teamStats[0].rank}`}</p>
 							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}`}</p>
 							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}`}</p>
-							<p>{`+ / -: ${teamStats[0].stats.PlusMinusPerGame['#text']}`}</p>
+							<p>{`+/-: ${teamStats[0].stats.PlusMinusPerGame['#text']}`}</p>
 						</div>
 						<div>
-							<p>{`FGA - FGM: ${teamStats[0].stats.FgMadePerGame['#text']} - ${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
+							<p>{`FGM-FGA: ${teamStats[0].stats.FgMadePerGame['#text']}-${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
 							<p>{`FG%: ${teamStats[0].stats.FgPct['#text']}%`}</p>
-							<p>{`3FGA - 3FGM: ${teamStats[0].stats.Fg3PtMadePerGame['#text']} - ${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
+							<p>{`3PM-3PA: ${teamStats[0].stats.Fg3PtMadePerGame['#text']}-${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
 							<p>{`FG%: ${teamStats[0].stats.Fg3PtPct['#text']}%`}</p>
 						</div>
 					</div>
@@ -249,9 +249,9 @@ render() {
 							<th scope="col">Player</th>
 							<th scope="col">GP</th>
 							<th scope="col">MIN</th>
-							<th scope="col">FGM - FMA</th>
+							<th scope="col">FGM-FGA</th>
 							<th scope="col">FG%</th>
-							<th scope="col">FTM - FTA</th>
+							<th scope="col">FTM-FTA</th>
 							<th scope="col">FT%</th>
 							<th scope="col">3P%</th>
 							<th scope="col">RPG</th>
@@ -269,9 +269,9 @@ render() {
 									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`}</th>
 									<td>{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
 									<td>{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FgMadePerGame['#text']} - ${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.FgMadePerGame['#text']}-${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
 									<td>{`${this.state.userTeam[i].stats.FgPct['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FtMadePerGame['#text']} - ${this.state.userTeam[i].stats.FtAttPerGame['#text']}`}</td>
+									<td>{`${this.state.userTeam[i].stats.FtMadePerGame['#text']}-${this.state.userTeam[i].stats.FtAttPerGame['#text']}`}</td>
 									<td>{`${this.state.userTeam[i].stats.FtPct['#text']}`}</td>
 									<td>{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
 									<td>{`${this.state.userTeam[i].stats.RebPerGame['#text']}`}</td>
