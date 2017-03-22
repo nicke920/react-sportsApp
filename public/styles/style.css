@@ -541,7 +541,7 @@ footer {
     text-align: center; }
   .secondImage {
     display: none; }
-  article {
+  .information .wrapper article {
     background: url("../../assets/img/emptyCourt.jpg");
     background-size: cover;
     background-position: center;
