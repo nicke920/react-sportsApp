@@ -42,7 +42,13 @@ export default class SelectedTeam extends React.Component {
 		super();
 		this.state = {
 			playersArray: [],
-			teamsArray:[],
+			teamsArray:[{
+				rank: '',
+				name: '',
+				nickname: '',
+				id: '',
+				stats: ''
+			}],
 			selectedTeam: [],
 			userTeam: [], 
 			selectedTeamID: '101'
@@ -50,6 +56,7 @@ export default class SelectedTeam extends React.Component {
 	this.selectTeam = this.selectTeam.bind(this);
 	this.addPlayer = this.addPlayer.bind(this);
 	this.removePlayer = this.removePlayer.bind(this);
+	this.expandMyTeam = this.expandMyTeam.bind(this);
 	}
 	componentDidMount() {
 		ajax({
@@ -144,7 +151,7 @@ export default class SelectedTeam extends React.Component {
 			const dbRef = firebase.database().ref(`users/${userID}/players`);
 			dbRef.push(JSON.stringify(val))
 		} else {
-			alert('soryy bruvvv');
+			alert('Please log in to add a player to your team.');
 		}
 	}
 	removePlayer(val, i) {
@@ -152,6 +159,11 @@ export default class SelectedTeam extends React.Component {
 		const userID = firebase.auth().currentUser.uid;
 		const dbRef = firebase.database().ref(`users/${userID}/players/${val.key}`);
 		dbRef.remove();
+	}
+	expandMyTeam() {
+		this.teamDetails.classList.toggle('hider');
+		console.log('clicked');
+
 	}
 
 render() {
@@ -169,14 +181,16 @@ render() {
 				<div className="detailsStack">
 					<div className='imageContainer'>
 						<img src={`../assets/img/${this.state.selectedTeamID}.png`} alt=""/>
-						<h2>{`${teamStats[0].name} ${teamStats[0].nickname}`}</h2>
-						<h3>{`${teamStats[0].stats.Wins['#text']} - ${teamStats[0].stats.Losses['#text']}`}</h3>
+						<div>
+							<h2>{`${teamStats[0].name} ${teamStats[0].nickname}`}</h2>
+							<h3>{`${teamStats[0].stats.Wins['#text']} - ${teamStats[0].stats.Losses['#text']}`}</h3>
+						</div>
 					</div>	
 					<div className="teamInfo">
 						<div>
 							<p>{`NBA Rank: ${teamStats[0].rank}`}</p>
-							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}ppg`}</p>
-							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}ppg`}</p>
+							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}`}</p>
+							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}`}</p>
 							<p>{`+ / -: ${teamStats[0].stats.PlusMinusPerGame}`}</p>
 						</div>
 						<div>
@@ -203,7 +217,7 @@ render() {
 							{this.state.selectedTeam.map((player, i) => {
 								if(this.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0'){
 									return (
-										<tr onClick={() => this.addPlayer(player)}>
+										<tr key={`player${i}`} onClick={() => this.addPlayer(player)}>
 											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
 											<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
@@ -228,18 +242,18 @@ render() {
 				<div className="ctaBanner">
 					<h2>Your Team</h2>
 				</div>
-				<h4>Watch List</h4>
 				<table className="myTeam">
+					<caption><Link className="linkFull" onClick={this.expandMyTeam}>Expand</Link></caption>
 					<thead>
 						<tr>
-							<th scope="col">Player Name</th>
+							<th scope="col">Player</th>
 							<th scope="col">GP</th>
-							<th scope="col">MPG</th>
+							<th scope="col">MIN</th>
 							<th scope="col">FGM - FMA</th>
 							<th scope="col">FG%</th>
 							<th scope="col">FTM - FTA</th>
 							<th scope="col">FT%</th>
-							<th scope="col">3Pt%</th>
+							<th scope="col">3P%</th>
 							<th scope="col">RPG</th>
 							<th scope="col">APG</th>
 							<th scope="col">BPG</th>
@@ -251,7 +265,7 @@ render() {
 
 						{this.state.userTeam.map((player, i) => {
 							return (
-								<tr onClick={() => this.removePlayer(player, i)}>
+								<tr key={`userTeam${i}`} onClick={() => this.removePlayer(player, i)}>
 									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`}</th>
 									<td>{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
 									<td>{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
@@ -270,6 +284,8 @@ render() {
 						})}
 					</tbody>
 				</table>
+
+
 			</section>
 			)
 	} else {
@@ -280,17 +296,17 @@ render() {
 
 	return (
 		<div>
-			<section className="teamContainer">
+			<section className="teamContainer" ref={ref => this.teamDetails = ref}>
 				<div className="wrapper">
-				<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>
-					{this.state.teamsArray.map((each,i) => {
-						return (
-							<option value={each.id}>{each.name}</option>
-						)
-					})}
-				</select>
+					<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>
+						{this.state.teamsArray.map((each,i) => {
+							return (
+								<option key={`teamsArray${i}`} value={each.id}>{each.name}</option>
+							)
+						})}
+					</select>
 
-					{teamInfo}
+						{teamInfo}
 				</div>
 			</section>
 

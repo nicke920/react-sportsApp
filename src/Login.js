@@ -14,25 +14,29 @@ export default class Login extends React.Component {
 		this.signOut = this.signOut.bind(this);
 	}
 	componentDidMount() {
-		if (firebase.auth().currentUser === null) {
-			console.log('noo')
-			this.setState({
-				loginState: false
-			})
-		}
-		else if (firebase.auth().currentUser !== null) {
-			console.log('yess')
-			this.setState({
-				loginState: true
-			})
-		}
+		firebase.auth().onAuthStateChanged((user) => {
+			console.log("userr", user);
+			if (user) {
+				console.log('YOU ARE LOGGED IN')
+				this.setState({
+					loginState: true
+				})
+			} else {
+				console.log('YOU ARE NOT LOGGED IN')
+				this.setState({
+					loginState: false
+				})
+			}
+			
+		})
+
 
 	}
 	handleChange(e) {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
-		console.log('names', this.state.name)
+		// console.log('names', this.state.name)
 	}
 	signOut(e) {
 		e.preventDefault();
@@ -47,42 +51,43 @@ export default class Login extends React.Component {
 		firebase.auth()
 			.signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then((userData) => {
-				console.log(userData);
+				// console.log(userData);
+				this.setState({
+					loginState: true
+				})
 			})
-			this.setState({
-				loginState: true
+			.catch(function(error) {
+				alert(error)
+				// console.log('error message', error)
 			})
 		
 	}
 	render() {
-		let loginForm = '';
-		if (this.state.loginState == false) {
-			loginForm = (
-					<form onSubmit={this.login}>
-						<h2>Login</h2>
-						<label htmlFor="email">Email</label>
-						<input type="email" name="email" onChange={this.handleChange} placeholder="Your email goes here"/>
-						<label htmlFor="password">Password</label>
-						<input type="password" name="password" onChange={this.handleChange}/>
-						<button className="logIn">Sign in to your account</button>
-					</form>
+		// let loginForm = '';
+		let	login = (
+				<form onSubmit={this.login}>
+					<h2>Login to your account</h2>
+					<label htmlFor="email">Email</label>
+					<input type="email" name="email" onChange={this.handleChange} placeholder="Your email goes here"/>
+					<label htmlFor="password">Password</label>
+					<input type="password" name="password" onChange={this.handleChange}/>
+					<button className="logIn">Sign in to your account</button>
+				</form>
 			)
-		} 
-		else if (this.state.loginState == true) {
-			loginForm = (
+		let	loggedIn = (
 				<div>
-					<h2>You're already logged in! Go and enjoy the app now!!</h2>
+					<h2>You are logged in now! Enjoy!</h2>
 					<button onClick={this.signOut}>Sign Out</button>
 				</div>
 			)
-		}
-		return (
+	
 
+
+		return (
 				<div className="registerArea">
 
-					{loginForm}
+					{this.state.loginState === true ? loggedIn : login}
 
-					
 				</div>
 
 		)

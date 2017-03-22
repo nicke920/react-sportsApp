@@ -35594,23 +35594,28 @@ var Login = function (_React$Component) {
 	_createClass(Login, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			if (firebase.auth().currentUser === null) {
-				console.log('noo');
-				this.setState({
-					loginState: false
-				});
-			} else if (firebase.auth().currentUser !== null) {
-				console.log('yess');
-				this.setState({
-					loginState: true
-				});
-			}
+			var _this2 = this;
+
+			firebase.auth().onAuthStateChanged(function (user) {
+				console.log("userr", user);
+				if (user) {
+					console.log('YOU ARE LOGGED IN');
+					_this2.setState({
+						loginState: true
+					});
+				} else {
+					console.log('YOU ARE NOT LOGGED IN');
+					_this2.setState({
+						loginState: false
+					});
+				}
+			});
 		}
 	}, {
 		key: 'handleChange',
 		value: function handleChange(e) {
 			this.setState(_defineProperty({}, e.target.name, e.target.value));
-			console.log('names', this.state.name);
+			// console.log('names', this.state.name)
 		}
 	}, {
 		key: 'signOut',
@@ -35625,65 +35630,68 @@ var Login = function (_React$Component) {
 	}, {
 		key: 'login',
 		value: function login(e) {
+			var _this3 = this;
+
 			e.preventDefault();
 			firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (userData) {
-				console.log(userData);
-			});
-			this.setState({
-				loginState: true
+				// console.log(userData);
+				_this3.setState({
+					loginState: true
+				});
+			}).catch(function (error) {
+				alert(error);
+				// console.log('error message', error)
 			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var loginForm = '';
-			if (this.state.loginState == false) {
-				loginForm = _react2.default.createElement(
-					'form',
-					{ onSubmit: this.login },
-					_react2.default.createElement(
-						'h2',
-						null,
-						'Login'
-					),
-					_react2.default.createElement(
-						'label',
-						{ htmlFor: 'email' },
-						'Email'
-					),
-					_react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.handleChange, placeholder: 'Your email goes here' }),
-					_react2.default.createElement(
-						'label',
-						{ htmlFor: 'password' },
-						'Password'
-					),
-					_react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange }),
-					_react2.default.createElement(
-						'button',
-						{ className: 'logIn' },
-						'Sign in to your account'
-					)
-				);
-			} else if (this.state.loginState == true) {
-				loginForm = _react2.default.createElement(
-					'div',
+			// let loginForm = '';
+			var login = _react2.default.createElement(
+				'form',
+				{ onSubmit: this.login },
+				_react2.default.createElement(
+					'h2',
 					null,
-					_react2.default.createElement(
-						'h2',
-						null,
-						'You\'re already logged in! Go and enjoy the app now!!'
-					),
-					_react2.default.createElement(
-						'button',
-						{ onClick: this.signOut },
-						'Sign Out'
-					)
-				);
-			}
+					'Login to your account'
+				),
+				_react2.default.createElement(
+					'label',
+					{ htmlFor: 'email' },
+					'Email'
+				),
+				_react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.handleChange, placeholder: 'Your email goes here' }),
+				_react2.default.createElement(
+					'label',
+					{ htmlFor: 'password' },
+					'Password'
+				),
+				_react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.handleChange }),
+				_react2.default.createElement(
+					'button',
+					{ className: 'logIn' },
+					'Sign in to your account'
+				)
+			);
+			var loggedIn = _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'h2',
+					null,
+					'You are logged in now! Enjoy!'
+				),
+				_react2.default.createElement(
+					'button',
+					{ onClick: this.signOut },
+					'Sign Out'
+				)
+			);
+
 			return _react2.default.createElement(
 				'div',
 				{ className: 'registerArea' },
-				loginForm
+				this.state.loginState === true ? loggedIn : login
 			);
 		}
 	}]);
@@ -35799,7 +35807,13 @@ var SelectedTeam = function (_React$Component2) {
 
 		_this2.state = {
 			playersArray: [],
-			teamsArray: [],
+			teamsArray: [{
+				rank: '',
+				name: '',
+				nickname: '',
+				id: '',
+				stats: ''
+			}],
 			selectedTeam: [],
 			userTeam: [],
 			selectedTeamID: '101'
@@ -35807,6 +35821,7 @@ var SelectedTeam = function (_React$Component2) {
 		_this2.selectTeam = _this2.selectTeam.bind(_this2);
 		_this2.addPlayer = _this2.addPlayer.bind(_this2);
 		_this2.removePlayer = _this2.removePlayer.bind(_this2);
+		_this2.expandMyTeam = _this2.expandMyTeam.bind(_this2);
 		return _this2;
 	}
 
@@ -35906,7 +35921,7 @@ var SelectedTeam = function (_React$Component2) {
 				var dbRef = firebase.database().ref('users/' + userID + '/players');
 				dbRef.push(JSON.stringify(val));
 			} else {
-				alert('soryy bruvvv');
+				alert('Please log in to add a player to your team.');
 			}
 		}
 	}, {
@@ -35916,6 +35931,12 @@ var SelectedTeam = function (_React$Component2) {
 			var userID = firebase.auth().currentUser.uid;
 			var dbRef = firebase.database().ref('users/' + userID + '/players/' + val.key);
 			dbRef.remove();
+		}
+	}, {
+		key: 'expandMyTeam',
+		value: function expandMyTeam() {
+			this.teamDetails.classList.toggle('hider');
+			console.log('clicked');
 		}
 	}, {
 		key: 'render',
@@ -35942,14 +35963,18 @@ var SelectedTeam = function (_React$Component2) {
 							{ className: 'imageContainer' },
 							_react2.default.createElement('img', { src: '../assets/img/' + this.state.selectedTeamID + '.png', alt: '' }),
 							_react2.default.createElement(
-								'h2',
+								'div',
 								null,
-								teamStats[0].name + ' ' + teamStats[0].nickname
-							),
-							_react2.default.createElement(
-								'h3',
-								null,
-								teamStats[0].stats.Wins['#text'] + ' - ' + teamStats[0].stats.Losses['#text']
+								_react2.default.createElement(
+									'h2',
+									null,
+									teamStats[0].name + ' ' + teamStats[0].nickname
+								),
+								_react2.default.createElement(
+									'h3',
+									null,
+									teamStats[0].stats.Wins['#text'] + ' - ' + teamStats[0].stats.Losses['#text']
+								)
 							)
 						),
 						_react2.default.createElement(
@@ -35966,12 +35991,12 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'PPG: ' + teamStats[0].stats.PtsPerGame['#text'] + 'ppg'
+									'PPG: ' + teamStats[0].stats.PtsPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'PPGA: ' + teamStats[0].stats.PtsAgainstPerGame['#text'] + 'ppg'
+									'PPGA: ' + teamStats[0].stats.PtsAgainstPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
@@ -36058,7 +36083,7 @@ var SelectedTeam = function (_React$Component2) {
 									if (_this4.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0') {
 										return _react2.default.createElement(
 											'tr',
-											{ onClick: function onClick() {
+											{ key: 'player' + i, onClick: function onClick() {
 													return _this4.addPlayer(player);
 												} },
 											_react2.default.createElement(
@@ -36110,13 +36135,17 @@ var SelectedTeam = function (_React$Component2) {
 						)
 					),
 					_react2.default.createElement(
-						'h4',
-						null,
-						'Watch List'
-					),
-					_react2.default.createElement(
 						'table',
 						{ className: 'myTeam' },
+						_react2.default.createElement(
+							'caption',
+							null,
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ className: 'linkFull', onClick: this.expandMyTeam },
+								'Expand'
+							)
+						),
 						_react2.default.createElement(
 							'thead',
 							null,
@@ -36126,7 +36155,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'Player Name'
+									'Player'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36136,7 +36165,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'MPG'
+									'MIN'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36161,7 +36190,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'3Pt%'
+									'3P%'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36196,7 +36225,7 @@ var SelectedTeam = function (_React$Component2) {
 							this.state.userTeam.map(function (player, i) {
 								return _react2.default.createElement(
 									'tr',
-									{ onClick: function onClick() {
+									{ key: 'userTeam' + i, onClick: function onClick() {
 											return _this4.removePlayer(player, i);
 										} },
 									_react2.default.createElement(
@@ -36278,7 +36307,9 @@ var SelectedTeam = function (_React$Component2) {
 				null,
 				_react2.default.createElement(
 					'section',
-					{ className: 'teamContainer' },
+					{ className: 'teamContainer', ref: function ref(_ref) {
+							return _this4.teamDetails = _ref;
+						} },
 					_react2.default.createElement(
 						'div',
 						{ className: 'wrapper' },
@@ -36288,7 +36319,7 @@ var SelectedTeam = function (_React$Component2) {
 							this.state.teamsArray.map(function (each, i) {
 								return _react2.default.createElement(
 									'option',
-									{ value: each.id },
+									{ key: 'teamsArray' + i, value: each.id },
 									each.name
 								);
 							})
@@ -36358,17 +36389,19 @@ var SignUp = function (_React$Component) {
 	_createClass(SignUp, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			if (firebase.auth().currentUser === null) {
-				console.log('noo');
-				this.setState({
-					signedUpState: false
-				});
-			} else if (firebase.auth().currentUser !== null) {
-				console.log('yess');
-				this.setState({
-					signedUpState: true
-				});
-			}
+			var _this2 = this;
+
+			firebase.auth().onAuthStateChanged(function (user) {
+				if (user) {
+					_this2.setState({
+						signedUpState: 'signedIn'
+					});
+				} else {
+					_this2.setState({
+						signedUpState: 'signedOut'
+					});
+				}
+			});
 		}
 	}, {
 		key: 'handleChange',
@@ -36390,6 +36423,9 @@ var SignUp = function (_React$Component) {
 
 				console.log('signuped');
 				console.log('seconddd', this.state.email, this.state.password, this.state.confirm);
+				this.setState({
+					signedUpState: true
+				});
 			} else {
 				alert('sorry your password and confirm password must match');
 			}
@@ -36398,14 +36434,14 @@ var SignUp = function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var signUpForm = '';
-			if (this.state.signedUpState === false) {
+			if (this.state.signedUpState === 'signedOut') {
 				signUpForm = _react2.default.createElement(
 					'form',
 					{ onSubmit: this.signup },
 					_react2.default.createElement(
 						'h2',
 						null,
-						'Sign Up Today'
+						'Get in the game today'
 					),
 					_react2.default.createElement(
 						'label',
@@ -36428,25 +36464,20 @@ var SignUp = function (_React$Component) {
 					_react2.default.createElement(
 						'button',
 						null,
-						'Sign In'
+						'Sign Up Now'
 					)
 				);
-			} else if (this.state.signedUpState === true) {
+			} else if (this.state.signedUpState === 'signedIn') {
 				signUpForm = _react2.default.createElement(
 					'h2',
 					null,
-					'Thank\'s for signing up!'
+					'You\'re all signed up! Go and create you team now!'
 				);
 			}
 			return _react2.default.createElement(
 				'div',
 				{ className: 'registerArea' },
-				_react2.default.createElement('div', { className: 'register signUpImage' }),
-				_react2.default.createElement(
-					'div',
-					{ className: 'registerRight' },
-					signUpForm
-				)
+				signUpForm
 			);
 		}
 	}]);
@@ -36634,16 +36665,16 @@ var HomePage = function (_React$Component) {
 							_react2.default.createElement(
 								'p',
 								null,
-								'Don\'t have a fantasy team but would like to keep track of your favourite players through the season? Don\'t we have the perfect app for you.'
+								'Don\'t have a fantasy team but would like to keep track of your favourite players through the season?'
 							),
 							_react2.default.createElement(
 								'p',
 								null,
-								'With Nick\'s Sports App, you can create you custom team with you favourite players and watch how their season progresses. Sign up today!'
+								'With PlayerWatch, you can create you custom team with you favourite players and watch how their season progresses.'
 							),
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: '/signup', className: 'signUpToday' },
+								{ to: '/signup', className: 'linkFull' },
 								'Sign Up Today'
 							)
 						)
@@ -36659,7 +36690,7 @@ var HomePage = function (_React$Component) {
 						'Sign Up for free and get started by creating your team in 2 minutes!',
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: '/signup' },
+							{ to: '/signup', className: 'linkTransparent' },
 							'Sign Up Today'
 						)
 					)
@@ -36670,13 +36701,13 @@ var HomePage = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'wrapper' },
-						_react2.default.createElement('div', null),
+						_react2.default.createElement('div', { className: 'secondImage' }),
 						_react2.default.createElement(
 							'article',
 							null,
 							_react2.default.createElement(
 								'div',
-								null,
+								{ className: 'infoText' },
 								_react2.default.createElement(
 									'h2',
 									null,
@@ -36754,9 +36785,12 @@ var App = function (_React$Component2) {
 						'div',
 						{ className: 'socialMedia' },
 						_react2.default.createElement(
-							'p',
-							null,
-							'Social Media Goes Here'
+							'div',
+							{ className: 'wrapper' },
+							_react2.default.createElement('i', { className: 'fa fa-facebook', 'aria-hidden': 'true' }),
+							_react2.default.createElement('i', { className: 'fa fa-twitter', 'aria-hidden': 'true' }),
+							_react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' }),
+							_react2.default.createElement('i', { className: 'fa fa-instagram', 'aria-hidden': 'true' })
 						)
 					),
 					_react2.default.createElement(
@@ -36764,25 +36798,25 @@ var App = function (_React$Component2) {
 						{ className: 'wrapper' },
 						_react2.default.createElement(
 							'h2',
-							null,
+							{ className: 'logo' },
 							_react2.default.createElement(
 								_reactRouter.Link,
 								{ to: '/' },
-								'Nick\'s Sports App'
-							)
-						),
-						_react2.default.createElement(
-							'div',
-							null,
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/teams' },
-								'Teams'
+								'PlayerWatch'
 							)
 						),
 						_react2.default.createElement(
 							'div',
 							{ className: 'accountsContainer' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'accounts teams' },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/teams' },
+									'Teams'
+								)
+							),
 							_react2.default.createElement(
 								'div',
 								{ className: 'accounts' },
@@ -36816,7 +36850,19 @@ var App = function (_React$Component2) {
 				_react2.default.createElement(
 					'footer',
 					null,
-					'2017 | Nicholas Evans'
+					_react2.default.createElement(
+						'div',
+						{ className: 'socialMedia' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'wrapper' },
+							'2017 | Nicholas Evans',
+							_react2.default.createElement('i', { className: 'fa fa-facebook', 'aria-hidden': 'true' }),
+							_react2.default.createElement('i', { className: 'fa fa-twitter', 'aria-hidden': 'true' }),
+							_react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' }),
+							_react2.default.createElement('i', { className: 'fa fa-instagram', 'aria-hidden': 'true' })
+						)
+					)
 				)
 			);
 		}

@@ -13,18 +13,17 @@ export default class SignUp extends React.Component {
 		this.signup = this.signup.bind(this);
 	}
 	componentDidMount() {
-		if (firebase.auth().currentUser === null) {
-			console.log('noo')
-			this.setState({
-				signedUpState: false
-			})
-		}
-		else if (firebase.auth().currentUser !== null) {
-			console.log('yess')
-			this.setState({
-				signedUpState: true
-			})
-		}
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.setState({
+					signedUpState: 'signedIn'
+				})
+			} else {
+				this.setState({
+					signedUpState: 'signedOut'
+				})
+			}
+		})
 	}
 	
 	handleChange(e) {
@@ -48,6 +47,9 @@ export default class SignUp extends React.Component {
 				
 				console.log('signuped')
 				console.log('seconddd', this.state.email, this.state.password, this.state.confirm)
+				this.setState({
+					signedUpState: true
+				})
 		}
 		else {
 			alert('sorry your password and confirm password must match');
@@ -58,34 +60,29 @@ export default class SignUp extends React.Component {
 	
 	render() {
 		let signUpForm = '';
-		if (this.state.signedUpState === false) {
+		if (this.state.signedUpState === 'signedOut') {
 			signUpForm = (
 				<form onSubmit={this.signup}>
-					<h2>Sign Up Today</h2>
+					<h2>Get in the game today</h2>
 					<label htmlFor="email">Email</label>
 					<input type="email" name="email" onChange={this.handleChange} placeholder="Your email goes here"/>
 					<label htmlFor="password">Password</label>
 					<input type="password" name="password" onChange={this.handleChange}/>
 					<label htmlFor="confirm">Confirm Password</label>
 					<input type="password" name="confirm" onChange={this.handleChange}/>
-					<button>Sign In</button>
+					<button>Sign Up Now</button>
 				</form>
 			)
 		}
-		else if (this.state.signedUpState === true) {
+		else if (this.state.signedUpState === 'signedIn') {
 			signUpForm = (
-				<h2>Thank's for signing up!</h2>
+				<h2>You're all signed up! Go and create you team now!</h2>
 			)
 		}
 		return (
 
 				<div className="registerArea">
-					<div className="register signUpImage"></div>
-					<div className="registerRight">
 						{signUpForm}
-					</div>
-	
-					
 				</div>
 
 		)
