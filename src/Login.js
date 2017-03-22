@@ -36,7 +36,6 @@ export default class Login extends React.Component {
 		this.setState({
 			[e.target.name]: e.target.value
 		});
-		// console.log('names', this.state.name)
 	}
 	signOut(e) {
 		e.preventDefault();
@@ -51,14 +50,12 @@ export default class Login extends React.Component {
 		firebase.auth()
 			.signInWithEmailAndPassword(this.state.email, this.state.password)
 			.then((userData) => {
-				// console.log(userData);
 				this.setState({
 					loginState: true
 				})
 			})
 			.catch(function(error) {
 				alert(error)
-				// console.log('error message', error)
 			})
 		
 	}
@@ -76,7 +73,7 @@ export default class Login extends React.Component {
 			)
 		let	loggedIn = (
 				<div>
-					<h2>You are logged in now! Enjoy!</h2>
+					<h2>You are logged in. Enjoy!</h2>
 					<button onClick={this.signOut}>Sign Out</button>
 				</div>
 			)

@@ -189,7 +189,7 @@ a {
   padding: 10px;
   font-weight: 100; }
 
-.accounts:hover, button:hover, .linkTransparent:hover, .linkFull:hover {
+.accounts a:hover, button:hover, .linkTransparent a:hover, .linkFull:hover {
   cursor: pointer;
   transform: translateY(-1px);
   box-shadow: 0 2px 10px 2px rgba(197, 202, 233, 0.8); }
@@ -212,20 +212,17 @@ nav {
   nav .accountsContainer {
     display: flex;
     align-items: center; }
-    nav .accountsContainer .accounts {
+    nav .accountsContainer .accounts a {
       border: 1px solid white;
       border-radius: 4px;
-      padding: 10px 10px;
       font-size: 14px;
       margin-left: 25px;
       letter-spacing: 1px;
-      font-weight: 100; }
-      nav .accountsContainer .accounts a {
-        height: 100%;
-        width: 100%; }
-    nav .accountsContainer .teams {
-      background: #ff3d00;
+      font-weight: 100;
+      padding: 10px 20px; }
+    nav .accountsContainer .teams a {
       padding: 10px 40px;
+      background: #ff3d00;
       border: none; }
 
 .socialMedia {
@@ -234,13 +231,14 @@ nav {
     width: 90%;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     height: 25px; }
   .socialMedia .fa {
     color: white;
     font-size: 16px;
     margin-left: 20px; }
-  .socialMedia .fa-facebook {
-    margin-left: auto; }
+  .socialMedia .fa-twitter {
+    margin-left: 30px; }
 
 /*HOME PAGE*/
 .homePage {
@@ -272,6 +270,9 @@ nav {
     margin: 30px auto; }
   .homePageText p:last-of-type {
     margin-bottom: 40px; }
+  .homePageText a {
+    font-size: 16px;
+    padding: 15px 40px; }
 
 .homePageImage {
   background: url("../../assets/img/homeHeader.jpg");
@@ -415,6 +416,8 @@ label {
       height: 35px;
       border: none;
       box-shadow: 0 4px 10px -2px gray; }
+      .teamContainer .wrapper select:hover {
+        cursor: pointer; }
 
 .teamDetails {
   display: flex;
@@ -489,7 +492,7 @@ tr:hover, tr:nth-child(even):hover {
 
 .myTeam {
   width: 80%;
-  margin: 40px auto; }
+  margin: 10px auto 40px; }
   .myTeam caption {
     margin: 20px 0; }
 

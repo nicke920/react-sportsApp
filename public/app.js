@@ -35615,7 +35615,6 @@ var Login = function (_React$Component) {
 		key: 'handleChange',
 		value: function handleChange(e) {
 			this.setState(_defineProperty({}, e.target.name, e.target.value));
-			// console.log('names', this.state.name)
 		}
 	}, {
 		key: 'signOut',
@@ -35634,13 +35633,11 @@ var Login = function (_React$Component) {
 
 			e.preventDefault();
 			firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(function (userData) {
-				// console.log(userData);
 				_this3.setState({
 					loginState: true
 				});
 			}).catch(function (error) {
 				alert(error);
-				// console.log('error message', error)
 			});
 		}
 	}, {
@@ -35679,7 +35676,7 @@ var Login = function (_React$Component) {
 				_react2.default.createElement(
 					'h2',
 					null,
-					'You are logged in now! Enjoy!'
+					'You are logged in. Enjoy!'
 				),
 				_react2.default.createElement(
 					'button',
@@ -35719,10 +35716,6 @@ var _reactDom = require('react-dom');
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _jquery = require('jquery');
-
-var _UserTeam = require('./UserTeam.js');
-
-var _UserTeam2 = _interopRequireDefault(_UserTeam);
 
 var _Login = require('./Login.js');
 
@@ -36001,7 +35994,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'+ / -: ' + teamStats[0].stats.PlusMinusPerGame
+									'+ / -: ' + teamStats[0].stats.PlusMinusPerGame['#text']
 								)
 							),
 							_react2.default.createElement(
@@ -36335,16 +36328,9 @@ var SelectedTeam = function (_React$Component2) {
 	return SelectedTeam;
 }(_react2.default.Component);
 
-// {this.state.teamsArray.map((each, i) => {
-// 				return (
-// 					<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each.id}.png`} />
-// 				)
-// 			})}
-
-
 exports.default = SelectedTeam;
 
-},{"./Login.js":234,"./UserTeam.js":237,"jquery":43,"react":231,"react-dom":47,"react-router":200}],236:[function(require,module,exports){
+},{"./Login.js":234,"jquery":43,"react":231,"react-dom":47,"react-router":200}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36488,117 +36474,6 @@ var SignUp = function (_React$Component) {
 exports.default = SignUp;
 
 },{"react":231}],237:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = UserTeam;
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function UserTeam(props) {
-	return _react2.default.createElement(
-		"table",
-		null,
-		_react2.default.createElement(
-			"thead",
-			null,
-			_react2.default.createElement(
-				"tr",
-				null,
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"Player Name"
-				),
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"Position"
-				),
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"PPG"
-				),
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"RPG"
-				),
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"APG"
-				),
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"FG%"
-				),
-				_react2.default.createElement(
-					"th",
-					{ scope: "col" },
-					"3Pt%"
-				)
-			)
-		),
-		_react2.default.createElement(
-			"tbody",
-			null,
-			props.data.map(function (player, i) {
-				return _react2.default.createElement(
-					"tr",
-					{ onClick: function onClick() {
-							return props.remove(player, i);
-						} },
-					_react2.default.createElement(
-						"th",
-						{ scope: "row" },
-						props.data[i].player.FirstName + " " + props.data[i].player.LastName
-					),
-					_react2.default.createElement(
-						"td",
-						null,
-						"" + props.data[i].player.Position
-					),
-					_react2.default.createElement(
-						"td",
-						null,
-						"" + props.data[i].stats.PtsPerGame['#text']
-					),
-					_react2.default.createElement(
-						"td",
-						null,
-						"" + props.data[i].stats.RebPerGame['#text']
-					),
-					_react2.default.createElement(
-						"td",
-						null,
-						"" + props.data[i].stats.AstPerGame['#text']
-					),
-					_react2.default.createElement(
-						"td",
-						null,
-						"" + props.data[i].stats.FgPct['#text']
-					),
-					_react2.default.createElement(
-						"td",
-						null,
-						"" + props.data[i].stats.Fg3PtPct['#text']
-					)
-				);
-			})
-		)
-	);
-}
-
-},{"react":231}],238:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -36787,10 +36662,26 @@ var App = function (_React$Component2) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'wrapper' },
-							_react2.default.createElement('i', { className: 'fa fa-facebook', 'aria-hidden': 'true' }),
-							_react2.default.createElement('i', { className: 'fa fa-twitter', 'aria-hidden': 'true' }),
-							_react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' }),
-							_react2.default.createElement('i', { className: 'fa fa-instagram', 'aria-hidden': 'true' })
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://twitter.com/nickevansmedia', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-twitter', 'aria-hidden': 'true' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://github.com/nicke920/react-sportsApp', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://www.facebook.com/nicklevanscom/', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-facebook', 'aria-hidden': 'true' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://www.instagram.com/nicke920/', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-instagram', 'aria-hidden': 'true' })
+							)
 						)
 					),
 					_react2.default.createElement(
@@ -36857,10 +36748,26 @@ var App = function (_React$Component2) {
 							'div',
 							{ className: 'wrapper' },
 							'2017 | Nicholas Evans',
-							_react2.default.createElement('i', { className: 'fa fa-facebook', 'aria-hidden': 'true' }),
-							_react2.default.createElement('i', { className: 'fa fa-twitter', 'aria-hidden': 'true' }),
-							_react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' }),
-							_react2.default.createElement('i', { className: 'fa fa-instagram', 'aria-hidden': 'true' })
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://twitter.com/nickevansmedia', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-twitter', 'aria-hidden': 'true' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://github.com/nicke920/react-sportsApp', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-github', 'aria-hidden': 'true' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://www.facebook.com/nicklevanscom/', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-facebook', 'aria-hidden': 'true' })
+							),
+							_react2.default.createElement(
+								'a',
+								{ href: 'https://www.instagram.com/nicke920/', target: '_blank' },
+								_react2.default.createElement('i', { className: 'fa fa-instagram', 'aria-hidden': 'true' })
+							)
 						)
 					)
 				)
@@ -36884,4 +36791,4 @@ _reactDom2.default.render(_react2.default.createElement(
 ), document.getElementById('app'));
 // <p key={i}>{this.props.player.player.FirstName}</p>
 
-},{"./Login.js":234,"./SelectedTeam.js":235,"./SignUp.js":236,"react":231,"react-dom":47,"react-router":200}]},{},[238]);
+},{"./Login.js":234,"./SelectedTeam.js":235,"./SignUp.js":236,"react":231,"react-dom":47,"react-router":200}]},{},[237]);

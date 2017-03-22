@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ajax } from 'jquery';
-import UserTeam from './UserTeam.js';
 import Login from './Login.js';
 import { Router, Route, browserHistory, Link } from 'react-router';
 
@@ -24,6 +23,7 @@ class PreLogin extends React.Component {
 		return (
 			<div className="preLogin">
 				<div className="redclass">
+
 					<h2>Hey!</h2>
 					<p>You currently have no players on your team!</p>
 					<p>If you have logged in, you can add players to your team by clicking on them up above</p>
@@ -191,7 +191,7 @@ render() {
 							<p>{`NBA Rank: ${teamStats[0].rank}`}</p>
 							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}`}</p>
 							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}`}</p>
-							<p>{`+ / -: ${teamStats[0].stats.PlusMinusPerGame}`}</p>
+							<p>{`+ / -: ${teamStats[0].stats.PlusMinusPerGame['#text']}`}</p>
 						</div>
 						<div>
 							<p>{`FGA - FGM: ${teamStats[0].stats.FgMadePerGame['#text']} - ${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
@@ -315,12 +315,4 @@ render() {
 	)
 
 }
-
-
 }
-
-	// {this.state.teamsArray.map((each, i) => {
-	// 				return (
-	// 					<img key={`team-${i}`} onClick={() => this.selectTeam(each)} src={`../assets/img/${each.id}.png`} />
-	// 				)
-	// 			})}

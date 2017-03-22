@@ -69,7 +69,7 @@ a {
 	padding: 10px;
 	font-weight: 100;
 }
-.accounts:hover, button:hover, .linkTransparent:hover, .linkFull:hover {
+.accounts a:hover, button:hover, .linkTransparent a:hover, .linkFull:hover {
 	cursor: pointer;
 	transform: translateY(-1px);
 	box-shadow: 0 2px 10px 2px rgba($lightColor, 0.8);
@@ -99,22 +99,22 @@ nav {
 		display: flex;
 		align-items: center;
 		.accounts {
-			border: 1px solid white;
-			border-radius: 4px;
-			padding: 10px 10px;
-			font-size: 14px;
-			margin-left: 25px;
-			letter-spacing: 1px;
-			font-weight: 100;
 			a {
-				height: 100%;
-				width: 100%;
+				border: 1px solid white;
+				border-radius: 4px;
+				font-size: 14px;
+				margin-left: 25px;
+				letter-spacing: 1px;
+				font-weight: 100;
+				padding: 10px 20px;
 			}
 		}
 		.teams {
-			background: $accentStrong;
-			padding: 10px 40px;
-			border: none;
+			a {
+				padding: 10px 40px; 
+				background: $accentStrong;
+				border: none;
+			}
 		}
 	}
 }
@@ -124,6 +124,7 @@ nav {
 		width: 90%;
 		display: flex;
 		align-items: center;
+		justify-content: flex-end;
 		height: 25px;
 	}
 	.fa {
@@ -131,8 +132,8 @@ nav {
 		font-size: 16px;
 		margin-left: 20px;
 	}
-	.fa-facebook {
-		margin-left: auto;
+	.fa-twitter {
+		margin-left: 30px;
 	}
 }
 
@@ -175,6 +176,10 @@ nav {
 	}
 	p:last-of-type {
 		margin-bottom: 40px;
+	}
+	a {
+		font-size: 16px;
+		padding: 15px 40px;
 	}
 }
 .homePageImage {
@@ -339,6 +344,10 @@ label {
 			height: 35px;
 			border: none;
 			box-shadow:  0 4px 10px -2px gray;;
+			&:hover {
+				// box-shadow: 0px 4px 10px 2px gray;
+				cursor: pointer;
+			}
 		}
 	}
 }
@@ -435,7 +444,7 @@ tr:hover, tr:nth-child(even):hover {
 
 .myTeam {
 	width: 80%;
-	margin: 40px auto;
+	margin: 10px auto 40px;
 	caption {
 		margin: 20px 0;
 	}
@@ -550,6 +559,9 @@ footer {
 			}
 		}
 	}
+
+
+	//at responsive, we take out 'Position' column in the team table up top
 	.teamTable {
 		width: 80%;
 		margin: 0 auto;
@@ -557,16 +569,14 @@ footer {
 			display: none;
 		}
 	}
+
+	//at responsive, we take out 'FTM-FTA' and 'FGM-FGA' attributes in the user's team
 	.myTeam {
 		thead tr th:nth-of-type(4), tbody tr td:nth-of-type(3),
 		thead tr th:nth-of-type(6), tbody tr td:nth-of-type(5) {
 			display: none;
 		}
 	}
-}
-
-@media (max-width: 685px) {
-	
 }
 
 @media (max-width: 484px) {

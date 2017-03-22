@@ -55,10 +55,10 @@ class App extends React.Component {
 				<nav>
 					<div className="socialMedia">
 						<div className="wrapper">
-							<i className="fa fa-facebook" aria-hidden="true"></i>
-							<i className="fa fa-twitter" aria-hidden="true"></i>
-							<i className="fa fa-github" aria-hidden="true"></i>
-							<i className="fa fa-instagram" aria-hidden="true"></i>
+							<a href="https://twitter.com/nickevansmedia" target="_blank"><i  className="fa fa-twitter" aria-hidden="true"></i></a>
+							<a href="https://github.com/nicke920/react-sportsApp" target="_blank"><i  className="fa fa-github" aria-hidden="true"></i></a>
+							<a href="https://www.facebook.com/nicklevanscom/" target="_blank"><i  className="fa fa-facebook" aria-hidden="true"></i></a>
+							<a href="https://www.instagram.com/nicke920/" target="_blank"><i  className="fa fa-instagram" aria-hidden="true"></i></a>
 						</div>
 					</div>
 					<div className="wrapper">
@@ -88,10 +88,10 @@ class App extends React.Component {
 					<div className="socialMedia">
 						<div className="wrapper">
 							2017 | Nicholas Evans
-							<i className="fa fa-facebook" aria-hidden="true"></i>
-							<i className="fa fa-twitter" aria-hidden="true"></i>
-							<i className="fa fa-github" aria-hidden="true"></i>
-							<i className="fa fa-instagram" aria-hidden="true"></i>
+							<a href="https://twitter.com/nickevansmedia" target="_blank"><i  className="fa fa-twitter" aria-hidden="true"></i></a>
+							<a href="https://github.com/nicke920/react-sportsApp" target="_blank"><i  className="fa fa-github" aria-hidden="true"></i></a>
+							<a href="https://www.facebook.com/nicklevanscom/" target="_blank"><i  className="fa fa-facebook" aria-hidden="true"></i></a>
+							<a href="https://www.instagram.com/nicke920/" target="_blank"><i  className="fa fa-instagram" aria-hidden="true"></i></a>
 						</div>
 					</div>
 				</footer>
