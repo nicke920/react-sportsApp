@@ -13,8 +13,8 @@ class HomePage extends React.Component {
 					<div className="homePageText">
 						<div>
 							<h1>Keep track of your players all season long</h1>
-							<p>Don't have a fantasy team but would like to keep track of your favourite players through the season?</p>
-							 <p>With PlayerWatch, you can create you custom team with you favourite players and watch how their season progresses.</p> 
+							<p>Don't have a fantasy team but would like to keep track of your favourite players throughout the season?</p>
+							 <p>With Player Watch, you can create a custom team with your favourite players and watch how their season progresses.</p> 
 							<Link to='/signup' className="linkFull">Sign Up Today</Link>
 						</div>
 					</div>
@@ -32,7 +32,7 @@ class HomePage extends React.Component {
 						</div>
 						<article>
 							<div className="infoText">
-								<h2>Watch the games. Track their stats</h2>
+								<h2>Watch the games. Track their stats.</h2>
 								<p>Everything you need all on one page</p>
 								<ul>
 									<li><span>1.</span> Sign Up for a free account</li>

@@ -36540,12 +36540,12 @@ var HomePage = function (_React$Component) {
 							_react2.default.createElement(
 								'p',
 								null,
-								'Don\'t have a fantasy team but would like to keep track of your favourite players through the season?'
+								'Don\'t have a fantasy team but would like to keep track of your favourite players throughout the season?'
 							),
 							_react2.default.createElement(
 								'p',
 								null,
-								'With PlayerWatch, you can create you custom team with you favourite players and watch how their season progresses.'
+								'With Player Watch, you can create a custom team with your favourite players and watch how their season progresses.'
 							),
 							_react2.default.createElement(
 								_reactRouter.Link,
@@ -36586,7 +36586,7 @@ var HomePage = function (_React$Component) {
 								_react2.default.createElement(
 									'h2',
 									null,
-									'Watch the games. Track their stats'
+									'Watch the games. Track their stats.'
 								),
 								_react2.default.createElement(
 									'p',
