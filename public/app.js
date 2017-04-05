@@ -36032,9 +36032,7 @@ var SelectedTeam = function (_React$Component2) {
 							_react2.default.createElement(
 								'caption',
 								null,
-								function () {
-									return _this4.state.selectedTeam[1].team.City;
-								}
+								'Click on a player to save them to your team'
 							),
 							_react2.default.createElement(
 								'thead',

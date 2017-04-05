@@ -203,7 +203,7 @@ render() {
 				</div>
 				<div className='teamTable'>
 					<table>
-						<caption>{() => this.state.selectedTeam[1].team.City}</caption>
+						<caption>Click on a player to save them to your team</caption>
 						<thead>
 							<tr>
 								<th scope="col">Player Name</th>

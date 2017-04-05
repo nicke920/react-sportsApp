@@ -132,12 +132,6 @@ legend, button::-moz-focus-inner, input::-moz-focus-inner {
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
-@media (max-width: 1200px) {
-  nav {
-    background: red; }
-  p {
-    line-height: 3; } }
-
 body {
   font-family: 'Muli', cursive; }
 
@@ -524,7 +518,7 @@ footer {
 
 @media (max-width: 700px) {
   nav .accountsContainer .accounts {
-    padding: 10px 20px;
+    padding: 10px 0;
     font-size: 10px; }
   nav > .wrapper {
     flex-direction: column; }
@@ -567,6 +561,15 @@ footer {
   .myTeam thead tr th:nth-of-type(6), .myTeam tbody tr td:nth-of-type(5) {
     display: none; } }
 
-@media (max-width: 484px) {
+@media (max-width: 490px) {
+  thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
+    display: none; }
+  nav .accountsContainer {
+    flex-wrap: wrap;
+    flex-direction: column; }
+    nav .accountsContainer .accounts {
+      margin-bottom: 10px; } }
+
+@media (max-width: 440px) {
   thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
     display: none; } }
