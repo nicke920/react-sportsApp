@@ -22,8 +22,8 @@ class HomePage extends React.Component {
 				</div>
 				<div className="ctaBanner">
 					<div className="wrapper">
-						Sign Up for free and get started by creating your team in 2 minutes!
-						<Link to='/signup' className="linkTransparent">Sign Up Today</Link>
+						**Sports data provided by MySportsFeeds
+						<Link to='https://www.mysportsfeeds.com/' className="linkTransparent">Go to MySportsFeeds</Link>
 					</div>
 				</div>
 				<section className="information">

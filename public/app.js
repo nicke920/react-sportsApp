@@ -35731,9 +35731,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var apiUrl = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json";
+var apiUrl = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/cumulative_player_stats.json";
 
-var apiUrlTeam = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/overall_team_standings.json";
+var apiUrlTeam = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/overall_team_standings.json";
 
 var config = {
 	apiKey: "AIzaSyBe3L4fbcwO-e4-E4frM4GnvsOIZicvPa8",
@@ -35828,7 +35828,7 @@ var SelectedTeam = function (_React$Component2) {
 				method: 'GET',
 				format: 'json',
 				headers: {
-					Authorization: 'Basic bmlja2U5MjA6YWJvdmUzMzM='
+					Authorization: 'Basic bmlja2U5MjA6bGFuZ2VyMTE='
 				}
 			}).then(function (result) {
 				var players = result.cumulativeplayerstats.playerstatsentry;
@@ -35848,7 +35848,7 @@ var SelectedTeam = function (_React$Component2) {
 				method: 'GET',
 				format: 'json',
 				headers: {
-					Authorization: 'Basic bmlja2U5MjA6YWJvdmUzMzM='
+					Authorization: 'Basic bmlja2U5MjA6bGFuZ2VyMTE='
 				}
 			}).then(function (data) {
 				var teams = data.overallteamstandings.teamstandingsentry;
@@ -36560,11 +36560,11 @@ var HomePage = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'wrapper' },
-						'Sign Up for free and get started by creating your team in 2 minutes!',
+						'**Sports data provided by MySportsFeeds',
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: '/signup', className: 'linkTransparent' },
-							'Sign Up Today'
+							{ to: 'https://www.mysportsfeeds.com/', className: 'linkTransparent' },
+							'Go to MySportsFeeds'
 						)
 					)
 				),

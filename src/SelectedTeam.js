@@ -4,9 +4,9 @@ import { ajax } from 'jquery';
 import Login from './Login.js';
 import { Router, Route, browserHistory, Link } from 'react-router';
 
-const apiUrl = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/cumulative_player_stats.json";
+const apiUrl = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/cumulative_player_stats.json";
 
-const apiUrlTeam = "https://www.mysportsfeeds.com/api/feed/pull/nba/2016-2017-regular/overall_team_standings.json";
+const apiUrlTeam = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/overall_team_standings.json";
 
 var config = {
 	apiKey: "AIzaSyBe3L4fbcwO-e4-E4frM4GnvsOIZicvPa8",
@@ -64,7 +64,7 @@ export default class SelectedTeam extends React.Component {
 			method: 'GET',
 			format: 'json',
 			headers: {
-				Authorization: 'Basic bmlja2U5MjA6YWJvdmUzMzM='
+				Authorization: 'Basic bmlja2U5MjA6bGFuZ2VyMTE='
 			}
 		})
 		.then((result) => {
@@ -85,7 +85,7 @@ export default class SelectedTeam extends React.Component {
 			method: 'GET', 
 			format: 'json',
 			headers: {
-				Authorization: 'Basic bmlja2U5MjA6YWJvdmUzMzM='
+				Authorization: 'Basic bmlja2U5MjA6bGFuZ2VyMTE='
 			}
 		})
 		.then((data) => {
