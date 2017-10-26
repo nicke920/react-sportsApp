@@ -211,14 +211,41 @@ render() {
 					<div className="modal">
 						<div className="modalContainer">
 							<h1>{`${playerGameArray[0].player.FirstName} ${playerGameArray[0].player.LastName}`}</h1>
+							<h4>Last 10 games</h4>
+							<div className="stats">
+								<table>
+									<thead>
+										<tr>
+											<th scope="col">Game</th>
+											<th scope="col">PPG</th>
+											<th scope="col">3's</th>
+											<th scope="col">RPG</th>
+											<th scope="col">APG</th>
+											<th scope="col">SPG</th>
+											<th scope="col">FTM/FTA</th>
+											<th scope="col">TO/g</th>
+										</tr>
+									</thead>
+									<tbody>
 							{
-								playerGameArray.map((game) => {
+								playerGameArray.map((game, i) => {
 									return (
-										<p>{game.game.location}</p>
+										<tr key={`game${i}`}>
+											<th scope="row">{`${game.game.homeTeam.Abbreviation} vs. ${game.game.awayTeam.Abbreviation}`}</th>
+											<td>{`${game.stats.Pts['#text']}`}</td>
+											<td>{`${game.stats.Fg3PtMade['#text']} / ${game.stats.Fg3PtAtt['#text']}`}</td>
+											<td>{`${game.stats.Ast['#text']}`}</td>
+											<td>{`${game.stats.Reb['#text']}`}</td>
+											<td>{`${game.stats.Stl['#text']}`}</td>
+											<td>{`${game.stats.FtMade['#text']} / ${game.stats.FtAtt['#text']}`}</td>
+											<td>{`${game.stats.Tov['#text']}`}</td>
+										</tr>
 										)
 								})
 							}
-
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				)

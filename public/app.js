@@ -35993,13 +35993,117 @@ var SelectedTeam = function (_React$Component2) {
 								null,
 								playerGameArray[0].player.FirstName + ' ' + playerGameArray[0].player.LastName
 							),
-							playerGameArray.map(function (game) {
-								return _react2.default.createElement(
-									'p',
+							_react2.default.createElement(
+								'h4',
+								null,
+								'Last 10 games'
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'stats' },
+								_react2.default.createElement(
+									'table',
 									null,
-									game.game.location
-								);
-							})
+									_react2.default.createElement(
+										'thead',
+										null,
+										_react2.default.createElement(
+											'tr',
+											null,
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'Game'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'PPG'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'3\'s'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'RPG'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'APG'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'SPG'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'FTM/FTA'
+											),
+											_react2.default.createElement(
+												'th',
+												{ scope: 'col' },
+												'TO/g'
+											)
+										)
+									),
+									_react2.default.createElement(
+										'tbody',
+										null,
+										playerGameArray.map(function (game, i) {
+											return _react2.default.createElement(
+												'tr',
+												{ key: 'game' + i },
+												_react2.default.createElement(
+													'th',
+													{ scope: 'row' },
+													game.game.homeTeam.Abbreviation + ' vs. ' + game.game.awayTeam.Abbreviation
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													'' + game.stats.Pts['#text']
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													game.stats.Fg3PtMade['#text'] + ' / ' + game.stats.Fg3PtAtt['#text']
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													'' + game.stats.Ast['#text']
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													'' + game.stats.Reb['#text']
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													'' + game.stats.Stl['#text']
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													game.stats.FtMade['#text'] + ' / ' + game.stats.FtAtt['#text']
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													'' + game.stats.Tov['#text']
+												)
+											);
+										})
+									)
+								)
+							)
 						)
 					);
 				}
