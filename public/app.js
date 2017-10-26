@@ -35705,6 +35705,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -35734,6 +35736,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var apiUrl = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/cumulative_player_stats.json";
 
 var apiUrlTeam = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/overall_team_standings.json";
+
+var apiUrlPlayer = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/player_gamelogs.json?";
 
 var config = {
 	apiKey: "AIzaSyBe3L4fbcwO-e4-E4frM4GnvsOIZicvPa8",
@@ -35809,12 +35813,16 @@ var SelectedTeam = function (_React$Component2) {
 			}],
 			selectedTeam: [],
 			userTeam: [],
-			selectedTeamID: '101'
+			selectedTeamID: '101',
+			modalShowing: true,
+			selectedPlayer: ''
+
 		};
 		_this2.selectTeam = _this2.selectTeam.bind(_this2);
 		_this2.addPlayer = _this2.addPlayer.bind(_this2);
 		_this2.removePlayer = _this2.removePlayer.bind(_this2);
 		_this2.expandMyTeam = _this2.expandMyTeam.bind(_this2);
+		_this2.showPlayerModal = _this2.showPlayerModal.bind(_this2);
 		return _this2;
 	}
 
@@ -35909,7 +35917,6 @@ var SelectedTeam = function (_React$Component2) {
 		key: 'addPlayer',
 		value: function addPlayer(val) {
 			if (firebase.auth().currentUser !== null) {
-				console.log('fire', val);
 				var userID = firebase.auth().currentUser.uid;
 				var dbRef = firebase.database().ref('users/' + userID + '/players');
 				dbRef.push(JSON.stringify(val));
@@ -35932,18 +35939,72 @@ var SelectedTeam = function (_React$Component2) {
 			console.log('clicked');
 		}
 	}, {
+		key: 'showPlayerModal',
+		value: function showPlayerModal(id, playerFormat, teamAbbr) {
+			var _this4 = this;
+
+			console.log('888', apiUrlPlayer + 'player=' + playerFormat);
+			(0, _jquery.ajax)({
+				url: apiUrlPlayer + 'player=' + playerFormat,
+				method: 'GET',
+				format: 'json',
+				headers: {
+					Authorization: 'Basic bmlja2U5MjA6bGFuZ2VyMTE='
+				}
+			}).then(function (result) {
+				_this4.setState({
+					selectedPlayer: result
+				});
+				console.log('result', typeof result === 'undefined' ? 'undefined' : _typeof(result));
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var teamInfo = '';
 
 			var teamStats = this.state.teamsArray.filter(function (team) {
-				if (_this4.state.selectedTeamID == team.id) {
+				if (_this5.state.selectedTeamID == team.id) {
 					return team;
 				}
 			});
-			console.log(teamStats);
+
+			var playerModal = '';
+
+			if (this.state.modalShowing === true) {
+				{
+					console.log('NEWWEST', this.state.selectedPlayer);
+				}
+				var playerGameArray = '';
+				if (this.state.selectedPlayer !== '') {
+					playerGameArray = this.state.selectedPlayer.playergamelogs.gamelogs;
+					console.log('runn', playerGameArray);
+
+					playerModal = _react2.default.createElement(
+						'div',
+						{ className: 'modal' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'modalContainer' },
+							_react2.default.createElement(
+								'h1',
+								null,
+								playerGameArray[0].player.FirstName + ' ' + playerGameArray[0].player.LastName
+							),
+							playerGameArray.map(function (game) {
+								return _react2.default.createElement(
+									'p',
+									null,
+									game.game.location
+								);
+							})
+						)
+					);
+				}
+			}
+
 			if (teamStats[0] !== undefined) {
 				teamInfo = _react2.default.createElement(
 					'div',
@@ -36071,36 +36132,52 @@ var SelectedTeam = function (_React$Component2) {
 								'tbody',
 								null,
 								this.state.selectedTeam.map(function (player, i) {
-									if (_this4.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0') {
+									if (_this5.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0') {
+										var playerID = _this5.state.selectedTeam[i].player.ID;
+										var playerFormat = _this5.state.selectedTeam[i].player.FirstName + '-' + _this5.state.selectedTeam[i].player.LastName + '-' + _this5.state.selectedTeam[i].player.ID;
+										var teamAbbr = _this5.state.selectedTeam[i].team.Abbreviation;
 										return _react2.default.createElement(
 											'tr',
-											{ key: 'player' + i, onClick: function onClick() {
-													return _this4.addPlayer(player);
-												} },
+											{ key: 'player' + i },
 											_react2.default.createElement(
 												'th',
 												{ scope: 'row' },
-												_this4.state.selectedTeam[i].player.FirstName + ' ' + _this4.state.selectedTeam[i].player.LastName
+												_this5.state.selectedTeam[i].player.FirstName + ' ' + _this5.state.selectedTeam[i].player.LastName,
+												_react2.default.createElement(
+													'a',
+													{ href: '#', className: 'addbutton', onClick: function onClick() {
+															return _this5.addPlayer(player);
+														} },
+													'ADD'
+												),
+												' ',
+												_react2.default.createElement(
+													'a',
+													{ href: '#', className: 'addbutton', onClick: function onClick() {
+															return _this5.showPlayerModal(playerID, playerFormat, teamAbbr);
+														} },
+													'View'
+												)
 											),
 											_react2.default.createElement(
 												'td',
 												null,
-												'' + _this4.state.selectedTeam[i].player.Position
+												'' + _this5.state.selectedTeam[i].player.Position
 											),
 											_react2.default.createElement(
 												'td',
 												null,
-												'' + _this4.state.selectedTeam[i].stats.PtsPerGame['#text']
+												'' + _this5.state.selectedTeam[i].stats.PtsPerGame['#text']
 											),
 											_react2.default.createElement(
 												'td',
 												null,
-												'' + _this4.state.selectedTeam[i].stats.RebPerGame['#text']
+												'' + _this5.state.selectedTeam[i].stats.RebPerGame['#text']
 											),
 											_react2.default.createElement(
 												'td',
 												null,
-												'' + _this4.state.selectedTeam[i].stats.AstPerGame['#text']
+												'' + _this5.state.selectedTeam[i].stats.AstPerGame['#text']
 											)
 										);
 									}
@@ -36216,73 +36293,79 @@ var SelectedTeam = function (_React$Component2) {
 							this.state.userTeam.map(function (player, i) {
 								return _react2.default.createElement(
 									'tr',
-									{ key: 'userTeam' + i, onClick: function onClick() {
-											return _this4.removePlayer(player, i);
-										} },
+									{ key: 'userTeam' + i },
 									_react2.default.createElement(
 										'th',
 										{ scope: 'row' },
-										_this4.state.userTeam[i].player.FirstName + ' ' + _this4.state.userTeam[i].player.LastName + ', (' + _this4.state.userTeam[i].player.Position + ')'
+										_this5.state.userTeam[i].player.FirstName + ' ' + _this5.state.userTeam[i].player.LastName + ', (' + _this5.state.userTeam[i].player.Position + ')',
+										' ',
+										_react2.default.createElement(
+											'a',
+											{ href: '#', onClick: function onClick() {
+													return _this5.removePlayer(player, i);
+												} },
+											'REM'
+										)
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.GamesPlayed['#text']
+										'' + _this5.state.userTeam[i].stats.GamesPlayed['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + (_this4.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)
+										'' + (_this5.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										_this4.state.userTeam[i].stats.FgMadePerGame['#text'] + '-' + _this4.state.userTeam[i].stats.FgAttPerGame['#text']
+										_this5.state.userTeam[i].stats.FgMadePerGame['#text'] + '-' + _this5.state.userTeam[i].stats.FgAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.FgPct['#text']
+										'' + _this5.state.userTeam[i].stats.FgPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										_this4.state.userTeam[i].stats.FtMadePerGame['#text'] + '-' + _this4.state.userTeam[i].stats.FtAttPerGame['#text']
+										_this5.state.userTeam[i].stats.FtMadePerGame['#text'] + '-' + _this5.state.userTeam[i].stats.FtAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.FtPct['#text']
+										'' + _this5.state.userTeam[i].stats.FtPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.Fg3PtPct['#text']
+										'' + _this5.state.userTeam[i].stats.Fg3PtPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.RebPerGame['#text']
+										'' + _this5.state.userTeam[i].stats.RebPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.AstPerGame['#text']
+										'' + _this5.state.userTeam[i].stats.AstPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.BlkPerGame['#text']
+										'' + _this5.state.userTeam[i].stats.BlkPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.StlPerGame['#text']
+										'' + _this5.state.userTeam[i].stats.StlPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
 										null,
-										'' + _this4.state.userTeam[i].stats.PtsPerGame['#text']
+										'' + _this5.state.userTeam[i].stats.PtsPerGame['#text']
 									)
 								);
 							})
@@ -36296,10 +36379,11 @@ var SelectedTeam = function (_React$Component2) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				playerModal,
 				_react2.default.createElement(
 					'section',
 					{ className: 'teamContainer', ref: function ref(_ref) {
-							return _this4.teamDetails = _ref;
+							return _this5.teamDetails = _ref;
 						} },
 					_react2.default.createElement(
 						'div',

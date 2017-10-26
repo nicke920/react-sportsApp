@@ -8,6 +8,8 @@ const apiUrl = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/cu
 
 const apiUrlTeam = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/overall_team_standings.json";
 
+const apiUrlPlayer = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/player_gamelogs.json?"
+
 var config = {
 	apiKey: "AIzaSyBe3L4fbcwO-e4-E4frM4GnvsOIZicvPa8",
 	authDomain: "sports-app-62415.firebaseapp.com",
@@ -51,12 +53,16 @@ export default class SelectedTeam extends React.Component {
 			}],
 			selectedTeam: [],
 			userTeam: [], 
-			selectedTeamID: '101'
+			selectedTeamID: '101',
+			modalShowing: true,
+			selectedPlayer: ''
+
 		}
 	this.selectTeam = this.selectTeam.bind(this);
 	this.addPlayer = this.addPlayer.bind(this);
 	this.removePlayer = this.removePlayer.bind(this);
 	this.expandMyTeam = this.expandMyTeam.bind(this);
+	this.showPlayerModal = this.showPlayerModal.bind(this);
 	}
 	componentDidMount() {
 		ajax({
@@ -146,7 +152,6 @@ export default class SelectedTeam extends React.Component {
 	}
 	addPlayer(val) {
 		if(firebase.auth().currentUser !== null) {
-			console.log('fire', val);
 			const userID = firebase.auth().currentUser.uid;
 			const dbRef = firebase.database().ref(`users/${userID}/players`);
 			dbRef.push(JSON.stringify(val))
@@ -163,7 +168,24 @@ export default class SelectedTeam extends React.Component {
 	expandMyTeam() {
 		this.teamDetails.classList.toggle('hider');
 		console.log('clicked');
+	}
 
+	showPlayerModal(id, playerFormat, teamAbbr) {
+		console.log('888', apiUrlPlayer + 'player=' + playerFormat)
+		ajax({
+			url: apiUrlPlayer + 'player=' + playerFormat,
+			method: 'GET',
+			format: 'json',
+			headers: {
+				Authorization: 'Basic bmlja2U5MjA6bGFuZ2VyMTE='
+			}
+		})
+		.then((result) => {
+			this.setState({
+				selectedPlayer: result
+			})
+			console.log('result', typeof result)
+		})
 	}
 
 render() {
@@ -174,7 +196,38 @@ render() {
 			return team
 		}
 	})
-	console.log(teamStats)
+
+
+	let playerModal = '';
+
+	if (this.state.modalShowing === true) {
+		{console.log('NEWWEST', this.state.selectedPlayer)}
+		let playerGameArray = '';
+		if (this.state.selectedPlayer !== '') {
+			playerGameArray = this.state.selectedPlayer.playergamelogs.gamelogs
+			console.log('runn', playerGameArray)
+
+			playerModal = (
+					<div className="modal">
+						<div className="modalContainer">
+							<h1>{`${playerGameArray[0].player.FirstName} ${playerGameArray[0].player.LastName}`}</h1>
+							{
+								playerGameArray.map((game) => {
+									return (
+										<p>{game.game.location}</p>
+										)
+								})
+							}
+
+						</div>
+					</div>
+				)
+
+		}
+		
+	}
+
+
 	if (teamStats[0] !== undefined) {
 		teamInfo = (
 			<div className="teamDetails">
@@ -214,11 +267,15 @@ render() {
 							</tr>
 						</thead>
 						<tbody>
+								
 							{this.state.selectedTeam.map((player, i) => {
 								if(this.state.selectedTeam[i].stats.PtsPerGame['#text'] !== '0.0'){
+									const playerID = this.state.selectedTeam[i].player.ID;
+									const playerFormat = `${this.state.selectedTeam[i].player.FirstName}-${this.state.selectedTeam[i].player.LastName}-${this.state.selectedTeam[i].player.ID}`;
+									const teamAbbr = this.state.selectedTeam[i].team.Abbreviation
 									return (
-										<tr key={`player${i}`} onClick={() => this.addPlayer(player)}>
-											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
+										<tr key={`player${i}`}>
+											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}<a href="#" className="addbutton" onClick={() => this.addPlayer(player)}>ADD</a> <a href="#" className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}>View</a></th>
 											<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
@@ -265,8 +322,8 @@ render() {
 
 						{this.state.userTeam.map((player, i) => {
 							return (
-								<tr key={`userTeam${i}`} onClick={() => this.removePlayer(player, i)}>
-									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`}</th>
+								<tr key={`userTeam${i}`}>
+									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`} <a href="#" onClick={() => this.removePlayer(player, i)}>REM</a></th>
 									<td>{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
 									<td>{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
 									<td>{`${this.state.userTeam[i].stats.FgMadePerGame['#text']}-${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
@@ -296,6 +353,7 @@ render() {
 
 	return (
 		<div>
+			{playerModal}
 			<section className="teamContainer" ref={ref => this.teamDetails = ref}>
 				<div className="wrapper">
 					<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>

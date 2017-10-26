@@ -420,7 +420,7 @@ tbody tr td, tbody tr th, thead tr th {
 
 tr:hover, tr:nth-child(even):hover {
 	background: linear-gradient(rgba(177,177,177,0.2), rgba(222,222,222,1));
-	cursor: pointer;
+	// cursor: pointer;
 }
 
 // THE USER'S TEAM
@@ -595,5 +595,28 @@ footer {
 @media (max-width: 440px) {
 	thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
 		display: none;
+	}
+}
+
+.addbutton {
+	color: green;
+	font-weight: bold;
+}
+
+.modal {
+	// display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.7);
+	color: red;
+	h1 {
+		color: white;
+		font-size: 80px;
+	}
+	p {
+		color: red;
 	}
 }
