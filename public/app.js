@@ -36041,7 +36041,7 @@ var SelectedTeam = function (_React$Component2) {
 									),
 									_react2.default.createElement(
 										'a',
-										{ href: '#', className: 'exitmodal', onClick: this.exitPlayerModal },
+										{ className: 'exitmodal', onClick: this.exitPlayerModal },
 										_react2.default.createElement('i', { className: 'fa fa-times-circle-o', 'aria-hidden': 'true' })
 									)
 								)
@@ -36353,7 +36353,7 @@ var SelectedTeam = function (_React$Component2) {
 												' ',
 												_react2.default.createElement(
 													'a',
-													{ href: '#', className: 'addbutton', onClick: function onClick() {
+													{ className: 'addbutton', onClick: function onClick() {
 															return _this5.showPlayerModal(playerID, playerFormat, teamAbbr);
 														} },
 													'View'
@@ -36501,7 +36501,7 @@ var SelectedTeam = function (_React$Component2) {
 										' ',
 										_react2.default.createElement(
 											'a',
-											{ href: '#', onClick: function onClick() {
+											{ onClick: function onClick() {
 													return _this5.removePlayer(player, i);
 												} },
 											'REM'

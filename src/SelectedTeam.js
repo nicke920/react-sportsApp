@@ -170,6 +170,7 @@ export default class SelectedTeam extends React.Component {
 			const userID = firebase.auth().currentUser.uid;
 			const dbRef = firebase.database().ref(`users/${userID}/players`);
 			dbRef.push(JSON.stringify(val))
+
 		} else {
 			alert('Please log in to add a player to your team.');
 		}
@@ -239,7 +240,7 @@ render() {
 										<h4>{`${playerGameArray[0].player.Position}`}</h4>
 									</div>
 									<h5>Last 10 games played:</h5>
-									<a href="#" className="exitmodal" onClick={this.exitPlayerModal}><i className="fa fa-times-circle-o" aria-hidden="true"></i></a>
+									<a className="exitmodal" onClick={this.exitPlayerModal}><i className="fa fa-times-circle-o" aria-hidden="true"></i></a>
 								</div>
 							</div>
 							<div className="stats">
@@ -347,7 +348,7 @@ render() {
 									const teamAbbr = this.state.selectedTeam[i].team.Abbreviation
 									return (
 										<tr key={`player${i}`}>
-											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}<a href="#" className="addbutton" onClick={() => this.addPlayer(player)}>ADD</a> <a href="#" className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}>View</a></th>
+											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}<a href="#" className="addbutton" onClick={() => this.addPlayer(player)}>ADD</a> <a className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}>View</a></th>
 											<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
@@ -395,7 +396,7 @@ render() {
 						{this.state.userTeam.map((player, i) => {
 							return (
 								<tr key={`userTeam${i}`}>
-									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`} <a href="#" onClick={() => this.removePlayer(player, i)}>REM</a></th>
+									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`} <a onClick={() => this.removePlayer(player, i)}>REM</a></th>
 									<td>{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
 									<td>{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
 									<td>{`${this.state.userTeam[i].stats.FgMadePerGame['#text']}-${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
