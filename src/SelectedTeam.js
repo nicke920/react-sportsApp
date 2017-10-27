@@ -63,6 +63,8 @@ export default class SelectedTeam extends React.Component {
 	this.removePlayer = this.removePlayer.bind(this);
 	this.expandMyTeam = this.expandMyTeam.bind(this);
 	this.showPlayerModal = this.showPlayerModal.bind(this);
+	this.exitPlayerModal = this.exitPlayerModal.bind(this);
+	this.escFunction = this.escFunction.bind(this);
 	}
 	componentDidMount() {
 		ajax({
@@ -135,8 +137,21 @@ export default class SelectedTeam extends React.Component {
 				});
 			}
 		})
+		document.addEventListener("keydown", this.escFunction, false)
 
 	}
+	componentWilLUnmout() {
+		document.addEventListener("keydown", this.escFunction, false)
+	}
+
+	escFunction(ev) {
+		if (ev.keyCode === 27 && this.state.modalShowing === true) {
+			this.setState({
+				modalShowing: false
+			})
+		}
+	}
+
 	selectTeam(each) {
 		console.log('hey', each)
 		const selectedTeamPlayers = this.state.playersArray.filter((value, i) => {
@@ -182,9 +197,16 @@ export default class SelectedTeam extends React.Component {
 		})
 		.then((result) => {
 			this.setState({
+				modalShowing: true,
 				selectedPlayer: result
 			})
 			console.log('result', typeof result)
+		})
+	}
+	exitPlayerModal(ev) {
+		console.log('eventtt', ev)
+		this.setState({
+			modalShowing: false
 		})
 	}
 
@@ -217,6 +239,7 @@ render() {
 										<h4>{`${playerGameArray[0].player.Position}`}</h4>
 									</div>
 									<h5>Last 10 games played:</h5>
+									<a href="#" className="exitmodal" onClick={this.exitPlayerModal}><i className="fa fa-times-circle-o" aria-hidden="true"></i></a>
 								</div>
 							</div>
 							<div className="stats">

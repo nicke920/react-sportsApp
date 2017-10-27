@@ -35823,6 +35823,8 @@ var SelectedTeam = function (_React$Component2) {
 		_this2.removePlayer = _this2.removePlayer.bind(_this2);
 		_this2.expandMyTeam = _this2.expandMyTeam.bind(_this2);
 		_this2.showPlayerModal = _this2.showPlayerModal.bind(_this2);
+		_this2.exitPlayerModal = _this2.exitPlayerModal.bind(_this2);
+		_this2.escFunction = _this2.escFunction.bind(_this2);
 		return _this2;
 	}
 
@@ -35897,6 +35899,21 @@ var SelectedTeam = function (_React$Component2) {
 					});
 				}
 			});
+			document.addEventListener("keydown", this.escFunction, false);
+		}
+	}, {
+		key: 'componentWilLUnmout',
+		value: function componentWilLUnmout() {
+			document.addEventListener("keydown", this.escFunction, false);
+		}
+	}, {
+		key: 'escFunction',
+		value: function escFunction(ev) {
+			if (ev.keyCode === 27 && this.state.modalShowing === true) {
+				this.setState({
+					modalShowing: false
+				});
+			}
 		}
 	}, {
 		key: 'selectTeam',
@@ -35953,9 +35970,18 @@ var SelectedTeam = function (_React$Component2) {
 				}
 			}).then(function (result) {
 				_this4.setState({
+					modalShowing: true,
 					selectedPlayer: result
 				});
 				console.log('result', typeof result === 'undefined' ? 'undefined' : _typeof(result));
+			});
+		}
+	}, {
+		key: 'exitPlayerModal',
+		value: function exitPlayerModal(ev) {
+			console.log('eventtt', ev);
+			this.setState({
+				modalShowing: false
 			});
 		}
 	}, {
@@ -36012,6 +36038,11 @@ var SelectedTeam = function (_React$Component2) {
 										'h5',
 										null,
 										'Last 10 games played:'
+									),
+									_react2.default.createElement(
+										'a',
+										{ href: '#', className: 'exitmodal', onClick: this.exitPlayerModal },
+										_react2.default.createElement('i', { className: 'fa fa-times-circle-o', 'aria-hidden': 'true' })
 									)
 								)
 							),

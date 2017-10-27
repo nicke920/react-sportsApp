@@ -603,6 +603,8 @@ footer {
 	font-weight: bold;
 }
 
+
+
 .modal {
 	// display: none;
 	position: fixed;
@@ -610,7 +612,7 @@ footer {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0,0,0,0.8);
 	color: red;
 	display: flex;
 	flex-direction: column;
@@ -649,6 +651,7 @@ footer {
 	display: flex;
 	background: white;
 	padding: 0 10px;
+	position: relative;
 	h5 {
 		margin-left: 20px;
 	}
@@ -668,3 +671,12 @@ footer {
 table tr, table th {
 	font-size: 14px;
 }
+
+.exitmodal {
+	font-size: 30px;
+	color: red;
+	position: absolute;
+	top: 5px;
+	right: 20px;
+}
+
