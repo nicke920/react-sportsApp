@@ -497,20 +497,22 @@ tr:hover, tr:nth-child(even):hover {
   .myTeam {
     width: 95%; } }
 
-.myTeam tbody tr:nth-of-type(even) {
-  background: rgba(0, 0, 0, 0.1); }
+.myTeam thead th {
+  text-align: right; }
+  .myTeam thead th:first-of-type {
+    text-align: left; }
 
 .myTeam tbody td.smallTable {
   width: 50px;
-  text-align: center; }
+  text-align: right; }
 
 .myTeam tbody td.medTable {
   width: 60px;
-  text-align: center; }
+  text-align: right; }
 
 .myTeam tbody td.largeTable {
   width: 80px;
-  text-align: center; }
+  text-align: right; }
 
 .myTeam tbody tr[scope="row"] {
   min-width: 270px; }
@@ -529,7 +531,36 @@ footer {
   .detailsStack .teamInfo div p {
     font-size: 12px; }
   table {
-    font-size: 14px; } }
+    font-size: 14px; }
+  .teamTable {
+    width: 80%;
+    margin: 0 auto; }
+    .teamTable thead tr th:nth-of-type(2), .teamTable tbody tr td:nth-of-type(1) {
+      display: none; }
+  .myTeam thead tr th.fgm, .myTeam tbody tr td.fgm,
+  .myTeam thead tr th.ftm, .myTeam tbody tr td.ftm {
+    display: none; }
+  .myTeam .smallTable {
+    width: 60px; }
+  .myTeam .largeTable {
+    width: 90px; }
+  .myTeam thead th {
+    text-align: right; }
+    .myTeam thead th:first-of-type {
+      text-align: left; }
+  .myTeam tbody tr:nth-of-type(even) {
+    background: rgba(0, 0, 0, 0.1); }
+  .myTeam tbody td.smallTable {
+    width: 60px;
+    text-align: right; }
+  .myTeam tbody td.medTable {
+    width: 60px;
+    text-align: right; }
+  .myTeam tbody td.largeTable {
+    width: 90px;
+    text-align: right; }
+  .myTeam tbody tr[scope="row"] {
+    min-width: 270px; } }
 
 @media (max-width: 840px) {
   .homePageText h1 {
@@ -575,26 +606,50 @@ footer {
       font-size: 30px; }
     .teamDetails .teamInfo div p {
       font-size: 16px; }
-  .teamTable {
-    width: 80%;
-    margin: 0 auto; }
-    .teamTable thead tr th:nth-of-type(2), .teamTable tbody tr td:nth-of-type(1) {
-      display: none; }
-  .myTeam thead tr th:nth-of-type(4), .myTeam tbody tr td:nth-of-type(3),
-  .myTeam thead tr th:nth-of-type(6), .myTeam tbody tr td:nth-of-type(5) {
+  .myTeam tbody th[scope="row"] {
+    min-width: 150px; }
+  thead tr th.gp, tbody tr td.gp,
+  thead tr th.ftp, tbody tr td.ftp {
     display: none; } }
 
-@media (max-width: 490px) {
-  thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
+@media (max-width: 525px) {
+  thead tr th.fgp, tbody tr td.fgp,
+  thead tr th.pp3, tbody tr td.pp3 {
     display: none; }
+  .teamTable {
+    width: 100%;
+    margin: 0 auto; } }
+
+@media (max-width: 490px) {
   nav .accountsContainer {
     flex-wrap: wrap;
-    flex-direction: column; }
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%; }
     nav .accountsContainer .accounts {
-      margin-bottom: 10px; } }
+      margin-bottom: 10px; }
+  .teamTable tbody tr td {
+    width: 40px; }
+  .teamDetails {
+    padding: 10px; }
+  .detailsStack {
+    padding: 0 !important; }
+  .detailsStack .teamInfo {
+    padding: 0 !important; }
+  nav .accountsContainer .accounts a {
+    margin-left: 0; } }
 
-@media (max-width: 440px) {
-  thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
+@media (max-width: 430px) {
+  nav .accountsContainer .accounts.teams {
+    width: 100%;
+    order: 1;
+    margin-top: 5px; }
+    nav .accountsContainer .accounts.teams a {
+      padding: 14px 100px; } }
+
+@media (max-width: 400px) {
+  thead tr th.blk, tbody tr td.blk,
+  thead tr th.stl, tbody tr td.stl {
     display: none; } }
 
 .addbutton {

@@ -35862,7 +35862,7 @@ var SelectedTeam = function (_React$Component2) {
 				}
 			}).then(function (data) {
 				var teams = data.overallteamstandings.teamstandingsentry;
-				console.log(teams);
+				console.log('a', data);
 				var teamIDArray = teams.map(function (val, i) {
 					return {
 						rank: val.rank,
@@ -35992,6 +35992,7 @@ var SelectedTeam = function (_React$Component2) {
 			var teamInfo = '';
 
 			var teamStats = this.state.teamsArray.filter(function (team) {
+				console.log('887', team);
 				if (_this5.state.selectedTeamID == team.id) {
 					return team;
 				}
@@ -36240,7 +36241,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'NBA Rank: ' + teamStats[0].rank
+									'Rank: #' + teamStats[0].rank
 								),
 								_react2.default.createElement(
 									'p',
@@ -36264,7 +36265,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'FGM-FGA: ' + teamStats[0].stats.FgMadePerGame['#text'] + '-' + teamStats[0].stats.FgAttPerGame['#text']
+									'FG: ' + teamStats[0].stats.FgMadePerGame['#text'] + '-' + teamStats[0].stats.FgAttPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
@@ -36274,7 +36275,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'3PM-3PA: ' + teamStats[0].stats.Fg3PtMadePerGame['#text'] + '-' + teamStats[0].stats.Fg3PtAttPerGame['#text']
+									'3P: ' + teamStats[0].stats.Fg3PtMadePerGame['#text'] + '-' + teamStats[0].stats.Fg3PtAttPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
@@ -36290,11 +36291,6 @@ var SelectedTeam = function (_React$Component2) {
 						_react2.default.createElement(
 							'table',
 							null,
-							_react2.default.createElement(
-								'caption',
-								null,
-								'Click on a player to save them to your team'
-							),
 							_react2.default.createElement(
 								'thead',
 								null,
@@ -36422,67 +36418,67 @@ var SelectedTeam = function (_React$Component2) {
 								null,
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'playerName' },
 									'Player'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable gp' },
 									'GP'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable min' },
 									'MIN'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'largeTable fgm' },
 									'FG'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable fgp' },
 									'FG%'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'largeTable ftm' },
 									'FT'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable ftp' },
 									'FT%'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'largeTable pp3' },
 									'3P%'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable reb' },
 									'RPG'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable ast' },
 									'APG'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable blk' },
 									'BPG'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable stl' },
 									'SPG'
 								),
 								_react2.default.createElement(
 									'th',
-									{ scope: 'col' },
+									{ scope: 'col', className: 'smallTable pts' },
 									'PPG'
 								)
 							)
@@ -36551,7 +36547,7 @@ var SelectedTeam = function (_React$Component2) {
 									),
 									_react2.default.createElement(
 										'td',
-										{ className: 'smallTable 3pp' },
+										{ className: 'smallTable pp3' },
 										'' + _this5.state.userTeam[i].stats.Fg3PtPct['#text']
 									),
 									_react2.default.createElement(
@@ -36603,7 +36599,13 @@ var SelectedTeam = function (_React$Component2) {
 						_react2.default.createElement(
 							'select',
 							{ value: this.state.value, id: 'teamSelector', onChange: this.selectTeam },
+							_react2.default.createElement(
+								'option',
+								null,
+								'Select a team...'
+							),
 							this.state.teamsArray.map(function (each, i) {
+								console.log('eachhh', each);
 								return _react2.default.createElement(
 									'option',
 									{ key: 'teamsArray' + i, value: each.id },

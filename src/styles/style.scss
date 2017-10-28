@@ -462,21 +462,26 @@ tr:hover, tr:nth-child(even):hover {
 
 
 .myTeam {
-	tbody {
-		tr:nth-of-type(even) {
-			background: rgba(0,0,0,0.1);
+	thead {
+		th{
+			text-align: right;
+			&:first-of-type {
+				text-align: left;
+			}
 		}
+	}
+	tbody {
 		td.smallTable {
 			width: 50px;
-			text-align: center;
+			text-align: right;
 		}
 		td.medTable {
 			width: 60px;
-			text-align: center;
+			text-align: right;
 		}
 		td.largeTable {
 			width: 80px;
-			text-align: center;
+			text-align: right;
 		}
 		tr[scope="row"] {
 			min-width: 270px;
@@ -513,6 +518,59 @@ footer {
 	table {
 		font-size: 14px;
 	}
+	//at responsive, we take out 'Position' column in the team table up top
+	.teamTable {
+		width: 80%;
+		margin: 0 auto;
+		thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
+			display: none;
+		}
+	}
+
+	//at responsive, we take out 'FTM-FTA' and 'FGM-FGA' attributes in the user's team
+	.myTeam {
+		thead tr th.fgm, tbody tr td.fgm,
+		thead tr th.ftm, tbody tr td.ftm {
+			display: none;
+		}
+		.smallTable {
+			width: 60px;
+		}
+		.largeTable {
+			width: 90px;
+		}
+	}
+
+	.myTeam {
+		thead {
+			th{
+				text-align: right;
+				&:first-of-type {
+					text-align: left;
+				}
+			}
+		}
+		tbody {
+			tr:nth-of-type(even) {
+				background: rgba(0,0,0,0.1);
+			}
+			td.smallTable {
+				width: 60px;
+				text-align: right;
+			}
+			td.medTable {
+				width: 60px;
+				text-align: right;
+			}
+			td.largeTable {
+				width: 90px;
+				text-align: right;
+			}
+			tr[scope="row"] {
+				min-width: 270px;
+			}
+		}
+	}
 }
 
 @media (max-width: 840px) {
@@ -529,6 +587,7 @@ footer {
 			display: none;
 		}
 	}
+
 }
 
 
@@ -590,43 +649,77 @@ footer {
 			}
 		}
 	}
-
-
-	//at responsive, we take out 'Position' column in the team table up top
-	.teamTable {
-		width: 80%;
-		margin: 0 auto;
-		thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
-			display: none;
-		}
+	.myTeam tbody th[scope="row"] {
+		min-width: 150px;
 	}
 
-	//at responsive, we take out 'FTM-FTA' and 'FGM-FGA' attributes in the user's team
-	.myTeam {
-		thead tr th:nth-of-type(4), tbody tr td:nth-of-type(3),
-		thead tr th:nth-of-type(6), tbody tr td:nth-of-type(5) {
-			display: none;
-		}
+	thead tr th.gp, tbody tr td.gp,
+	thead tr th.ftp, tbody tr td.ftp {
+		display: none;
 	}
 }
 
-@media (max-width: 490px) {
-	thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
+@media (max-width: 525px) {
+	thead tr th.fgp, tbody tr td.fgp,
+	thead tr th.pp3, tbody tr td.pp3 {
 		display: none;
 	}
+	.teamTable {
+	    width: 100%;
+	    margin: 0 auto;
+	}
+
+}
+
+@media (max-width: 490px) {
 	nav .accountsContainer {
 		flex-wrap: wrap;
-		flex-direction: column;
+		flex-direction: row;
+		justify-content: space-between;
+		width: 100%;
 		.accounts {
 			margin-bottom: 10px;
 		}
 	}
+
+	.teamTable {
+		tbody tr td {
+			width: 40px
+		}
+	}
+	.teamDetails {
+		padding: 10px;
+	}
+	.detailsStack {
+		padding: 0!important;
+	}
+	.detailsStack .teamInfo {
+		padding: 0!important;
+	}
+
+	nav .accountsContainer .accounts a {
+		margin-left: 0;
+	}
 }
 
-@media (max-width: 440px) {
-	thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
+@media (max-width: 430px) {
+	nav .accountsContainer .accounts.teams {
+		width: 100%;
+		order: 1;
+		margin-top: 5px;
+		a {
+			padding: 14px 100px;
+
+		}
+	}
+}
+
+@media (max-width: 400px) {
+	thead tr th.blk, tbody tr td.blk,
+	thead tr th.stl, tbody tr td.stl {
 		display: none;
 	}
+
 }
 
 .addbutton {

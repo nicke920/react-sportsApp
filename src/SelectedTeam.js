@@ -98,7 +98,7 @@ export default class SelectedTeam extends React.Component {
 		})
 		.then((data) => {
 			const teams = data.overallteamstandings.teamstandingsentry;
-			console.log(teams)
+			console.log('a', data)
 			const teamIDArray = teams.map((val, i) => {
 				return (
 						{
@@ -214,6 +214,7 @@ render() {
 	let teamInfo = '';
 
 	const teamStats = this.state.teamsArray.filter((team) => {
+		console.log('887',team)
 		if (this.state.selectedTeamID == team.id) {
 			return team
 		}
@@ -313,22 +314,21 @@ render() {
 					</div>	
 					<div className="teamInfo">
 						<div>
-							<p>{`NBA Rank: ${teamStats[0].rank}`}</p>
+							<p>{`Rank: #${teamStats[0].rank}`}</p>
 							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}`}</p>
 							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}`}</p>
 							<p>{`+/-: ${teamStats[0].stats.PlusMinusPerGame['#text']}`}</p>
 						</div>
 						<div>
-							<p>{`FGM-FGA: ${teamStats[0].stats.FgMadePerGame['#text']}-${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
+							<p>{`FG: ${teamStats[0].stats.FgMadePerGame['#text']}-${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
 							<p>{`FG%: ${teamStats[0].stats.FgPct['#text']}%`}</p>
-							<p>{`3PM-3PA: ${teamStats[0].stats.Fg3PtMadePerGame['#text']}-${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
+							<p>{`3P: ${teamStats[0].stats.Fg3PtMadePerGame['#text']}-${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
 							<p>{`FG%: ${teamStats[0].stats.Fg3PtPct['#text']}%`}</p>
 						</div>
 					</div>
 				</div>
 				<div className='teamTable'>
 					<table>
-						<caption>Click on a player to save them to your team</caption>
 						<thead>
 							<tr>
 								<th scope="col">Player Name</th>
@@ -375,19 +375,19 @@ render() {
 					<caption><Link className="linkFull" onClick={this.expandMyTeam}>Expand</Link></caption>
 					<thead>
 						<tr>
-							<th scope="col">Player</th>
-							<th scope="col">GP</th>
-							<th scope="col">MIN</th>
-							<th scope="col">FG</th>
-							<th scope="col">FG%</th>
-							<th scope="col">FT</th>
-							<th scope="col">FT%</th>
-							<th scope="col">3P%</th>
-							<th scope="col">RPG</th>
-							<th scope="col">APG</th>
-							<th scope="col">BPG</th>
-							<th scope="col">SPG</th>
-							<th scope="col">PPG</th>
+							<th scope="col" className="playerName">Player</th>
+							<th scope="col" className="smallTable gp">GP</th>
+							<th scope="col" className="smallTable min">MIN</th>
+							<th scope="col" className="largeTable fgm">FG</th>
+							<th scope="col" className="smallTable fgp">FG%</th>
+							<th scope="col" className="largeTable ftm">FT</th>
+							<th scope="col" className="smallTable ftp">FT%</th>
+							<th scope="col" className="largeTable pp3">3P%</th>
+							<th scope="col" className="smallTable reb">RPG</th>
+							<th scope="col" className="smallTable ast">APG</th>
+							<th scope="col" className="smallTable blk">BPG</th>
+							<th scope="col" className="smallTable stl">SPG</th>
+							<th scope="col" className="smallTable pts">PPG</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -406,7 +406,7 @@ render() {
 									<td className="smallTable fgp">{`${this.state.userTeam[i].stats.FgPct['#text']}`}</td>
 									<td className="largeTable ftm">{`${this.state.userTeam[i].stats.FtMadePerGame['#text']}-${this.state.userTeam[i].stats.FtAttPerGame['#text']}`}</td>
 									<td className="smallTable ftp">{`${this.state.userTeam[i].stats.FtPct['#text']}`}</td>
-									<td className="smallTable 3pp">{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
+									<td className="smallTable pp3">{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
 									<td className="smallTable reb">{`${this.state.userTeam[i].stats.RebPerGame['#text']}`}</td>
 									<td className="smallTable ast">{`${this.state.userTeam[i].stats.AstPerGame['#text']}`}</td>
 									<td className="smallTable blk">{`${this.state.userTeam[i].stats.BlkPerGame['#text']}`}</td>
@@ -433,7 +433,9 @@ render() {
 			<section className="teamContainer" ref={ref => this.teamDetails = ref}>
 				<div className="wrapper">
 					<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>
+						<option>Select a team...</option>
 						{this.state.teamsArray.map((each,i) => {
+							console.log('eachhh', each)
 							return (
 								<option key={`teamsArray${i}`} value={each.id}>{each.name}</option>
 							)
