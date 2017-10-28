@@ -35815,7 +35815,8 @@ var SelectedTeam = function (_React$Component2) {
 			userTeam: [],
 			selectedTeamID: '101',
 			modalShowing: true,
-			selectedPlayer: ''
+			selectedPlayer: '',
+			loadingScreen: true
 
 		};
 		_this2.selectTeam = _this2.selectTeam.bind(_this2);
@@ -35849,7 +35850,8 @@ var SelectedTeam = function (_React$Component2) {
 				});
 				_this3.setState({
 					playersArray: players,
-					selectedTeam: selectedTeamPlayers
+					selectedTeam: selectedTeamPlayers,
+					loadingScreen: false
 				});
 				console.log(_this3.state.playersArray);
 			});
@@ -35988,6 +35990,20 @@ var SelectedTeam = function (_React$Component2) {
 		key: 'render',
 		value: function render() {
 			var _this5 = this;
+
+			var loadingScreen = '';
+
+			if (this.state.loadingScreen === true) {
+				loadingScreen = _react2.default.createElement(
+					'div',
+					{ className: 'loading' },
+					_react2.default.createElement(
+						'h1',
+						null,
+						'Content is loading...'
+					)
+				);
+			}
 
 			var teamInfo = '';
 
@@ -36634,6 +36650,7 @@ var SelectedTeam = function (_React$Component2) {
 			return _react2.default.createElement(
 				'div',
 				null,
+				loadingScreen,
 				playerModal,
 				_react2.default.createElement(
 					'section',

@@ -55,7 +55,8 @@ export default class SelectedTeam extends React.Component {
 			userTeam: [], 
 			selectedTeamID: '101',
 			modalShowing: true,
-			selectedPlayer: ''
+			selectedPlayer: '',
+			loadingScreen: true
 
 		}
 	this.selectTeam = this.selectTeam.bind(this);
@@ -84,7 +85,8 @@ export default class SelectedTeam extends React.Component {
 			});
 			this.setState({
 				playersArray: players,
-				selectedTeam: selectedTeamPlayers
+				selectedTeam: selectedTeamPlayers,
+				loadingScreen: false
 			})
 			console.log(this.state.playersArray)
 		})
@@ -211,6 +213,18 @@ export default class SelectedTeam extends React.Component {
 	}
 
 render() {
+	let loadingScreen = '';
+
+	if (this.state.loadingScreen === true) {
+		loadingScreen = (
+				<div className="loading">
+					<h1>Content is loading...</h1>
+				</div>
+			)
+	}
+
+
+
 	let teamInfo = '';
 
 	const teamStats = this.state.teamsArray.filter((team) => {
@@ -437,6 +451,7 @@ render() {
 
 	return (
 		<div>
+			{loadingScreen}
 			{playerModal}
 			<section className="teamContainer" ref={ref => this.teamDetails = ref}>
 				<div className="wrapper">

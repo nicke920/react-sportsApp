@@ -405,10 +405,10 @@ label {
     flex-direction: column;
     justify-content: center; }
     .teamContainer .wrapper select {
-      margin: 15px auto;
+      margin: 25px auto 15px;
       text-align: center;
       font-size: 18px;
-      height: 35px;
+      padding: 10px 5px;
       border: none;
       box-shadow: 0 4px 10px -2px gray; }
       .teamContainer .wrapper select:hover {
@@ -552,8 +552,6 @@ footer {
     text-align: right; }
     .myTeam thead th:first-of-type {
       text-align: left; }
-  .myTeam tbody tr:nth-of-type(even) {
-    background: rgba(0, 0, 0, 0.1); }
   .myTeam tbody td.smallTable {
     width: 60px;
     text-align: right; }
@@ -743,3 +741,18 @@ table tr, table th {
   position: absolute;
   top: 5px;
   right: 20px; }
+
+.loading {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  width: 100%;
+  background: rgba(197, 202, 233, 0.9);
+  z-index: 99999999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center; }
+  .loading h1 {
+    display: inline-block;
+    text-align: center; }
