@@ -444,9 +444,43 @@ tr:hover, tr:nth-child(even):hover {
 
 .myTeam {
 	width: 80%;
+	max-width: 960px;
 	margin: 10px auto 40px;
+	tbody a {
+		color: red;
+		margin-left: 10px;
+	}
 	caption {
 		margin: 20px 0;
+	}
+}
+@media screen and (max-width: 1240px) {
+	.myTeam {
+		width: 95%;
+	}
+}
+
+
+.myTeam {
+	tbody {
+		tr:nth-of-type(even) {
+			background: rgba(0,0,0,0.1);
+		}
+		td.smallTable {
+			width: 50px;
+			text-align: center;
+		}
+		td.medTable {
+			width: 60px;
+			text-align: center;
+		}
+		td.largeTable {
+			width: 80px;
+			text-align: center;
+		}
+		tr[scope="row"] {
+			min-width: 270px;
+		}
 	}
 }
 
@@ -478,9 +512,6 @@ footer {
 	}
 	table {
 		font-size: 14px;
-	}
-	.myTeam {
-		width: 90%;
 	}
 }
 
@@ -599,11 +630,14 @@ footer {
 }
 
 .addbutton {
-	color: green;
-	font-weight: bold;
+	color: red;
+	font-size: 16px;
+	margin-left: 10px;
 }
 
-
+tr {
+	border-bottom: 1px solid rgba(0,0,0,0.1)
+}
 
 .modal {
 	// display: none;

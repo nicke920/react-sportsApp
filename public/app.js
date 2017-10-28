@@ -36079,12 +36079,12 @@ var SelectedTeam = function (_React$Component2) {
 												_react2.default.createElement(
 													'th',
 													{ scope: 'col' },
-													'FGM-FGA'
+													'FG'
 												),
 												_react2.default.createElement(
 													'th',
 													{ scope: 'col' },
-													'FTM/FTA'
+													'FT'
 												),
 												_react2.default.createElement(
 													'th',
@@ -36348,7 +36348,7 @@ var SelectedTeam = function (_React$Component2) {
 													{ href: '#', className: 'addbutton', onClick: function onClick() {
 															return _this5.addPlayer(player);
 														} },
-													'ADD'
+													_react2.default.createElement('i', { className: 'fa fa-plus-circle', 'aria-hidden': 'true' })
 												),
 												' ',
 												_react2.default.createElement(
@@ -36356,7 +36356,7 @@ var SelectedTeam = function (_React$Component2) {
 													{ className: 'addbutton', onClick: function onClick() {
 															return _this5.showPlayerModal(playerID, playerFormat, teamAbbr);
 														} },
-													'View'
+													_react2.default.createElement('i', { className: 'fa fa-info-circle', 'aria-hidden': 'true' })
 												)
 											),
 											_react2.default.createElement(
@@ -36438,7 +36438,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'FGM-FGA'
+									'FG'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36448,7 +36448,7 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'th',
 									{ scope: 'col' },
-									'FTM-FTA'
+									'FT'
 								),
 								_react2.default.createElement(
 									'th',
@@ -36491,12 +36491,16 @@ var SelectedTeam = function (_React$Component2) {
 							'tbody',
 							null,
 							this.state.userTeam.map(function (player, i) {
+								var playerID = _this5.state.userTeam[i].player.ID;
+								var playerFormat = _this5.state.userTeam[i].player.FirstName + '-' + _this5.state.userTeam[i].player.LastName + '-' + _this5.state.userTeam[i].player.ID;
+								var teamAbbr = _this5.state.userTeam[i].team.Abbreviation;
+
 								return _react2.default.createElement(
 									'tr',
 									{ key: 'userTeam' + i },
 									_react2.default.createElement(
 										'th',
-										{ scope: 'row' },
+										{ scope: 'row', className: 'playerName' },
 										_this5.state.userTeam[i].player.FirstName + ' ' + _this5.state.userTeam[i].player.LastName + ', (' + _this5.state.userTeam[i].player.Position + ')',
 										' ',
 										_react2.default.createElement(
@@ -36504,67 +36508,75 @@ var SelectedTeam = function (_React$Component2) {
 											{ onClick: function onClick() {
 													return _this5.removePlayer(player, i);
 												} },
-											'REM'
+											_react2.default.createElement('i', { className: 'fa fa-minus-square-o', 'aria-hidden': 'true' })
+										),
+										' ',
+										_react2.default.createElement(
+											'a',
+											{ className: 'addbutton', onClick: function onClick() {
+													return _this5.showPlayerModal(playerID, playerFormat, teamAbbr);
+												} },
+											_react2.default.createElement('i', { className: 'fa fa-info-circle', 'aria-hidden': 'true' })
 										)
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable gp' },
 										'' + _this5.state.userTeam[i].stats.GamesPlayed['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable min' },
 										'' + (_this5.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'largeTable fgm' },
 										_this5.state.userTeam[i].stats.FgMadePerGame['#text'] + '-' + _this5.state.userTeam[i].stats.FgAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable fgp' },
 										'' + _this5.state.userTeam[i].stats.FgPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'largeTable ftm' },
 										_this5.state.userTeam[i].stats.FtMadePerGame['#text'] + '-' + _this5.state.userTeam[i].stats.FtAttPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable ftp' },
 										'' + _this5.state.userTeam[i].stats.FtPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable 3pp' },
 										'' + _this5.state.userTeam[i].stats.Fg3PtPct['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable reb' },
 										'' + _this5.state.userTeam[i].stats.RebPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable ast' },
 										'' + _this5.state.userTeam[i].stats.AstPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable blk' },
 										'' + _this5.state.userTeam[i].stats.BlkPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable stl' },
 										'' + _this5.state.userTeam[i].stats.StlPerGame['#text']
 									),
 									_react2.default.createElement(
 										'td',
-										null,
+										{ className: 'smallTable pts' },
 										'' + _this5.state.userTeam[i].stats.PtsPerGame['#text']
 									)
 								);

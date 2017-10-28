@@ -485,9 +485,35 @@ tr:hover, tr:nth-child(even):hover {
 
 .myTeam {
   width: 80%;
+  max-width: 960px;
   margin: 10px auto 40px; }
+  .myTeam tbody a {
+    color: red;
+    margin-left: 10px; }
   .myTeam caption {
     margin: 20px 0; }
+
+@media screen and (max-width: 1240px) {
+  .myTeam {
+    width: 95%; } }
+
+.myTeam tbody tr:nth-of-type(even) {
+  background: rgba(0, 0, 0, 0.1); }
+
+.myTeam tbody td.smallTable {
+  width: 50px;
+  text-align: center; }
+
+.myTeam tbody td.medTable {
+  width: 60px;
+  text-align: center; }
+
+.myTeam tbody td.largeTable {
+  width: 80px;
+  text-align: center; }
+
+.myTeam tbody tr[scope="row"] {
+  min-width: 270px; }
 
 footer {
   background: #283593;
@@ -503,9 +529,7 @@ footer {
   .detailsStack .teamInfo div p {
     font-size: 12px; }
   table {
-    font-size: 14px; }
-  .myTeam {
-    width: 90%; } }
+    font-size: 14px; } }
 
 @media (max-width: 840px) {
   .homePageText h1 {
@@ -574,8 +598,12 @@ footer {
     display: none; } }
 
 .addbutton {
-  color: green;
-  font-weight: bold; }
+  color: red;
+  font-size: 16px;
+  margin-left: 10px; }
+
+tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 
 .modal {
   position: fixed;

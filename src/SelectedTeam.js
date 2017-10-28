@@ -170,7 +170,6 @@ export default class SelectedTeam extends React.Component {
 			const userID = firebase.auth().currentUser.uid;
 			const dbRef = firebase.database().ref(`users/${userID}/players`);
 			dbRef.push(JSON.stringify(val))
-
 		} else {
 			alert('Please log in to add a player to your team.');
 		}
@@ -251,8 +250,8 @@ render() {
 												<th scope="col">Date</th>
 												<th scope="col">Game</th>
 												<th scope="col">Min</th>
-												<th scope="col">FGM-FGA</th>
-												<th scope="col">FTM/FTA</th>
+												<th scope="col">FG</th>
+												<th scope="col">FT</th>
 												<th scope="col">3's</th>
 												<th scope="col">Points</th>
 												<th scope="col">Reb</th>
@@ -348,7 +347,7 @@ render() {
 									const teamAbbr = this.state.selectedTeam[i].team.Abbreviation
 									return (
 										<tr key={`player${i}`}>
-											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}<a href="#" className="addbutton" onClick={() => this.addPlayer(player)}>ADD</a> <a className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}>View</a></th>
+											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}<a href="#" className="addbutton" onClick={() => this.addPlayer(player)}><i className="fa fa-plus-circle" aria-hidden="true"></i></a> <a className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-info-circle" aria-hidden="true"></i></a></th>
 											<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
@@ -379,9 +378,9 @@ render() {
 							<th scope="col">Player</th>
 							<th scope="col">GP</th>
 							<th scope="col">MIN</th>
-							<th scope="col">FGM-FGA</th>
+							<th scope="col">FG</th>
 							<th scope="col">FG%</th>
-							<th scope="col">FTM-FTA</th>
+							<th scope="col">FT</th>
 							<th scope="col">FT%</th>
 							<th scope="col">3P%</th>
 							<th scope="col">RPG</th>
@@ -394,21 +393,25 @@ render() {
 					<tbody>
 
 						{this.state.userTeam.map((player, i) => {
+							const playerID = this.state.userTeam[i].player.ID;
+							const playerFormat = `${this.state.userTeam[i].player.FirstName}-${this.state.userTeam[i].player.LastName}-${this.state.userTeam[i].player.ID}`;
+							const teamAbbr = this.state.userTeam[i].team.Abbreviation
+
 							return (
 								<tr key={`userTeam${i}`}>
-									<th scope="row">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`} <a onClick={() => this.removePlayer(player, i)}>REM</a></th>
-									<td>{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
-									<td>{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FgMadePerGame['#text']}-${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FgPct['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FtMadePerGame['#text']}-${this.state.userTeam[i].stats.FtAttPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.FtPct['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.RebPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.AstPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.BlkPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.StlPerGame['#text']}`}</td>
-									<td>{`${this.state.userTeam[i].stats.PtsPerGame['#text']}`}</td>
+									<th scope="row" className="playerName">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`} <a onClick={() => this.removePlayer(player, i)}><i className="fa fa-minus-square-o" aria-hidden="true"></i></a> <a className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-info-circle" aria-hidden="true"></i></a></th>
+									<td className="smallTable gp">{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
+									<td className="smallTable min">{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
+									<td className="largeTable fgm">{`${this.state.userTeam[i].stats.FgMadePerGame['#text']}-${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>
+									<td className="smallTable fgp">{`${this.state.userTeam[i].stats.FgPct['#text']}`}</td>
+									<td className="largeTable ftm">{`${this.state.userTeam[i].stats.FtMadePerGame['#text']}-${this.state.userTeam[i].stats.FtAttPerGame['#text']}`}</td>
+									<td className="smallTable ftp">{`${this.state.userTeam[i].stats.FtPct['#text']}`}</td>
+									<td className="smallTable 3pp">{`${this.state.userTeam[i].stats.Fg3PtPct['#text']}`}</td>
+									<td className="smallTable reb">{`${this.state.userTeam[i].stats.RebPerGame['#text']}`}</td>
+									<td className="smallTable ast">{`${this.state.userTeam[i].stats.AstPerGame['#text']}`}</td>
+									<td className="smallTable blk">{`${this.state.userTeam[i].stats.BlkPerGame['#text']}`}</td>
+									<td className="smallTable stl">{`${this.state.userTeam[i].stats.StlPerGame['#text']}`}</td>
+									<td className="smallTable pts">{`${this.state.userTeam[i].stats.PtsPerGame['#text']}`}</td>
 								</tr>
 							)
 						})}
