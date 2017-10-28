@@ -314,16 +314,16 @@ render() {
 					</div>	
 					<div className="teamInfo">
 						<div>
-							<p>{`Rank: #${teamStats[0].rank}`}</p>
-							<p>{`PPG: ${teamStats[0].stats.PtsPerGame['#text']}`}</p>
-							<p>{`PPGA: ${teamStats[0].stats.PtsAgainstPerGame['#text']}`}</p>
-							<p>{`+/-: ${teamStats[0].stats.PlusMinusPerGame['#text']}`}</p>
+							<p><span className="teamInfo-bold">Rank:</span>{`#${teamStats[0].rank}`}</p>
+							<p><span className="teamInfo-bold">PPG:</span>{`${teamStats[0].stats.PtsPerGame['#text']}`}</p>
+							<p><span className="teamInfo-bold">PPGA:</span>{`${teamStats[0].stats.PtsAgainstPerGame['#text']}`}</p>
+							<p><span className="teamInfo-bold">+/-:</span>{`${teamStats[0].stats.PlusMinusPerGame['#text']}`}</p>
 						</div>
 						<div>
-							<p>{`FG: ${teamStats[0].stats.FgMadePerGame['#text']}-${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
-							<p>{`FG%: ${teamStats[0].stats.FgPct['#text']}%`}</p>
-							<p>{`3P: ${teamStats[0].stats.Fg3PtMadePerGame['#text']}-${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
-							<p>{`FG%: ${teamStats[0].stats.Fg3PtPct['#text']}%`}</p>
+							<p><span className="teamInfo-bold">FG:</span>{`${teamStats[0].stats.FgMadePerGame['#text']}-${teamStats[0].stats.FgAttPerGame['#text']}`}</p>
+							<p><span className="teamInfo-bold">FG%:</span>{`${teamStats[0].stats.FgPct['#text']}%`}</p>
+							<p><span className="teamInfo-bold">3P:</span>{`${teamStats[0].stats.Fg3PtMadePerGame['#text']}-${teamStats[0].stats.Fg3PtAttPerGame['#text']}`}</p>
+							<p><span className="teamInfo-bold">3P%</span>{`${teamStats[0].stats.Fg3PtPct['#text']}%`}</p>
 						</div>
 					</div>
 				</div>
@@ -369,7 +369,7 @@ render() {
 		viewToShow = (
 			<section className="rosterContainer">
 				<div className="ctaBanner">
-					<h2>Your Team</h2>
+					<h2>Watchlist</h2>
 				</div>
 				<table className="myTeam">
 					<caption><Link className="linkFull" onClick={this.expandMyTeam}>Expand</Link></caption>

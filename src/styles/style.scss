@@ -114,6 +114,7 @@ nav {
 				padding: 10px 40px; 
 				background: $accentStrong;
 				border: none;
+				margin-left: 0;
 			}
 		}
 	}
@@ -497,6 +498,10 @@ footer {
 	padding: 20px 10px;
 }
 
+.teamInfo-bold {
+	font-weight: bold;
+}
+
 @media (max-width: 1000px) {
 	h2 {
 		font-size: 26px;
@@ -519,7 +524,7 @@ footer {
 		font-size: 14px;
 	}
 	//at responsive, we take out 'Position' column in the team table up top
-	.teamTable {
+	.teamTable, .detailsStack {
 		width: 80%;
 		margin: 0 auto;
 		thead tr th:nth-of-type(2), tbody tr td:nth-of-type(1) {
@@ -641,7 +646,11 @@ footer {
 		.imageContainer {
 			h2 {
 				font-size: 30px;
+				margin: 0;
 			}
+		}
+		.teamInfo {
+			margin: 14px 0;
 		}
 		.teamInfo div {
 			p {
@@ -657,6 +666,26 @@ footer {
 	thead tr th.ftp, tbody tr td.ftp {
 		display: none;
 	}
+
+	.detailsStack .imageContainer {
+		justify-content: center;
+		flex: unset;
+		align-items: flex-start;
+		img {
+			height: unset;
+			max-width: 100%;
+		}
+	}
+
+	.detailsStack .imageContainer >  div {
+		flex: unset!important;
+		align-self: center;
+	}
+
+	.detailsStack .teamInfo div {
+		text-align: center;
+	}
+
 }
 
 @media (max-width: 525px) {
@@ -711,6 +740,12 @@ footer {
 			padding: 14px 100px;
 
 		}
+	}
+	.teamTable, .detailsStack {
+		width: 95%;
+	}
+	.detailsStack .imageContainer div {
+		text-align: center;
 	}
 }
 

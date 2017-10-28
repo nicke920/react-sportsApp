@@ -217,7 +217,8 @@ nav {
     nav .accountsContainer .teams a {
       padding: 10px 40px;
       background: #ff3d00;
-      border: none; }
+      border: none;
+      margin-left: 0; }
 
 .socialMedia {
   background: #283593; }
@@ -523,6 +524,9 @@ footer {
   text-align: center;
   padding: 20px 10px; }
 
+.teamInfo-bold {
+  font-weight: bold; }
+
 @media (max-width: 1000px) {
   h2 {
     font-size: 26px; }
@@ -532,10 +536,10 @@ footer {
     font-size: 12px; }
   table {
     font-size: 14px; }
-  .teamTable {
+  .teamTable, .detailsStack {
     width: 80%;
     margin: 0 auto; }
-    .teamTable thead tr th:nth-of-type(2), .teamTable tbody tr td:nth-of-type(1) {
+    .teamTable thead tr th:nth-of-type(2), .teamTable tbody tr td:nth-of-type(1), .detailsStack thead tr th:nth-of-type(2), .detailsStack tbody tr td:nth-of-type(1) {
       display: none; }
   .myTeam thead tr th.fgm, .myTeam tbody tr td.fgm,
   .myTeam thead tr th.ftm, .myTeam tbody tr td.ftm {
@@ -603,14 +607,29 @@ footer {
     flex-direction: column;
     flex-wrap: wrap; }
     .teamDetails .imageContainer h2 {
-      font-size: 30px; }
+      font-size: 30px;
+      margin: 0; }
+    .teamDetails .teamInfo {
+      margin: 14px 0; }
     .teamDetails .teamInfo div p {
       font-size: 16px; }
   .myTeam tbody th[scope="row"] {
     min-width: 150px; }
   thead tr th.gp, tbody tr td.gp,
   thead tr th.ftp, tbody tr td.ftp {
-    display: none; } }
+    display: none; }
+  .detailsStack .imageContainer {
+    justify-content: center;
+    flex: unset;
+    align-items: flex-start; }
+    .detailsStack .imageContainer img {
+      height: unset;
+      max-width: 100%; }
+  .detailsStack .imageContainer > div {
+    flex: unset !important;
+    align-self: center; }
+  .detailsStack .teamInfo div {
+    text-align: center; } }
 
 @media (max-width: 525px) {
   thead tr th.fgp, tbody tr td.fgp,
@@ -645,7 +664,11 @@ footer {
     order: 1;
     margin-top: 5px; }
     nav .accountsContainer .accounts.teams a {
-      padding: 14px 100px; } }
+      padding: 14px 100px; }
+  .teamTable, .detailsStack {
+    width: 95%; }
+  .detailsStack .imageContainer div {
+    text-align: center; } }
 
 @media (max-width: 400px) {
   thead tr th.blk, tbody tr td.blk,

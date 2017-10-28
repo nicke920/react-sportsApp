@@ -36241,22 +36241,42 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'Rank: #' + teamStats[0].rank
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'Rank:'
+									),
+									'#' + teamStats[0].rank
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'PPG: ' + teamStats[0].stats.PtsPerGame['#text']
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'PPG:'
+									),
+									'' + teamStats[0].stats.PtsPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'PPGA: ' + teamStats[0].stats.PtsAgainstPerGame['#text']
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'PPGA:'
+									),
+									'' + teamStats[0].stats.PtsAgainstPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'+/-: ' + teamStats[0].stats.PlusMinusPerGame['#text']
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'+/-:'
+									),
+									'' + teamStats[0].stats.PlusMinusPerGame['#text']
 								)
 							),
 							_react2.default.createElement(
@@ -36265,22 +36285,42 @@ var SelectedTeam = function (_React$Component2) {
 								_react2.default.createElement(
 									'p',
 									null,
-									'FG: ' + teamStats[0].stats.FgMadePerGame['#text'] + '-' + teamStats[0].stats.FgAttPerGame['#text']
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'FG:'
+									),
+									teamStats[0].stats.FgMadePerGame['#text'] + '-' + teamStats[0].stats.FgAttPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'FG%: ' + teamStats[0].stats.FgPct['#text'] + '%'
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'FG%:'
+									),
+									teamStats[0].stats.FgPct['#text'] + '%'
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'3P: ' + teamStats[0].stats.Fg3PtMadePerGame['#text'] + '-' + teamStats[0].stats.Fg3PtAttPerGame['#text']
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'3P:'
+									),
+									teamStats[0].stats.Fg3PtMadePerGame['#text'] + '-' + teamStats[0].stats.Fg3PtAttPerGame['#text']
 								),
 								_react2.default.createElement(
 									'p',
 									null,
-									'FG%: ' + teamStats[0].stats.Fg3PtPct['#text'] + '%'
+									_react2.default.createElement(
+										'span',
+										{ className: 'teamInfo-bold' },
+										'3P%'
+									),
+									teamStats[0].stats.Fg3PtPct['#text'] + '%'
 								)
 							)
 						)
@@ -36395,7 +36435,7 @@ var SelectedTeam = function (_React$Component2) {
 						_react2.default.createElement(
 							'h2',
 							null,
-							'Your Team'
+							'Watchlist'
 						)
 					),
 					_react2.default.createElement(
