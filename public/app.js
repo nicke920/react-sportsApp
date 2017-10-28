@@ -36584,6 +36584,13 @@ var SelectedTeam = function (_React$Component2) {
 				viewToShow = _react2.default.createElement(PreLogin, null);
 			}
 
+			var sortedTeams = this.state.teamsArray.sort(function (a, b) {
+				var alc = a.name.toLowerCase();
+				var blc = b.name.toLowerCase();
+				return alc > blc ? 1 : alc < blc ? -1 : 0;
+			});
+			console.log('sssteam', sortedTeams);
+
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -36604,8 +36611,7 @@ var SelectedTeam = function (_React$Component2) {
 								null,
 								'Select a team...'
 							),
-							this.state.teamsArray.map(function (each, i) {
-								console.log('eachhh', each);
+							sortedTeams.map(function (each, i) {
 								return _react2.default.createElement(
 									'option',
 									{ key: 'teamsArray' + i, value: each.id },

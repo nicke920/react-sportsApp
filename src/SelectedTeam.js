@@ -427,6 +427,14 @@ render() {
 			)
 	}
 
+	const sortedTeams = this.state.teamsArray.sort(function(a,b) {
+		var alc = a.name.toLowerCase();
+		var blc = b.name.toLowerCase();
+		return alc > blc ? 1 : alc < blc ? -1 : 0;
+
+	})
+	console.log('sssteam', sortedTeams)
+
 	return (
 		<div>
 			{playerModal}
@@ -434,8 +442,7 @@ render() {
 				<div className="wrapper">
 					<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>
 						<option>Select a team...</option>
-						{this.state.teamsArray.map((each,i) => {
-							console.log('eachhh', each)
+						{sortedTeams.map((each,i) => {
 							return (
 								<option key={`teamsArray${i}`} value={each.id}>{each.name}</option>
 							)
