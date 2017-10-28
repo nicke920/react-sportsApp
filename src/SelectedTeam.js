@@ -56,7 +56,9 @@ export default class SelectedTeam extends React.Component {
 			selectedTeamID: '101',
 			modalShowing: true,
 			selectedPlayer: '',
-			loadingScreen: true
+			loadingScreen: true,
+			updaterShowing: false,
+			updaterSaying: ''
 
 		}
 	this.selectTeam = this.selectTeam.bind(this);
@@ -169,9 +171,26 @@ export default class SelectedTeam extends React.Component {
 	}
 	addPlayer(val) {
 		if(firebase.auth().currentUser !== null) {
+			console.log('valuuu', val)
 			const userID = firebase.auth().currentUser.uid;
 			const dbRef = firebase.database().ref(`users/${userID}/players`);
 			dbRef.push(JSON.stringify(val))
+			
+			
+			this.setState({
+				updaterShowing: true,
+				updaterSaying: `You just added ${val.player.FirstName} ${val.player.LastName} to your watchlist!`
+			})
+
+			setTimeout(function() { 
+				this.setState({
+					updaterShowing: false
+				}); 
+				this.updaterDiv.classList.remove('slide')
+			}.bind(this), 2000);
+
+			this.updaterDiv.classList.add('slide')
+
 		} else {
 			alert('Please log in to add a player to your team.');
 		}
@@ -181,6 +200,20 @@ export default class SelectedTeam extends React.Component {
 		const userID = firebase.auth().currentUser.uid;
 		const dbRef = firebase.database().ref(`users/${userID}/players/${val.key}`);
 		dbRef.remove();
+
+		this.setState({
+			updaterShowing: true,
+			updaterSaying: `You just removed ${val.player.FirstName} ${val.player.LastName} from your watchlist!`
+		})
+
+		setTimeout(function() { 
+			this.setState({
+				updaterShowing: false
+			}); 
+			this.updaterDiv.classList.remove('slide')
+		}.bind(this), 2000);
+
+		this.updaterDiv.classList.add('slide')
 	}
 	expandMyTeam() {
 		this.teamDetails.classList.toggle('hider');
@@ -213,12 +246,22 @@ export default class SelectedTeam extends React.Component {
 	}
 
 render() {
+	let updater = '';
+
+
+		updater = (
+				<div className="updater" ref={ref => this.updaterDiv = ref}>
+					<p>{this.state.updaterSaying}</p>
+				</div>
+			)
+
+
 	let loadingScreen = '';
 
 	if (this.state.loadingScreen === true) {
 		loadingScreen = (
 				<div className="loading">
-					<h1>Content is loading...</h1>
+					<h1>Loading...</h1>
 				</div>
 			)
 	}
@@ -453,6 +496,7 @@ render() {
 		<div>
 			{loadingScreen}
 			{playerModal}
+			{updater}
 			<section className="teamContainer" ref={ref => this.teamDetails = ref}>
 				<div className="wrapper">
 					<select value={this.state.value} id="teamSelector" onChange={this.selectTeam}>

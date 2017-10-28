@@ -35816,7 +35816,9 @@ var SelectedTeam = function (_React$Component2) {
 			selectedTeamID: '101',
 			modalShowing: true,
 			selectedPlayer: '',
-			loadingScreen: true
+			loadingScreen: true,
+			updaterShowing: false,
+			updaterSaying: ''
 
 		};
 		_this2.selectTeam = _this2.selectTeam.bind(_this2);
@@ -35936,9 +35938,24 @@ var SelectedTeam = function (_React$Component2) {
 		key: 'addPlayer',
 		value: function addPlayer(val) {
 			if (firebase.auth().currentUser !== null) {
+				console.log('valuuu', val);
 				var userID = firebase.auth().currentUser.uid;
 				var dbRef = firebase.database().ref('users/' + userID + '/players');
 				dbRef.push(JSON.stringify(val));
+
+				this.setState({
+					updaterShowing: true,
+					updaterSaying: 'You just added ' + val.player.FirstName + ' ' + val.player.LastName + ' to your watchlist!'
+				});
+
+				setTimeout(function () {
+					this.setState({
+						updaterShowing: false
+					});
+					this.updaterDiv.classList.remove('slide');
+				}.bind(this), 2000);
+
+				this.updaterDiv.classList.add('slide');
 			} else {
 				alert('Please log in to add a player to your team.');
 			}
@@ -35950,6 +35967,20 @@ var SelectedTeam = function (_React$Component2) {
 			var userID = firebase.auth().currentUser.uid;
 			var dbRef = firebase.database().ref('users/' + userID + '/players/' + val.key);
 			dbRef.remove();
+
+			this.setState({
+				updaterShowing: true,
+				updaterSaying: 'You just removed ' + val.player.FirstName + ' ' + val.player.LastName + ' from your watchlist!'
+			});
+
+			setTimeout(function () {
+				this.setState({
+					updaterShowing: false
+				});
+				this.updaterDiv.classList.remove('slide');
+			}.bind(this), 2000);
+
+			this.updaterDiv.classList.add('slide');
 		}
 	}, {
 		key: 'expandMyTeam',
@@ -35991,6 +36022,20 @@ var SelectedTeam = function (_React$Component2) {
 		value: function render() {
 			var _this5 = this;
 
+			var updater = '';
+
+			updater = _react2.default.createElement(
+				'div',
+				{ className: 'updater', ref: function ref(_ref) {
+						return _this5.updaterDiv = _ref;
+					} },
+				_react2.default.createElement(
+					'p',
+					null,
+					this.state.updaterSaying
+				)
+			);
+
 			var loadingScreen = '';
 
 			if (this.state.loadingScreen === true) {
@@ -36000,7 +36045,7 @@ var SelectedTeam = function (_React$Component2) {
 					_react2.default.createElement(
 						'h1',
 						null,
-						'Content is loading...'
+						'Loading...'
 					)
 				);
 			}
@@ -36652,10 +36697,11 @@ var SelectedTeam = function (_React$Component2) {
 				null,
 				loadingScreen,
 				playerModal,
+				updater,
 				_react2.default.createElement(
 					'section',
-					{ className: 'teamContainer', ref: function ref(_ref) {
-							return _this5.teamDetails = _ref;
+					{ className: 'teamContainer', ref: function ref(_ref2) {
+							return _this5.teamDetails = _ref2;
 						} },
 					_react2.default.createElement(
 						'div',

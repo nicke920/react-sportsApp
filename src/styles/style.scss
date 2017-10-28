@@ -855,3 +855,21 @@ table tr, table th {
 		text-align: center;
 	}
 }
+
+.updater {
+	width: 100%;
+	position: fixed;
+	top: -85px;
+	background: $accentStrong;
+	padding: 30px 0;
+	text-align: center;
+	transition: all 0.4s;
+	p {
+		margin: 0;
+		color: white;
+	}
+}
+
+.updater.slide {
+	top: 0;
+}
