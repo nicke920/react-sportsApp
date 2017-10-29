@@ -489,8 +489,10 @@ tr:hover, tr:nth-child(even):hover {
   max-width: 960px;
   margin: 10px auto 40px; }
   .myTeam tbody a {
-    color: red;
-    margin-left: 10px; }
+    color: #3f51b5; }
+    .myTeam tbody a:hover {
+      color: #283593;
+      cursor: pointer; }
   .myTeam caption {
     margin: 20px 0; }
 
@@ -526,6 +528,15 @@ footer {
 
 .teamInfo-bold {
   font-weight: bold; }
+
+.exitmodal {
+  font-size: 30px;
+  color: #ff6e40;
+  position: absolute;
+  top: 5px;
+  right: 20px; }
+  .exitmodal:hover {
+    cursor: pointer; }
 
 @media (max-width: 1000px) {
   h2 {
@@ -572,7 +583,7 @@ footer {
   .ctaBanner .linkTransparent {
     display: none; } }
 
-@media (max-width: 700px) {
+@media (max-width: 780px) {
   nav .accountsContainer .accounts {
     padding: 10px 0;
     font-size: 10px; }
@@ -627,7 +638,13 @@ footer {
     flex: unset !important;
     align-self: center; }
   .detailsStack .teamInfo div {
-    text-align: center; } }
+    text-align: center; }
+  .stats {
+    overflow: scroll; }
+  .exitmodal {
+    top: 10px;
+    left: 240px;
+    right: unset; } }
 
 @media (max-width: 525px) {
   thead tr th.fgp, tbody tr td.fgp,
@@ -656,6 +673,17 @@ footer {
   nav .accountsContainer .accounts a {
     margin-left: 0; } }
 
+.playerInfoContainer {
+  max-width: 1440px;
+  width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  background: white;
+  padding: 0 10px;
+  position: relative; }
+  .playerInfoContainer h5 {
+    margin-left: 20px; }
+
 @media (max-width: 430px) {
   nav .accountsContainer .accounts.teams {
     width: 100%;
@@ -671,12 +699,24 @@ footer {
 @media (max-width: 400px) {
   thead tr th.blk, tbody tr td.blk,
   thead tr th.stl, tbody tr td.stl {
-    display: none; } }
+    display: none; }
+  .playerInfoContainer {
+    flex-wrap: wrap; }
+    .playerInfoContainer h5 {
+      margin: 0;
+      width: 100%;
+      display: block; } }
 
 .addbutton {
-  color: red;
+  color: #3f51b5;
   font-size: 16px;
-  margin-left: 10px; }
+  padding: 6px; }
+  .addbutton:hover {
+    color: #283593;
+    cursor: pointer; }
+
+.ad2 {
+  margin-right: 10px; }
 
 tr {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
@@ -688,15 +728,11 @@ tr {
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.8);
-  color: red;
   display: flex;
   flex-direction: column;
   justify-content: center; }
-  .modal h1 {
-    color: white;
-    font-size: 80px; }
-  .modal p {
-    color: red; }
+  .modal h3, .modal h4, .modal h5 {
+    color: #3f51b5; }
 
 .stats .table {
   max-height: 250px;
@@ -713,34 +749,16 @@ tr {
 .stats tr {
   background-color: white; }
 
-.playerInfoContainer {
-  max-width: 1440px;
-  width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  background: white;
-  padding: 0 10px;
-  position: relative; }
-  .playerInfoContainer h5 {
-    margin-left: 20px; }
-
 .playerDetailInfo {
   display: flex;
   margin-left: 5px; }
   .playerDetailInfo h4 {
     padding: 0 3px; }
   .playerDetailInfo h4:first-of-type {
-    border-left: 1px solid red; }
+    border-left: 1px solid #ff6e40; }
 
 table tr, table th {
   font-size: 14px; }
-
-.exitmodal {
-  font-size: 30px;
-  color: red;
-  position: absolute;
-  top: 5px;
-  right: 20px; }
 
 .loading {
   position: fixed;
@@ -762,7 +780,7 @@ table tr, table th {
   position: fixed;
   top: -85px;
   background: #ff3d00;
-  padding: 30px 0;
+  padding: 15px 0;
   text-align: center;
   transition: all 0.4s; }
   .updater p {

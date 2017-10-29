@@ -448,8 +448,11 @@ tr:hover, tr:nth-child(even):hover {
 	max-width: 960px;
 	margin: 10px auto 40px;
 	tbody a {
-		color: red;
-		margin-left: 10px;
+		color: $primaryColor;
+		&:hover {
+			color: $darkBlue;
+			cursor: pointer;
+		}
 	}
 	caption {
 		margin: 20px 0;
@@ -500,6 +503,17 @@ footer {
 
 .teamInfo-bold {
 	font-weight: bold;
+}
+
+.exitmodal {
+	font-size: 30px;
+	color: $accentColor;
+	position: absolute;
+	top: 5px;
+	right: 20px;
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 @media (max-width: 1000px) {
@@ -593,7 +607,7 @@ footer {
 }
 
 
-@media (max-width: 700px) {
+@media (max-width: 780px) {
 	nav {
 		.accountsContainer {
 			.accounts {
@@ -683,6 +697,15 @@ footer {
 		text-align: center;
 	}
 
+	.stats {
+		overflow: scroll;
+	}
+
+	.exitmodal {
+		top: 10px;
+		left: 240px;
+		right: unset;
+	}
 }
 
 @media (max-width: 525px) {
@@ -728,6 +751,19 @@ footer {
 	}
 }
 
+.playerInfoContainer {
+	max-width: 1440px;
+	width: 1000px;
+	margin: 0 auto;
+	display: flex;
+	background: white;
+	padding: 0 10px;
+	position: relative;
+	h5 {
+		margin-left: 20px;
+	}
+}
+
 @media (max-width: 430px) {
 	nav .accountsContainer .accounts.teams {
 		width: 100%;
@@ -752,12 +788,30 @@ footer {
 		display: none;
 	}
 
+	.playerInfoContainer {
+		flex-wrap: wrap;
+		h5 {
+			margin: 0;
+			width: 100%;
+		    display: block;
+		}
+	}
+
+
 }
 
 .addbutton {
-	color: red;
+	color: $primaryColor;
 	font-size: 16px;
-	margin-left: 10px;
+	padding: 6px;
+	&:hover {
+		color: $darkBlue;
+		cursor: pointer;
+	}
+}
+
+.ad2 {
+	margin-right: 10px;
 }
 
 tr {
@@ -772,16 +826,11 @@ tr {
 	left: 0;
 	right: 0;
 	background-color: rgba(0,0,0,0.8);
-	color: red;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	h1 {
-		color: white;
-		font-size: 80px;
-	}
-	p {
-		color: red;
+	h3, h4, h5 {
+		color: $primaryColor;
 	}
 }
 
@@ -803,18 +852,7 @@ tr {
 	background-color: white;
 }
 
-.playerInfoContainer {
-	max-width: 1440px;
-	width: 1000px;
-	margin: 0 auto;
-	display: flex;
-	background: white;
-	padding: 0 10px;
-	position: relative;
-	h5 {
-		margin-left: 20px;
-	}
-}
+
 
 .playerDetailInfo {
 	display: flex;
@@ -823,7 +861,7 @@ tr {
 		padding: 0 3px;
 	}
 	h4:first-of-type {
-		border-left: 1px solid red;
+		border-left: 1px solid $accentColor;
 	}
 }
 
@@ -831,13 +869,7 @@ table tr, table th {
 	font-size: 14px;
 }
 
-.exitmodal {
-	font-size: 30px;
-	color: red;
-	position: absolute;
-	top: 5px;
-	right: 20px;
-}
+
 
 .loading {
 	position: fixed;
@@ -861,7 +893,7 @@ table tr, table th {
 	position: fixed;
 	top: -85px;
 	background: $accentStrong;
-	padding: 30px 0;
+	padding: 15px 0;
 	text-align: center;
 	transition: all 0.4s;
 	p {

@@ -171,25 +171,52 @@ export default class SelectedTeam extends React.Component {
 	}
 	addPlayer(val) {
 		if(firebase.auth().currentUser !== null) {
-			console.log('valuuu', val)
+			
 			const userID = firebase.auth().currentUser.uid;
 			const dbRef = firebase.database().ref(`users/${userID}/players`);
-			dbRef.push(JSON.stringify(val))
-			
-			
-			this.setState({
-				updaterShowing: true,
-				updaterSaying: `You just added ${val.player.FirstName} ${val.player.LastName} to your watchlist!`
-			})
+			const userTeamArray = this.state.userTeam;
+			const addedPlayer = val;
+			let okToAdd = true;
+			console.log('useteaa', this.state.userTeam)
+			console.log('valuuuuu', val)
 
-			setTimeout(function() { 
+			for (var i = 0; i < userTeamArray.length; i++) {
+				if (addedPlayer.player.ID === userTeamArray[i].player.ID) {
+					okToAdd = false
+				} 
+			}
+			
+			if (okToAdd === true) {
+				dbRef.push(JSON.stringify(val))
+				
 				this.setState({
-					updaterShowing: false
-				}); 
-				this.updaterDiv.classList.remove('slide')
-			}.bind(this), 2000);
+					updaterShowing: true,
+					updaterSaying: `You just added ${val.player.FirstName} ${val.player.LastName} to your watchlist!`
+				})
 
-			this.updaterDiv.classList.add('slide')
+				setTimeout(function() { 
+					this.setState({
+						updaterShowing: false
+					}); 
+					this.updaterDiv.classList.remove('slide')
+				}.bind(this), 1700);
+
+				this.updaterDiv.classList.add('slide')
+			} else {
+				this.setState({
+					updaterShowing: true,
+					updaterSaying: `You cannot add ${val.player.FirstName} ${val.player.LastName} again. He's already on your team`
+				})
+
+				setTimeout(function() { 
+					this.setState({
+						updaterShowing: false
+					}); 
+					this.updaterDiv.classList.remove('slide')
+				}.bind(this), 2500);
+
+				this.updaterDiv.classList.add('slide')
+			}
 
 		} else {
 			alert('Please log in to add a player to your team.');
@@ -211,7 +238,7 @@ export default class SelectedTeam extends React.Component {
 				updaterShowing: false
 			}); 
 			this.updaterDiv.classList.remove('slide')
-		}.bind(this), 2000);
+		}.bind(this), 1700);
 
 		this.updaterDiv.classList.add('slide')
 	}
@@ -261,7 +288,7 @@ render() {
 	if (this.state.loadingScreen === true) {
 		loadingScreen = (
 				<div className="loading">
-					<h1>Loading...</h1>
+					<h1>Loading players...</h1>
 				</div>
 			)
 	}
@@ -404,7 +431,7 @@ render() {
 									const teamAbbr = this.state.selectedTeam[i].team.Abbreviation
 									return (
 										<tr key={`player${i}`}>
-											<th scope="row">{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}<a href="#" className="addbutton" onClick={() => this.addPlayer(player)}><i className="fa fa-plus-circle" aria-hidden="true"></i></a> <a className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-info-circle" aria-hidden="true"></i></a></th>
+											<th scope="row"><a href="#" className="addbutton" onClick={() => this.addPlayer(player)}><i className="fa fa-plus-square-o" aria-hidden="true"></i></a> <a className="addbutton ad2" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-user-circle-o" aria-hidden="true"></i></a>{`${this.state.selectedTeam[i].player.FirstName} ${this.state.selectedTeam[i].player.LastName}`}</th>
 											<td>{`${this.state.selectedTeam[i].player.Position}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.PtsPerGame['#text']}`}</td>
 											<td>{`${this.state.selectedTeam[i].stats.RebPerGame['#text']}`}</td>
@@ -456,7 +483,7 @@ render() {
 
 							return (
 								<tr key={`userTeam${i}`}>
-									<th scope="row" className="playerName">{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`} <a onClick={() => this.removePlayer(player, i)}><i className="fa fa-minus-square-o" aria-hidden="true"></i></a> <a className="addbutton" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-info-circle" aria-hidden="true"></i></a></th>
+									<th scope="row" className="playerName"><a className="addbutton" onClick={() => this.removePlayer(player, i)}><i className="fa fa-minus-square-o" aria-hidden="true"></i></a> <a className="addbutton ad2" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-user-circle-o" aria-hidden="true"></i></a>{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`}</th>
 									<td className="smallTable gp">{`${this.state.userTeam[i].stats.GamesPlayed['#text']}`}</td>
 									<td className="smallTable min">{`${(this.state.userTeam[i].stats.MinSecondsPerGame['#text'] / 60).toFixed(1)}`}</td>
 									<td className="largeTable fgm">{`${this.state.userTeam[i].stats.FgMadePerGame['#text']}-${this.state.userTeam[i].stats.FgAttPerGame['#text']}`}</td>

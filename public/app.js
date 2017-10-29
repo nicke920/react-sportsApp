@@ -35938,24 +35938,52 @@ var SelectedTeam = function (_React$Component2) {
 		key: 'addPlayer',
 		value: function addPlayer(val) {
 			if (firebase.auth().currentUser !== null) {
-				console.log('valuuu', val);
+
 				var userID = firebase.auth().currentUser.uid;
 				var dbRef = firebase.database().ref('users/' + userID + '/players');
-				dbRef.push(JSON.stringify(val));
+				var userTeamArray = this.state.userTeam;
+				var addedPlayer = val;
+				var okToAdd = true;
+				console.log('useteaa', this.state.userTeam);
+				console.log('valuuuuu', val);
 
-				this.setState({
-					updaterShowing: true,
-					updaterSaying: 'You just added ' + val.player.FirstName + ' ' + val.player.LastName + ' to your watchlist!'
-				});
+				for (var i = 0; i < userTeamArray.length; i++) {
+					if (addedPlayer.player.ID === userTeamArray[i].player.ID) {
+						okToAdd = false;
+					}
+				}
 
-				setTimeout(function () {
+				if (okToAdd === true) {
+					dbRef.push(JSON.stringify(val));
+
 					this.setState({
-						updaterShowing: false
+						updaterShowing: true,
+						updaterSaying: 'You just added ' + val.player.FirstName + ' ' + val.player.LastName + ' to your watchlist!'
 					});
-					this.updaterDiv.classList.remove('slide');
-				}.bind(this), 2000);
 
-				this.updaterDiv.classList.add('slide');
+					setTimeout(function () {
+						this.setState({
+							updaterShowing: false
+						});
+						this.updaterDiv.classList.remove('slide');
+					}.bind(this), 1700);
+
+					this.updaterDiv.classList.add('slide');
+				} else {
+					this.setState({
+						updaterShowing: true,
+						updaterSaying: 'You cannot add ' + val.player.FirstName + ' ' + val.player.LastName + ' again. He\'s already on your team'
+					});
+
+					setTimeout(function () {
+						this.setState({
+							updaterShowing: false
+						});
+						this.updaterDiv.classList.remove('slide');
+					}.bind(this), 2500);
+
+					this.updaterDiv.classList.add('slide');
+				}
 			} else {
 				alert('Please log in to add a player to your team.');
 			}
@@ -35978,7 +36006,7 @@ var SelectedTeam = function (_React$Component2) {
 					updaterShowing: false
 				});
 				this.updaterDiv.classList.remove('slide');
-			}.bind(this), 2000);
+			}.bind(this), 1700);
 
 			this.updaterDiv.classList.add('slide');
 		}
@@ -36045,7 +36073,7 @@ var SelectedTeam = function (_React$Component2) {
 					_react2.default.createElement(
 						'h1',
 						null,
-						'Loading...'
+						'Loading players...'
 					)
 				);
 			}
@@ -36439,22 +36467,22 @@ var SelectedTeam = function (_React$Component2) {
 											_react2.default.createElement(
 												'th',
 												{ scope: 'row' },
-												_this5.state.selectedTeam[i].player.FirstName + ' ' + _this5.state.selectedTeam[i].player.LastName,
 												_react2.default.createElement(
 													'a',
 													{ href: '#', className: 'addbutton', onClick: function onClick() {
 															return _this5.addPlayer(player);
 														} },
-													_react2.default.createElement('i', { className: 'fa fa-plus-circle', 'aria-hidden': 'true' })
+													_react2.default.createElement('i', { className: 'fa fa-plus-square-o', 'aria-hidden': 'true' })
 												),
 												' ',
 												_react2.default.createElement(
 													'a',
-													{ className: 'addbutton', onClick: function onClick() {
+													{ className: 'addbutton ad2', onClick: function onClick() {
 															return _this5.showPlayerModal(playerID, playerFormat, teamAbbr);
 														} },
-													_react2.default.createElement('i', { className: 'fa fa-info-circle', 'aria-hidden': 'true' })
-												)
+													_react2.default.createElement('i', { className: 'fa fa-user-circle-o', 'aria-hidden': 'true' })
+												),
+												_this5.state.selectedTeam[i].player.FirstName + ' ' + _this5.state.selectedTeam[i].player.LastName
 											),
 											_react2.default.createElement(
 												'td',
@@ -36598,11 +36626,9 @@ var SelectedTeam = function (_React$Component2) {
 									_react2.default.createElement(
 										'th',
 										{ scope: 'row', className: 'playerName' },
-										_this5.state.userTeam[i].player.FirstName + ' ' + _this5.state.userTeam[i].player.LastName + ', (' + _this5.state.userTeam[i].player.Position + ')',
-										' ',
 										_react2.default.createElement(
 											'a',
-											{ onClick: function onClick() {
+											{ className: 'addbutton', onClick: function onClick() {
 													return _this5.removePlayer(player, i);
 												} },
 											_react2.default.createElement('i', { className: 'fa fa-minus-square-o', 'aria-hidden': 'true' })
@@ -36610,11 +36636,12 @@ var SelectedTeam = function (_React$Component2) {
 										' ',
 										_react2.default.createElement(
 											'a',
-											{ className: 'addbutton', onClick: function onClick() {
+											{ className: 'addbutton ad2', onClick: function onClick() {
 													return _this5.showPlayerModal(playerID, playerFormat, teamAbbr);
 												} },
-											_react2.default.createElement('i', { className: 'fa fa-info-circle', 'aria-hidden': 'true' })
-										)
+											_react2.default.createElement('i', { className: 'fa fa-user-circle-o', 'aria-hidden': 'true' })
+										),
+										_this5.state.userTeam[i].player.FirstName + ' ' + _this5.state.userTeam[i].player.LastName + ', (' + _this5.state.userTeam[i].player.Position + ')'
 									),
 									_react2.default.createElement(
 										'td',
