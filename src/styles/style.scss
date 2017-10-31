@@ -344,6 +344,7 @@ label {
 			font-size: 18px;
 			padding: 10px 5px;
 			border: none;
+			max-width: 200px;
 			box-shadow:  0 4px 10px -2px gray;;
 			&:hover {
 				// box-shadow: 0px 4px 10px 2px gray;
@@ -509,11 +510,74 @@ footer {
 	font-size: 30px;
 	color: $accentColor;
 	position: absolute;
-	top: 5px;
+	top: 10px;
 	right: 20px;
 	&:hover {
 		cursor: pointer;
 	}
+}
+
+.playerInfoContainer {
+	max-width: 1440px;
+	width: 90%;
+	margin: 0 auto;
+	display: flex;
+	background: white;
+	padding: 0 10px;
+	position: relative;
+	h5 {
+		margin-left: 20px;
+	}
+}
+
+.modal {
+	// display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.8);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	h3, h4, h5 {
+		color: $primaryColor;
+	}
+}
+
+.stats .table {
+    overflow: hidden;
+    max-width: 1440px;
+    width: 90%;
+    overflow: scroll;
+    background: white;
+    margin: 0 auto;
+    padding: 0 10px;
+    tr {
+    	box-shadow: 0 0 3px 1px lightgrey;
+    }
+}
+
+.stats tr {
+	background-color: white;
+}
+
+
+
+.playerDetailInfo {
+	display: flex;
+	margin-left: 5px;
+	h4 {
+		padding: 0 3px;
+	}
+	h4:first-of-type {
+		border-left: 1px solid $accentColor;
+	}
+}
+
+table tr, table th {
+	font-size: 14px;
 }
 
 @media (max-width: 1000px) {
@@ -696,15 +760,17 @@ footer {
 	.detailsStack .teamInfo div {
 		text-align: center;
 	}
-
-	.stats {
-		overflow: scroll;
+	.stats .table, 
+	.playerInfoContainer {
+		width: 100%;
 	}
 
-	.exitmodal {
-		top: 10px;
-		left: 240px;
-		right: unset;
+	.stats .table {
+		width: 700px;
+	}
+
+	.stats {
+		overflow-y: scroll;
 	}
 }
 
@@ -751,18 +817,7 @@ footer {
 	}
 }
 
-.playerInfoContainer {
-	max-width: 1440px;
-	width: 1000px;
-	margin: 0 auto;
-	display: flex;
-	background: white;
-	padding: 0 10px;
-	position: relative;
-	h5 {
-		margin-left: 20px;
-	}
-}
+
 
 @media (max-width: 430px) {
 	nav .accountsContainer .accounts.teams {
@@ -818,56 +873,7 @@ tr {
 	border-bottom: 1px solid rgba(0,0,0,0.1)
 }
 
-.modal {
-	// display: none;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0,0,0,0.8);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	h3, h4, h5 {
-		color: $primaryColor;
-	}
-}
 
-.stats .table {
-	max-height: 250px;
-    overflow: hidden;
-    max-width: 1440px;
-    width: 1000px;
-    overflow: scroll;
-    background: white;
-    margin: 0 auto;
-    padding: 0 10px;
-    tr {
-    	box-shadow: 0 0 3px 1px lightgrey;
-    }
-}
-
-.stats tr {
-	background-color: white;
-}
-
-
-
-.playerDetailInfo {
-	display: flex;
-	margin-left: 5px;
-	h4 {
-		padding: 0 3px;
-	}
-	h4:first-of-type {
-		border-left: 1px solid $accentColor;
-	}
-}
-
-table tr, table th {
-	font-size: 14px;
-}
 
 
 
