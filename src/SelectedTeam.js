@@ -125,8 +125,6 @@ export default class SelectedTeam extends React.Component {
 
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
-				console.log('put here???')
-			document.getElementById('signupbutton').classList.add('hideit')
 			const dbRef = firebase.database().ref(`users/${user.uid}/players`);
 				dbRef.on('value', (fireData) => {
 					const players = fireData.val();

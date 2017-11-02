@@ -35887,8 +35887,6 @@ var SelectedTeam = function (_React$Component2) {
 
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
-					console.log('put here???');
-					document.getElementById('signupbutton').classList.add('hideit');
 					var dbRef = firebase.database().ref('users/' + user.uid + '/players');
 					dbRef.on('value', function (fireData) {
 						var players = fireData.val();
