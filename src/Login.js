@@ -23,7 +23,6 @@ export default class Login extends React.Component {
 				})
 			} else {
 				console.log('YOU ARE NOT LOGGED IN')
-				document.getElementById('signupbutton').classList.remove('hideit')
 				this.setState({
 					loginState: false
 				})

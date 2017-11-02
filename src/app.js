@@ -70,10 +70,10 @@ class App extends React.Component {
 							<div className="accounts teams">
 								<Link to='/teams'>Teams</Link>
 							</div>
-							<div className="accounts login" id="myaccountbutton">
+							<div className="accounts">
 								<Link to='/login'>My Account</Link>
 							</div>
-							<div className="accounts signupbutton" id="signupbutton">
+							<div className="accounts">
 								<Link to='/signup'>Sign Up</Link>
 							</div>
 						</div>

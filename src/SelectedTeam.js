@@ -351,13 +351,11 @@ render() {
 										<tbody>
 								{
 									playerGameArray.map((game, i) => {
-
 											const date = game.game.date.split('-');
 											const dateformat = `${date[1]}/${date[2]}`
 										
 										return (
 											<tr key={`game${i}`}>
-
 												<th scope="row">{`${dateformat}`}</th>
 												<th scope="row">{`${game.game.awayTeam.Abbreviation} @ ${game.game.homeTeam.Abbreviation}`}</th>
 												<td>{`${(game.stats.MinSeconds['#text'] / 60).toFixed(0)}`}</td>
@@ -381,12 +379,9 @@ render() {
 						</div>
 					</div>
 				)
-
 		}
 		
 	}
-
-
 	if (teamStats[0] !== undefined) {
 		teamInfo = (
 			<div className="teamDetails">
@@ -446,10 +441,8 @@ render() {
 					</table>
 				</div>
 			</div>
-
 			)
 	}
-
 	let viewToShow = '';
 	if (this.state.userTeam.length > 0) {
 		viewToShow = (
@@ -477,12 +470,10 @@ render() {
 						</tr>
 					</thead>
 					<tbody>
-
 						{this.state.userTeam.map((player, i) => {
 							const playerID = this.state.userTeam[i].player.ID;
 							const playerFormat = `${this.state.userTeam[i].player.FirstName}-${this.state.userTeam[i].player.LastName}-${this.state.userTeam[i].player.ID}`;
 							const teamAbbr = this.state.userTeam[i].team.Abbreviation
-
 							return (
 								<tr key={`userTeam${i}`}>
 									<th scope="row" className="playerName"><a className="addbutton" onClick={() => this.removePlayer(player, i)}><i className="fa fa-minus-square-o" aria-hidden="true"></i></a> <a className="addbutton ad2" onClick={() => this.showPlayerModal(playerID, playerFormat, teamAbbr)}><i className="fa fa-user-circle-o" aria-hidden="true"></i></a>{`${this.state.userTeam[i].player.FirstName} ${this.state.userTeam[i].player.LastName}, (${this.state.userTeam[i].player.Position})`}</th>
@@ -503,8 +494,6 @@ render() {
 						})}
 					</tbody>
 				</table>
-
-
 			</section>
 			)
 	} else {
@@ -512,15 +501,12 @@ render() {
 			<PreLogin />
 			)
 	}
-
 	const sortedTeams = this.state.teamsArray.sort(function(a,b) {
 		var alc = a.name.toLowerCase();
 		var blc = b.name.toLowerCase();
 		return alc > blc ? 1 : alc < blc ? -1 : 0;
-
 	})
 	console.log('sssteam', sortedTeams)
-
 	return (
 		<div>
 			{loadingScreen}
@@ -536,14 +522,11 @@ render() {
 							)
 						})}
 					</select>
-
 						{teamInfo}
 				</div>
 			</section>
-
 			{viewToShow}
 		</div>
 	)
-
 }
 }

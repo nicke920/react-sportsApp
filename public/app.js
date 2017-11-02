@@ -35605,7 +35605,6 @@ var Login = function (_React$Component) {
 					});
 				} else {
 					console.log('YOU ARE NOT LOGGED IN');
-					document.getElementById('signupbutton').classList.remove('hideit');
 					_this2.setState({
 						loginState: false
 					});
@@ -36220,7 +36219,6 @@ var SelectedTeam = function (_React$Component2) {
 											'tbody',
 											null,
 											playerGameArray.map(function (game, i) {
-
 												var date = game.game.date.split('-');
 												var dateformat = date[1] + '/' + date[2];
 
@@ -36297,7 +36295,6 @@ var SelectedTeam = function (_React$Component2) {
 					);
 				}
 			}
-
 			if (teamStats[0] !== undefined) {
 				teamInfo = _react2.default.createElement(
 					'div',
@@ -36515,7 +36512,6 @@ var SelectedTeam = function (_React$Component2) {
 					)
 				);
 			}
-
 			var viewToShow = '';
 			if (this.state.userTeam.length > 0) {
 				viewToShow = _react2.default.createElement(
@@ -36622,7 +36618,6 @@ var SelectedTeam = function (_React$Component2) {
 								var playerID = _this5.state.userTeam[i].player.ID;
 								var playerFormat = _this5.state.userTeam[i].player.FirstName + '-' + _this5.state.userTeam[i].player.LastName + '-' + _this5.state.userTeam[i].player.ID;
 								var teamAbbr = _this5.state.userTeam[i].team.Abbreviation;
-
 								return _react2.default.createElement(
 									'tr',
 									{ key: 'userTeam' + i },
@@ -36714,14 +36709,12 @@ var SelectedTeam = function (_React$Component2) {
 			} else {
 				viewToShow = _react2.default.createElement(PreLogin, null);
 			}
-
 			var sortedTeams = this.state.teamsArray.sort(function (a, b) {
 				var alc = a.name.toLowerCase();
 				var blc = b.name.toLowerCase();
 				return alc > blc ? 1 : alc < blc ? -1 : 0;
 			});
 			console.log('sssteam', sortedTeams);
-
 			return _react2.default.createElement(
 				'div',
 				null,
@@ -36836,14 +36829,14 @@ var SignUp = function (_React$Component) {
 
 			if (this.state.password === this.state.confirm) {
 				firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(function (userData) {
-					console.log(userData);
+					// console.log(userData);
 				}).catch(function (error) {
 					alert(error);
-					console.log('error message', error.message);
+					// console.log('error message', error.message);
 				});
 
-				console.log('signuped');
-				console.log('seconddd', this.state.email, this.state.password, this.state.confirm);
+				// console.log('signuped')
+				// console.log('seconddd', this.state.email, this.state.password, this.state.confirm)
 				this.setState({
 					signedUpState: true
 				});
@@ -37145,7 +37138,7 @@ var App = function (_React$Component2) {
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'accounts login', id: 'myaccountbutton' },
+								{ className: 'accounts' },
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/login' },
@@ -37154,7 +37147,7 @@ var App = function (_React$Component2) {
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'accounts signupbutton', id: 'signupbutton' },
+								{ className: 'accounts' },
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/signup' },

@@ -38,15 +38,15 @@ export default class SignUp extends React.Component {
 			firebase.auth()
 				.createUserWithEmailAndPassword(this.state.email, this.state.password)
 				.then((userData) => {
-					console.log(userData);
+					// console.log(userData);
 				})
 				.catch(function(error) {
 					alert(error)
-					console.log('error message', error.message);
+					// console.log('error message', error.message);
 				})
 				
-				console.log('signuped')
-				console.log('seconddd', this.state.email, this.state.password, this.state.confirm)
+				// console.log('signuped')
+				// console.log('seconddd', this.state.email, this.state.password, this.state.confirm)
 				this.setState({
 					signedUpState: true
 				})
