@@ -790,3 +790,6 @@ tr {
 
 .updater.slide {
   top: 0; }
+
+.hideit {
+  display: none !important; }

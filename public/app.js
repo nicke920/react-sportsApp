@@ -35605,6 +35605,7 @@ var Login = function (_React$Component) {
 					});
 				} else {
 					console.log('YOU ARE NOT LOGGED IN');
+					document.getElementById('signupbutton').classList.remove('hideit');
 					_this2.setState({
 						loginState: false
 					});
@@ -35887,6 +35888,8 @@ var SelectedTeam = function (_React$Component2) {
 
 			firebase.auth().onAuthStateChanged(function (user) {
 				if (user) {
+					console.log('put here???');
+					document.getElementById('signupbutton').classList.add('hideit');
 					var dbRef = firebase.database().ref('users/' + user.uid + '/players');
 					dbRef.on('value', function (fireData) {
 						var players = fireData.val();
@@ -37142,7 +37145,7 @@ var App = function (_React$Component2) {
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'accounts' },
+								{ className: 'accounts login', id: 'myaccountbutton' },
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/login' },
@@ -37151,7 +37154,7 @@ var App = function (_React$Component2) {
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'accounts' },
+								{ className: 'accounts signupbutton', id: 'signupbutton' },
 								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/signup' },
