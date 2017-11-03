@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { ajax } from 'jquery';
 import Login from './Login.js';
 import { Router, Route, browserHistory, Link } from 'react-router';
+import SignUp from './SignUp.js';
 
 const apiUrl = "https://api.mysportsfeeds.com/v1.1/pull/nba/2017-2018-regular/cumulative_player_stats.json";
 
@@ -298,7 +299,6 @@ render() {
 	let teamInfo = '';
 
 	const teamStats = this.state.teamsArray.filter((team) => {
-		console.log('887',team)
 		if (this.state.selectedTeamID == team.id) {
 			return team
 		}

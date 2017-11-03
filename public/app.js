@@ -35725,6 +35725,10 @@ var _Login2 = _interopRequireDefault(_Login);
 
 var _reactRouter = require('react-router');
 
+var _SignUp = require('./SignUp.js');
+
+var _SignUp2 = _interopRequireDefault(_SignUp);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36081,7 +36085,6 @@ var SelectedTeam = function (_React$Component2) {
 			var teamInfo = '';
 
 			var teamStats = this.state.teamsArray.filter(function (team) {
-				console.log('887', team);
 				if (_this5.state.selectedTeamID == team.id) {
 					return team;
 				}
@@ -36756,7 +36759,7 @@ var SelectedTeam = function (_React$Component2) {
 
 exports.default = SelectedTeam;
 
-},{"./Login.js":234,"jquery":43,"react":231,"react-dom":47,"react-router":200}],236:[function(require,module,exports){
+},{"./Login.js":234,"./SignUp.js":236,"jquery":43,"react":231,"react-dom":47,"react-router":200}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36881,14 +36884,23 @@ var SignUp = function (_React$Component) {
 				);
 			} else if (this.state.signedUpState === 'signedIn') {
 				signUpForm = _react2.default.createElement(
-					'h2',
-					null,
-					'You\'re all signed up! Go and create you team now!'
+					'div',
+					{ className: 'registerArea' },
+					_react2.default.createElement(
+						'h2',
+						null,
+						'You\'re all signed up! Go and create you team now!'
+					),
+					_react2.default.createElement(
+						'a',
+						{ href: '/teams', className: 'signedUpAction' },
+						'Start'
+					)
 				);
 			}
 			return _react2.default.createElement(
 				'div',
-				{ className: 'registerArea' },
+				null,
 				signUpForm
 			);
 		}

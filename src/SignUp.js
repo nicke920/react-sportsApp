@@ -76,14 +76,19 @@ export default class SignUp extends React.Component {
 		}
 		else if (this.state.signedUpState === 'signedIn') {
 			signUpForm = (
-				<h2>You're all signed up! Go and create you team now!</h2>
+				<div className="registerArea">
+					<h2>You're all signed up! Go and create you team now!</h2>
+					<a href="/teams" className="signedUpAction">Start</a>
+					
+				</div>
 			)
 		}
 		return (
-
-				<div className="registerArea">
+<div>
+	
 						{signUpForm}
-				</div>
+</div>
+
 
 		)
 	}

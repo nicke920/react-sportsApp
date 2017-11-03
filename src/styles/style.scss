@@ -263,6 +263,7 @@ nav {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 	h2 {
 		text-align: center;
 	}
@@ -915,3 +916,12 @@ tr {
 .hideit {
 	display: none!important;
 }
+
+.signedUpAction {
+	padding: 10px 40px;
+	background: #ff3d00;
+	border: none;
+	margin-left: 0;
+	border-radius: 4px;
+}
+
