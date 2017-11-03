@@ -801,3 +801,7 @@ tr {
   border: none;
   margin-left: 0;
   border-radius: 4px; }
+
+tr.avgRow {
+  background-color: rgba(45, 51, 53, 0.1);
+  font-weight: bold; }

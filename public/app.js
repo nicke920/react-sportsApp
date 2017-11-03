@@ -36093,13 +36093,24 @@ var SelectedTeam = function (_React$Component2) {
 			var playerModal = '';
 
 			if (this.state.modalShowing === true) {
-				{
-					console.log('NEWWEST', this.state.selectedPlayer);
-				}
+
 				var playerGameArray = '';
 				if (this.state.selectedPlayer !== '') {
-					playerGameArray = this.state.selectedPlayer.playergamelogs.gamelogs;
-					console.log('runn', playerGameArray.reverse());
+					playerGameArray = this.state.selectedPlayer.playergamelogs.gamelogs.reverse();
+					console.log('888', playerGameArray);
+					var minAvg = 0;
+					var fgmAvg = 0;
+					var fgaAvg = 0;
+					var ftmAvg = 0;
+					var ftaAvg = 0;
+					var treymAvg = 0;
+					var treyaAvg = 0;
+					var ptsAvg = 0;
+					var rebAvg = 0;
+					var astAvg = 0;
+					var stlAvg = 0;
+					var blkAvg = 0;
+					var toAvg = 0;
 
 					playerModal = _react2.default.createElement(
 						'div',
@@ -36220,74 +36231,154 @@ var SelectedTeam = function (_React$Component2) {
 											'tbody',
 											null,
 											playerGameArray.map(function (game, i) {
-												var date = game.game.date.split('-');
-												var dateformat = date[1] + '/' + date[2];
+												if (i <= 9) {
+													console.log('is', i);
+													var date = game.game.date.split('-');
+													var dateformat = date[1] + '/' + date[2];
 
-												return _react2.default.createElement(
-													'tr',
-													{ key: 'game' + i },
-													_react2.default.createElement(
-														'th',
-														{ scope: 'row' },
-														'' + dateformat
-													),
-													_react2.default.createElement(
-														'th',
-														{ scope: 'row' },
-														game.game.awayTeam.Abbreviation + ' @ ' + game.game.homeTeam.Abbreviation
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + (game.stats.MinSeconds['#text'] / 60).toFixed(0)
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														game.stats.FgMade['#text'] + '-' + game.stats.FgAtt['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														game.stats.FtMade['#text'] + ' / ' + game.stats.FtAtt['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														game.stats.Fg3PtMade['#text'] + ' / ' + game.stats.Fg3PtAtt['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + game.stats.Pts['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + game.stats.Reb['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + game.stats.Ast['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + game.stats.Stl['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + game.stats.Blk['#text']
-													),
-													_react2.default.createElement(
-														'td',
-														null,
-														'' + game.stats.Tov['#text']
-													)
-												);
-											})
+													minAvg += parseFloat(game.stats.MinSeconds['#text'] / 60);
+													fgmAvg += parseFloat(game.stats.FgMade['#text']);
+													fgaAvg += parseFloat(game.stats.FgAtt['#text']);
+													ftmAvg += parseFloat(game.stats.FtMade['#text']);
+													ftaAvg += parseFloat(game.stats.FtAtt['#text']);
+													treymAvg += parseFloat(game.stats.Fg3PtMade['#text']);
+													treyaAvg += parseFloat(game.stats.Fg3PtAtt['#text']);
+
+													ptsAvg += parseFloat(game.stats.Pts['#text']);
+													rebAvg += parseFloat(game.stats.Reb['#text']);
+													astAvg += parseFloat(game.stats.Ast['#text']);
+													stlAvg += parseFloat(game.stats.Stl['#text']);
+													blkAvg += parseFloat(game.stats.Blk['#text']);
+													toAvg += parseFloat(game.stats.Tov['#text']);
+
+													return _react2.default.createElement(
+														'tr',
+														{ key: 'game' + i },
+														_react2.default.createElement(
+															'th',
+															{ scope: 'row' },
+															'' + dateformat
+														),
+														_react2.default.createElement(
+															'th',
+															{ scope: 'row' },
+															game.game.awayTeam.Abbreviation + ' @ ' + game.game.homeTeam.Abbreviation
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + (game.stats.MinSeconds['#text'] / 60).toFixed(0)
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															game.stats.FgMade['#text'] + '-' + game.stats.FgAtt['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															game.stats.FtMade['#text'] + ' / ' + game.stats.FtAtt['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															game.stats.Fg3PtMade['#text'] + ' / ' + game.stats.Fg3PtAtt['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + game.stats.Pts['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + game.stats.Reb['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + game.stats.Ast['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + game.stats.Stl['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + game.stats.Blk['#text']
+														),
+														_react2.default.createElement(
+															'td',
+															null,
+															'' + game.stats.Tov['#text']
+														)
+													);
+												}
+											}) //endmap
+
+											,
+											_react2.default.createElement(
+												'tr',
+												{ className: 'avgRow' },
+												_react2.default.createElement(
+													'th',
+													{ scope: 'row' },
+													'10 game averages'
+												),
+												_react2.default.createElement('th', { scope: 'row' }),
+												_react2.default.createElement(
+													'td',
+													null,
+													(minAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(fgmAvg / playerGameArray.length).toFixed(1) + '-' + (fgaAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(ftmAvg / playerGameArray.length).toFixed(1) + ' / ' + (ftaAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(treymAvg / playerGameArray.length).toFixed(1) + ' / ' + (treyaAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(ptsAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(rebAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(astAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(stlAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(blkAvg / playerGameArray.length).toFixed(1)
+												),
+												_react2.default.createElement(
+													'td',
+													null,
+													(toAvg / playerGameArray.length).toFixed(1)
+												)
+											)
 										)
 									)
 								)

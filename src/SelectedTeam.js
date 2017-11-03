@@ -308,11 +308,24 @@ render() {
 	let playerModal = '';
 
 	if (this.state.modalShowing === true) {
-		{console.log('NEWWEST', this.state.selectedPlayer)}
+
 		let playerGameArray = '';
 		if (this.state.selectedPlayer !== '') {
-			playerGameArray = this.state.selectedPlayer.playergamelogs.gamelogs
-			console.log('runn', playerGameArray.reverse())
+			playerGameArray = this.state.selectedPlayer.playergamelogs.gamelogs.reverse()
+			console.log('888', playerGameArray)
+			let minAvg = 0;
+			let fgmAvg = 0;
+			let fgaAvg = 0;
+			let ftmAvg = 0;
+			let ftaAvg = 0;
+			let treymAvg = 0;
+			let treyaAvg = 0;
+			let ptsAvg = 0;
+			let rebAvg = 0;
+			let astAvg = 0;
+			let stlAvg = 0;
+			let blkAvg = 0;
+			let toAvg = 0;
 
 			playerModal = (
 					<div className="modal">
@@ -349,27 +362,62 @@ render() {
 										<tbody>
 								{
 									playerGameArray.map((game, i) => {
+										if (i <= 9) {
+											console.log('is', i)
 											const date = game.game.date.split('-');
-											const dateformat = `${date[1]}/${date[2]}`
-										
-										return (
-											<tr key={`game${i}`}>
-												<th scope="row">{`${dateformat}`}</th>
-												<th scope="row">{`${game.game.awayTeam.Abbreviation} @ ${game.game.homeTeam.Abbreviation}`}</th>
-												<td>{`${(game.stats.MinSeconds['#text'] / 60).toFixed(0)}`}</td>
-												<td>{`${game.stats.FgMade['#text']}-${game.stats.FgAtt['#text']}`}</td>
-												<td>{`${game.stats.FtMade['#text']} / ${game.stats.FtAtt['#text']}`}</td>
-												<td>{`${game.stats.Fg3PtMade['#text']} / ${game.stats.Fg3PtAtt['#text']}`}</td>
-												<td>{`${game.stats.Pts['#text']}`}</td>
-												<td>{`${game.stats.Reb['#text']}`}</td>
-												<td>{`${game.stats.Ast['#text']}`}</td>
-												<td>{`${game.stats.Stl['#text']}`}</td>
-												<td>{`${game.stats.Blk['#text']}`}</td>
-												<td>{`${game.stats.Tov['#text']}`}</td>
-											</tr>
-											)
-									})
+											const dateformat = `${date[1]}/${date[2]}`;
+											
+											minAvg += parseFloat(game.stats.MinSeconds['#text'] / 60);
+											fgmAvg += parseFloat(game.stats.FgMade['#text']);
+											fgaAvg += parseFloat(game.stats.FgAtt['#text']);
+											ftmAvg += parseFloat(game.stats.FtMade['#text']);
+											ftaAvg += parseFloat(game.stats.FtAtt['#text']);
+											treymAvg += parseFloat(game.stats.Fg3PtMade['#text']);
+											treyaAvg += parseFloat(game.stats.Fg3PtAtt['#text']);
+
+											ptsAvg += parseFloat(game.stats.Pts['#text']);
+											rebAvg += parseFloat(game.stats.Reb['#text']);
+											astAvg += parseFloat(game.stats.Ast['#text']);
+											stlAvg += parseFloat(game.stats.Stl['#text']);
+											blkAvg += parseFloat(game.stats.Blk['#text']);
+											toAvg += parseFloat(game.stats.Tov['#text']);
+
+
+
+											return (
+												<tr key={`game${i}`}>
+													<th scope="row">{`${dateformat}`}</th>
+													<th scope="row">{`${game.game.awayTeam.Abbreviation} @ ${game.game.homeTeam.Abbreviation}`}</th>
+													<td>{`${(game.stats.MinSeconds['#text'] / 60).toFixed(0)}`}</td>
+													<td>{`${game.stats.FgMade['#text']}-${game.stats.FgAtt['#text']}`}</td>
+													<td>{`${game.stats.FtMade['#text']} / ${game.stats.FtAtt['#text']}`}</td>
+													<td>{`${game.stats.Fg3PtMade['#text']} / ${game.stats.Fg3PtAtt['#text']}`}</td>
+													<td>{`${game.stats.Pts['#text']}`}</td>
+													<td>{`${game.stats.Reb['#text']}`}</td>
+													<td>{`${game.stats.Ast['#text']}`}</td>
+													<td>{`${game.stats.Stl['#text']}`}</td>
+													<td>{`${game.stats.Blk['#text']}`}</td>
+													<td>{`${game.stats.Tov['#text']}`}</td>
+												</tr>
+												)
+										}
+									}) //endmap
+
 								}
+								<tr className="avgRow">
+									<th scope="row">10 game averages</th>
+									<th scope="row"></th>
+									<td>{(minAvg/playerGameArray.length).toFixed(1)}</td>
+									<td>{`${(fgmAvg/playerGameArray.length).toFixed(1)}-${(fgaAvg/playerGameArray.length).toFixed(1)}`}</td>
+									<td>{`${(ftmAvg/playerGameArray.length).toFixed(1)} / ${(ftaAvg/playerGameArray.length).toFixed(1)}`}</td>
+									<td>{`${(treymAvg/playerGameArray.length).toFixed(1)} / ${(treyaAvg/playerGameArray.length).toFixed(1)}`}</td>
+									<td>{(ptsAvg/playerGameArray.length).toFixed(1)}</td>
+									<td>{(rebAvg/playerGameArray.length).toFixed(1)}</td>
+									<td>{(astAvg/playerGameArray.length).toFixed(1)}</td>
+									<td>{(stlAvg/playerGameArray.length).toFixed(1)}</td>
+									<td>{(blkAvg/playerGameArray.length).toFixed(1)}</td>
+									<td>{(toAvg/playerGameArray.length).toFixed(1)}</td>
+								</tr>
 										</tbody>
 									</table>
 								</div>
