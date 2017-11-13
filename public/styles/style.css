@@ -805,3 +805,7 @@ tr {
 tr.avgRow {
   background-color: rgba(45, 51, 53, 0.1);
   font-weight: bold; }
+
+@media screen and (max-width: 500px) and (max-height: 750px) {
+  .stats .table {
+    height: 300px; } }
