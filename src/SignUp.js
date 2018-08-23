@@ -84,10 +84,9 @@ export default class SignUp extends React.Component {
 			)
 		}
 		return (
-<div>
-	
-						{signUpForm}
-</div>
+			<div className="registerArea">
+				{signUpForm}
+			</div>
 
 
 		)

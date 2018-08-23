@@ -289,7 +289,15 @@ render() {
 	if (this.state.loadingScreen === true) {
 		loadingScreen = (
 				<div className="loading">
-					<h1>Loading players...</h1>
+					<div className="ball-container">
+						<div className="ball-outline">
+							<div className="ball-groove1 pos1"></div>
+							<div className="ball-groove1 pos2"></div>
+							<div className="ball-groove2 pos3"></div>
+							<div className="ball-groove2 pos4"></div>
+						</div>
+					</div>
+					<h1>Loading...</h1>
 				</div>
 			)
 	}

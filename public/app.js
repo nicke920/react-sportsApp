@@ -36075,9 +36075,21 @@ var SelectedTeam = function (_React$Component2) {
 					'div',
 					{ className: 'loading' },
 					_react2.default.createElement(
+						'div',
+						{ className: 'ball-container' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'ball-outline' },
+							_react2.default.createElement('div', { className: 'ball-groove1 pos1' }),
+							_react2.default.createElement('div', { className: 'ball-groove1 pos2' }),
+							_react2.default.createElement('div', { className: 'ball-groove2 pos3' }),
+							_react2.default.createElement('div', { className: 'ball-groove2 pos4' })
+						)
+					),
+					_react2.default.createElement(
 						'h1',
 						null,
-						'Loading players...'
+						'Loading...'
 					)
 				);
 			}
@@ -36991,7 +37003,7 @@ var SignUp = function (_React$Component) {
 			}
 			return _react2.default.createElement(
 				'div',
-				null,
+				{ className: 'registerArea' },
 				signUpForm
 			);
 		}

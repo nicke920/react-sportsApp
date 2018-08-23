@@ -762,19 +762,69 @@ table tr, table th {
 tr {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 
+@keyframes bounce {
+  0% { }
+  10% {
+    transform: scaleX(1) scaleY(1); }
+  50% {
+    top: 300px;
+    transform: scaleX(1.2) scaleY(0.8); }
+  74% {
+    transform: rotate(7deg); }
+  100% {
+    top: 50px; } }
+
 .loading {
   position: fixed;
   height: 100%;
   top: 0;
   width: 100%;
   background: rgba(197, 202, 233, 0.9);
-  z-index: 99999999;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center; }
+  z-index: 99999999; }
+  .loading .ball-container {
+    display: block;
+    height: 400px;
+    width: 400px;
+    margin: 0 auto; }
+  .loading .ball-outline {
+    position: relative;
+    left: 40%;
+    overflow: hidden;
+    top: 50px;
+    border: 3px solid #283593;
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
+    background-color: transparent;
+    animation-name: bounce;
+    animation-duration: 1.1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(1.16, 0, 0.093, 1); }
+  .loading .ball-groove1 {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 80px;
+    border: 3px solid #283593; }
+  .loading .ball-groove2 {
+    position: absolute;
+    border: 3px solid #283593;
+    width: 300px;
+    height: 300px;
+    border-radius: 150px; }
+  .loading .pos1 {
+    right: 60px;
+    bottom: -25px; }
+  .loading .pos2 {
+    left: 60px;
+    bottom: -25px; }
+  .loading .pos3 {
+    top: -100px;
+    left: 44px; }
+  .loading .pos4 {
+    top: 48px;
+    left: -100px; }
   .loading h1 {
-    display: inline-block;
     text-align: center; }
 
 .updater {
